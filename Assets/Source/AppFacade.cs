@@ -27,6 +27,8 @@ public class AppFacade : Facade, IFacade
         base.InitializeController();
         RegisterCommand(STARTUP, typeof(StartupCommand));
         RegisterCommand(Constants.Notification.SEND_LOGIN, typeof(LoginCommand));
+        RegisterCommand(Constants.Notification.CONNECT_TO_WS_SERVER, typeof(ServerCommunicationCommand));
+        RegisterCommand(Constants.Notification.WS_SEND, typeof(ServerCommunicationCommand));
     }
 
     public void startup()

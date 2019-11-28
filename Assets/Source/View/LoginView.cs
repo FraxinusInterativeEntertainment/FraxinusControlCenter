@@ -7,7 +7,7 @@ using System;
 public class LoginView : MonoBehaviour
 {
     public event Action TryLogin = delegate { };
-
+    
     public LoginVO loginVO { get; private set; }
 
     [SerializeField]
@@ -17,7 +17,6 @@ public class LoginView : MonoBehaviour
     [SerializeField]
     private InputField m_passwordField;
 
-    // Start is called before the first frame update
     void Start()
     {
         AppFacade.instance.RegisterMediator(new LoginViewMediator(this));
@@ -25,18 +24,22 @@ public class LoginView : MonoBehaviour
         m_loginButton.onClick.AddListener(() => { TryLogin(); });
         m_userNameField.onValueChanged.AddListener((string _userName) => { loginVO.userName = _userName; });
         m_passwordField.onValueChanged.AddListener((string _password) => { loginVO.password = _password; });
-
+        
         loginVO = new LoginVO();
     }
-
-    // Update is called once per frame
+    
     void OnDestroy()
     {
         AppFacade.instance.RemoveMediator(LoginViewMediator.NAME);
     }
 
-    public void ReceiveMessage(object vo)
+    public void OnLoginSuccess(object vo)
     {
+        Debug.Log(vo);
     }
-    
+
+    public void OnLoginFail(object vo)
+    {
+        Debug.Log(vo);
+    }
 }

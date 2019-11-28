@@ -8,19 +8,41 @@ using UnityEngine.Networking;
 public class NetworkController : MonoBehaviour
 {
     private TCPServer m_tcpServerSocket;
+    private WebSocket m_ws;
+
+    public static NetworkController Instance;
 
     private void Start()
     {
-        ConnectWebSocket();
-        m_tcpServerSocket = new TCPServer(Constants.URL.TCP_SOCKET_IP, Constants.NetworkRelated.TCP_SOCKET_PORT, Constants.NetworkRelated.MAX_TCP_CONNECTIONS);
-        m_tcpServerSocket.InitSocket();
+        Instance = this;
+       // m_tcpServerSocket = new TCPServer(Constants.URL.TCP_SOCKET_IP, Constants.NetworkRelated.TCP_SOCKET_PORT, Constants.NetworkRelated.MAX_TCP_CONNECTIONS);
+        //m_tcpServerSocket.InitSocket();
     }
 
-    private void ConnectWebSocket()
+    public void ConnectWebSocket(string _token)
     {
-        WebSocket ws = new WebSocket(Constants.URL.WEB_SOCKET_HOST);
-        ws.OnMessage += (sender, e) => WebSocketMessageHandler(e.Data);
-        ws.Connect();
+        m_ws = new WebSocket("ws://www.fraxinusmothership.cn/ws/player/" + "?token=" + _token);
+
+        m_ws.OnOpen += (sender, e) => WebSocketOpenHandler();
+        m_ws.OnError += (sender, e) => WebSocketCloseHandler("Error: " + e.Message + e.Exception.ToString());
+        m_ws.OnClose += (sender, e) => WebSocketCloseHandler(e.Reason);
+        m_ws.OnMessage += (sender, e) => WebSocketMessageHandler(e.Data);
+        m_ws.ConnectAsync();
+    }
+
+    private void OnCompleted(bool completed)
+    {
+        Debug.Log(completed);
+    }
+
+    private void WebSocketOpenHandler()
+    {
+        Debug.Log("Websocket Opened!");
+    }
+
+    private void WebSocketCloseHandler(string message)
+    {
+        Debug.Log("Websocket closed: " + message);
     }
 
     private void WebSocketMessageHandler(string message)
