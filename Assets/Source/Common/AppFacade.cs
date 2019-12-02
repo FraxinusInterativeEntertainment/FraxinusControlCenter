@@ -29,6 +29,8 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Constants.Notification.SEND_LOGIN, typeof(LoginCommand));
         RegisterCommand(Constants.Notification.CONNECT_TO_WS_SERVER, typeof(ServerCommunicationCommand));
         RegisterCommand(Constants.Notification.WS_SEND, typeof(ServerCommunicationCommand));
+        RegisterCommand(Constants.Notification.CHANGE_GAME_STATUS, typeof(GameStatusCommand));
+        RegisterCommand(Constants.Notification.UPDATE_DEVICE_ID_TO_USER_INFO, typeof(GameMapCommand));
     }
 
     public void startup()

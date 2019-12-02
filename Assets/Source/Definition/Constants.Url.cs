@@ -11,7 +11,8 @@ public static partial class Constants
 
         public const string CONTROL_CENTER_LOGIN = SERVER_ADDRESS + "/auth/check_control_center_login/";
         public const string REQUEST_WS_TOKEN = SERVER_ADDRESS + "/auth/get_ws_token/";
-        
+
+        public const string CHANGE_GAME_STATUS = SERVER_ADDRESS + "/game_map/change_game_status/";
 
 
     }

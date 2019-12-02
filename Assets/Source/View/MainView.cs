@@ -4,11 +4,11 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-public class MainView : MonoBehaviour
+public class MainView : UIViewBase
 {
     public event Action WsSend = delegate { };
 
-    public string wsMessageVO;
+    public string wsMessageVO { get; private set; }
 
     [SerializeField]
     private InputField m_wsSend;

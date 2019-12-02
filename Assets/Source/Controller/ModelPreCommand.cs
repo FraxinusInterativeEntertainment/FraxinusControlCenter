@@ -9,5 +9,7 @@ public class ModelPreCommand : SimpleCommand
     {
         Facade.RegisterProxy(new LoginProxy());
         Facade.RegisterProxy(new ServerCommunicationProxy());
+        Facade.RegisterProxy(new GameStatusProxy());
+        Facade.RegisterProxy(new GameMapProxy());
     }
 }

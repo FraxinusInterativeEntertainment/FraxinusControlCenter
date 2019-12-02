@@ -25,7 +25,16 @@ public class WebSocketService
 
     public void Send(string _message)
     {
-        m_ws.Send(_message);
-        Debug.Log("Sent: " + _message);
+        try
+        {
+            m_ws.Send(_message);
+            Debug.Log("Sent: " + _message);
+        }
+        catch (System.Exception e)
+        {
+            //TODO: Throw Ws not init exception, or popup login window
+            Debug.Log("Websocket not initialized yet, please login and retry sending!");
+        }
+        
     }
 }

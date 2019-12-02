@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PureMVC.Patterns;
 using PureMVC.Interfaces;
+using Newtonsoft.Json;
 
 public class ServerCommunicationProxy : Proxy, IProxy
 {
@@ -17,7 +18,8 @@ public class ServerCommunicationProxy : Proxy, IProxy
 
     public void ConnectFraxMotherShipWs(object _data)
     {
-        m_wsService.Connect(Constants.Url.WEB_SOCKET_SERVER_ADDRESS + (string)_data, WebSocketMessageHandler, WebSocketCloseHandler, WebSocketOpenHandler, WebSocketErrorHandler);
+        m_wsService.Connect(Constants.Url.WEB_SOCKET_SERVER_ADDRESS + (string)_data, WebSocketMessageHandler, 
+                            WebSocketCloseHandler, WebSocketOpenHandler, WebSocketErrorHandler);
     }
 
     public void SendMessage(object _data)
@@ -30,18 +32,55 @@ public class ServerCommunicationProxy : Proxy, IProxy
         Debug.Log("Websocket Opened!");
     }
 
-    private void WebSocketErrorHandler(string message)
+    private void WebSocketErrorHandler(string _message)
     {
-        Debug.Log("Websocket closed: " + message);
+        Debug.Log("Websocket closed: " + _message);
     }
 
-    private void WebSocketCloseHandler(string message)
+    private void WebSocketCloseHandler(string _message)
     {
-        Debug.Log("Websocket closed: " + message);
+        Debug.Log("Websocket closed: " + _message);
     }
 
-    private void WebSocketMessageHandler(string message)
+    private void WebSocketMessageHandler(string _message)
     {
-        Debug.Log("Message Arrived: " + message);
+        Debug.Log("Message Arrived: " + _message);
+    }
+
+    private string ToJson(object _data)
+    {
+        string json = JsonConvert.SerializeObject(_data);
+        Debug.Log(json);
+
+        return json;
+    }
+
+    /*
+    private string testWsSend()
+    {
+        string result = "None";
+
+        Dictionary<string, DeviceLocationInfo> gameMap = new Dictionary<string, DeviceLocationInfo>();
+        gameMap.Add("did00001", new DeviceLocationInfo(1, 1, "room1"));
+        gameMap.Add("did00002", new DeviceLocationInfo(2, 2, "room2"));
+
+        WsMessage wsMsg = new WsMessage("location", gameMap);
+
+        result = WsMsgToJson(wsMsg);
+
+        return result;
+    }
+    */
+}
+
+public class WsMessage
+{
+    public string MsgType { get; set; }
+    public object MsgContent { get; set; }
+
+    public WsMessage(string _msgType, object _msgContent)
+    {
+        MsgType = _msgType;
+        MsgContent = _msgContent;
     }
 }

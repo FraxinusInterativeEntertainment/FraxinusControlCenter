@@ -72,9 +72,9 @@ public enum HttpRequestType
 
 public class HttpResponse
 {
-    public int err_code;
-    public string err_msg;
-    
+    public int err_code { get; set; }
+    public string err_msg { get; set; }
+
     public HttpResponse(int _errCode, string _errMsg)
     {
         err_code = _errCode;

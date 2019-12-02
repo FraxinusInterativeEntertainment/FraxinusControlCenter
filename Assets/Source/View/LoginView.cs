@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class LoginView : MonoBehaviour
+public class LoginView : UIViewBase
 {
     public event Action TryLogin = delegate { };
     
@@ -33,13 +33,13 @@ public class LoginView : MonoBehaviour
         AppFacade.instance.RemoveMediator(LoginViewMediator.NAME);
     }
 
-    public void OnLoginSuccess(object vo)
+    public void OnLoginSuccess(object _vo)
     {
-        Debug.Log(vo);
+        Debug.Log(_vo);
     }
 
-    public void OnLoginFail(object vo)
+    public void OnLoginFail(object _vo)
     {
-        Debug.Log(vo);
+        Debug.Log(_vo);
     }
 }

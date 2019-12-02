@@ -12,5 +12,9 @@ public static partial class Constants
         public const string SEND_LOGIN = "SendLogin";
         public const string CONNECT_TO_WS_SERVER = "ConnectToWsServer";
         public const string WS_SEND = "WsSend";
+        public const string CHANGE_GAME_STATUS = "ChangeGameStatus";
+        public const string GAME_STATUS_CHANGED = "GameStatusChanged";
+        public const string GAME_STATUS_CHANGE_ERROR = "GameStatusChangeError";
+        public const string UPDATE_DEVICE_ID_TO_USER_INFO = "UpdateDeviceIdToUserInfo";
     }
 }
