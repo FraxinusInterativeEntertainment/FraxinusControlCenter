@@ -9,43 +9,80 @@ public class GameStatusProxy : Proxy, IProxy, IResponder
 {
     public const string NAME = "GameStatusProxy";
 
+    private readonly GameStatusVO m_currentGameStatus = new GameStatusVO();
+
     public GameStatusProxy() : base(NAME) { }
 
-    public void ChangeGameStatus(object _data)
+    public void RequestForGameStatus()
     {
-        GameStatusDelegate gameStatusDelegate = new GameStatusDelegate(this, (GameStatusVO)_data);
-        gameStatusDelegate.ChangeGameStatusService();
+        GameSessionsDelegate gameSessionDelegate = new GameSessionsDelegate(this);
+        gameSessionDelegate.RequestForAllGameStatus();
     }
 
     public void OnResult(object _data)
     {
-        SendNotification(Constants.Notification.GAME_STATUS_CHANGED, _data);
-
-        if ((_data as ChangeGameStatusResponse).device_id_2_user_info != null)
-        {
-            SendNotification(Constants.Notification.UPDATE_DEVICE_ID_TO_USER_INFO, (_data as ChangeGameStatusResponse).device_id_2_user_info);
-        }
+        Debug.Log((_data as GameSessionsResponse).game_sessions_info.Count);
+        UpdateCurrentGameStatus(_data as GameSessionsResponse);
     }
 
     public void OnFault(object _data)
     {
-        SendNotification(Constants.Notification.GAME_STATUS_CHANGE_ERROR, _data);
+        Debug.Log((_data as GameSessionsResponse).err_msg);
     }
 
-    private Dictionary<string, UwbUserInfo> DeserializeDeviceID2UserInfo(string _json)
+    private void UpdateCurrentGameStatus(GameSessionsResponse _response)
     {
-        return JsonConvert.DeserializeObject<Dictionary<string, UwbUserInfo>>(_json);
+        if (_response.game_sessions_info != null && _response.game_sessions_info.Count > 0)
+        {
+            m_currentGameStatus.gameStatus = GameStatus.c;
+            m_currentGameStatus.gameId = _response.game_sessions_info[0].game_id;
+
+            foreach (GameSessionInfo sessionInfo in _response.game_sessions_info)
+            {
+                if (sessionInfo.status == "s")
+                {
+                    Debug.Log(sessionInfo.game_id);
+                    m_currentGameStatus.gameId = sessionInfo.game_id;
+                    m_currentGameStatus.gameStatus = GameStatusToEnum(sessionInfo.status);
+                    break;
+                }
+            }
+        }
+
+        SendNotification(Const.Notification.RECEIVED_GAME_STATUS, m_currentGameStatus);
+    }
+
+    private GameStatus GameStatusToEnum(string statusStr)
+    {
+        GameStatus result = GameStatus.c;
+
+        switch (statusStr)
+        {
+            case "s":
+                result = GameStatus.s;
+                break;
+            case "c":
+                result = GameStatus.c;
+                break;
+            case "p":
+                result = GameStatus.p;
+                break;
+        }
+
+        return result;
     }
 }
 
-public class ChangeGameStatusResponse : HttpResponse
+public class GameSessionsResponse : HttpResponse
 {
-    public Dictionary<string, UwbUserInfo> device_id_2_user_info { get; set; }
-    public string game_id { get; set; }
-    public GameStatus gameStatus { get; set; }
+    public List<GameSessionInfo> game_sessions_info;
 
-    public ChangeGameStatusResponse(int _errCode, string _errMsg) : base(_errCode, _errMsg)
-    {
-    }
+    public GameSessionsResponse(int _errCode, string _errMsg) : base(_errCode, _errMsg) { }
 }
 
+public class GameSessionInfo
+{
+    public string game_id { get; set; }
+    public string game_time { get; set; }
+    public string status { get; set; }
+}

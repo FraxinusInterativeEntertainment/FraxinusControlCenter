@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static partial class Constants
+public static partial class Const
 {
     public static class NetworkRelated
     {

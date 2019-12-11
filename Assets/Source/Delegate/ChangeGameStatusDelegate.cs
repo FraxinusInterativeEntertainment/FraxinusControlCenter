@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStatusDelegate
+public class ChangeGameStatusDelegate
 {
     private IResponder m_responder;
     private HttpService m_httpService;
     private GameStatusVO m_gameStatusVO;
 
-    public GameStatusDelegate(IResponder _responder, GameStatusVO _gameStatusVO)
+    public ChangeGameStatusDelegate(IResponder _responder, GameStatusVO _gameStatusVO)
     {
         WWWForm form = new WWWForm();
         form.AddField("status", _gameStatusVO.gameStatus.ToString());
@@ -16,7 +16,7 @@ public class GameStatusDelegate
 
         m_responder = _responder;
         m_gameStatusVO = _gameStatusVO;
-        m_httpService = new HttpService(Constants.Url.CHANGE_GAME_STATUS, HttpRequestType.Post, form);
+        m_httpService = new HttpService(Const.Url.CHANGE_GAME_STATUS, HttpRequestType.Post, form);
     }
 
     public void ChangeGameStatusService()

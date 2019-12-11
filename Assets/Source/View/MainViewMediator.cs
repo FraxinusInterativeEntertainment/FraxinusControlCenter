@@ -31,6 +31,6 @@ public class MainViewMediator : Mediator, IMediator
 
     private void OnWsSend()
     {
-        SendNotification(Constants.Notification.WS_SEND, m_mainView.wsMessageVO);
+        SendNotification(Const.Notification.WS_SEND, m_mainView.wsMessageVO);
     }
 }

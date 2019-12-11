@@ -70,11 +70,11 @@ public class TCPServer
 
             if (m_connectedClients.ContainsKey(remoteEndPoint))
             {
-                m_connectedClients[remoteEndPoint] = new MicroControllerClient(Constants.NetworkRelated.DEFAULT_CLIENT_ID, newConnectionHandler, false);
+                m_connectedClients[remoteEndPoint] = new MicroControllerClient(Const.NetworkRelated.DEFAULT_CLIENT_ID, newConnectionHandler, false);
             }
             else
             {
-                m_connectedClients.Add(remoteEndPoint, new MicroControllerClient(Constants.NetworkRelated.DEFAULT_CLIENT_ID, newConnectionHandler, false));
+                m_connectedClients.Add(remoteEndPoint, new MicroControllerClient(Const.NetworkRelated.DEFAULT_CLIENT_ID, newConnectionHandler, false));
             }
             
             //Send client info request
@@ -95,7 +95,7 @@ public class TCPServer
 
         while (true)
         {
-            byte[] recvData = new byte[Constants.NetworkRelated.BUFFER_SIZE];
+            byte[] recvData = new byte[Const.NetworkRelated.BUFFER_SIZE];
 
             try
             {
@@ -125,7 +125,7 @@ public class TCPServer
 
     private void Send(Socket _client, string _message)
     {
-        byte[] sendData = new byte[Constants.NetworkRelated.BUFFER_SIZE];
+        byte[] sendData = new byte[Const.NetworkRelated.BUFFER_SIZE];
 
         sendData = Encoding.ASCII.GetBytes(_message);
 

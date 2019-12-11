@@ -19,8 +19,8 @@ public class LoginViewMediator : Mediator, IMediator
     {
         return new List<string>()
         {
-            Constants.Notification.LOGIN_SUCCESS,
-            Constants.Notification.LOGIN_FAIL
+            Const.Notification.LOGIN_SUCCESS,
+            Const.Notification.LOGIN_FAIL
         };
     }
 
@@ -31,10 +31,10 @@ public class LoginViewMediator : Mediator, IMediator
 
         switch (name)
         {
-            case Constants.Notification.LOGIN_SUCCESS:
+            case Const.Notification.LOGIN_SUCCESS:
                 m_loginView.OnLoginSuccess(vo);
                 break;
-            case Constants.Notification.LOGIN_FAIL:
+            case Const.Notification.LOGIN_FAIL:
                 m_loginView.OnLoginFail(vo);
                 break;
         }
@@ -42,7 +42,7 @@ public class LoginViewMediator : Mediator, IMediator
 
     private void OnTryLogin()
     {
-        SendNotification(Constants.Notification.SEND_LOGIN, m_loginView.loginVO);
+        SendNotification(Const.Notification.SEND_LOGIN, m_loginView.loginVO);
     }
     
 }

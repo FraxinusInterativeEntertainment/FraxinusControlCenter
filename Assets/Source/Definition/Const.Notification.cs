@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static partial class Constants
+public static partial class Const
 {
     public static class Notification
     {
@@ -16,5 +16,8 @@ public static partial class Constants
         public const string GAME_STATUS_CHANGED = "GameStatusChanged";
         public const string GAME_STATUS_CHANGE_ERROR = "GameStatusChangeError";
         public const string UPDATE_DEVICE_ID_TO_USER_INFO = "UpdateDeviceIdToUserInfo";
+        public const string LOAD_SCENE = "LoadScene";
+        public const string REQUEST_FOR_GAME_STATUS = "RequestForGameSessions";
+        public const string RECEIVED_GAME_STATUS = "ReceivedGameStatus";
     }
 }

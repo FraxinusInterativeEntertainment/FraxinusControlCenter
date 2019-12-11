@@ -18,7 +18,7 @@ public class ServerCommunicationProxy : Proxy, IProxy
 
     public void ConnectFraxMotherShipWs(object _data)
     {
-        m_wsService.Connect(Constants.Url.WEB_SOCKET_SERVER_ADDRESS + (string)_data, WebSocketMessageHandler, 
+        m_wsService.Connect(Const.Url.WEB_SOCKET_SERVER_ADDRESS + (string)_data, WebSocketMessageHandler, 
                             WebSocketCloseHandler, WebSocketOpenHandler, WebSocketErrorHandler);
     }
 

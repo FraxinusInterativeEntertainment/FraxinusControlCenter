@@ -15,10 +15,10 @@ public class ServerCommunicationCommand : SimpleCommand
 
         switch (name)
         {
-            case Constants.Notification.CONNECT_TO_WS_SERVER:
+            case Const.Notification.CONNECT_TO_WS_SERVER:
                 serverCommunicationProxy.ConnectFraxMotherShipWs(obj);
                 break;
-            case Constants.Notification.WS_SEND:
+            case Const.Notification.WS_SEND:
                 serverCommunicationProxy.SendMessage(obj);
                 break;
         }

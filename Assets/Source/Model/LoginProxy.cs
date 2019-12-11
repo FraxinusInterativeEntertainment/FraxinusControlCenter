@@ -18,13 +18,13 @@ public class LoginProxy : Proxy, IProxy, IResponder
 
     public void OnResult(object _data)
     {
-        SendNotification(Constants.Notification.LOGIN_SUCCESS, _data);
-        SendNotification(Constants.Notification.CONNECT_TO_WS_SERVER, _data);
+        SendNotification(Const.Notification.LOGIN_SUCCESS, _data);
+        SendNotification(Const.Notification.CONNECT_TO_WS_SERVER, _data);
     }
 
     public void OnFault(object _data)
     {
-        SendNotification(Constants.Notification.LOGIN_FAIL, _data);
+        SendNotification(Const.Notification.LOGIN_FAIL, _data);
     }
 }
 

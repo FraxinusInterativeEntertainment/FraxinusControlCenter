@@ -15,7 +15,7 @@ public class NetworkController : MonoBehaviour
     private void Start()
     {
         Instance = this;
-       // m_tcpServerSocket = new TCPServer(Constants.URL.TCP_SOCKET_IP, Constants.NetworkRelated.TCP_SOCKET_PORT, Constants.NetworkRelated.MAX_TCP_CONNECTIONS);
+       // m_tcpServerSocket = new TCPServer(Const.URL.TCP_SOCKET_IP, Const.NetworkRelated.TCP_SOCKET_PORT, Const.NetworkRelated.MAX_TCP_CONNECTIONS);
         //m_tcpServerSocket.InitSocket();
     }
 

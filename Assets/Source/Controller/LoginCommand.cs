@@ -15,7 +15,7 @@ public class LoginCommand : SimpleCommand
 
         switch (name)
         {
-            case Constants.Notification.SEND_LOGIN:
+            case Const.Notification.SEND_LOGIN:
                 loginProxy.SendLogin(obj);
                 break;
         }

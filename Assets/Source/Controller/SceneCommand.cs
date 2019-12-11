@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using PureMVC.Patterns;
 using PureMVC.Interfaces;
+using UnityEngine.SceneManagement;
 
-public class GameMapCommand : SimpleCommand
+public class SceneCommand : SimpleCommand
 {
     public override void Execute(INotification _notification)
     {
         object obj = _notification.Body;
-        GameMapProxy gameMapProxy;
-        gameMapProxy = Facade.RetrieveProxy(GameMapProxy.NAME) as GameMapProxy;
         string name = _notification.Name;
 
         switch (name)
         {
-            case Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO:
-                gameMapProxy.UpdateDeviceIdToUserInfoDict(obj);
+            case Const.Notification.LOAD_SCENE:
+                SceneManager.LoadScene((obj as SceneVO).sceneIndex);
                 break;
         }
     }

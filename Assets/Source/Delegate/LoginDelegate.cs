@@ -14,7 +14,7 @@ public class LoginDelegate
         form.AddField("password", _loginVO.password);
 
         m_responder = _responder;
-        m_httpService = new HttpService(Constants.Url.CONTROL_CENTER_LOGIN, HttpRequestType.Post, form);
+        m_httpService = new HttpService(Const.Url.CONTROL_CENTER_LOGIN, HttpRequestType.Post, form);
     }
 
     public void LoginService()
@@ -36,7 +36,7 @@ public class LoginDelegate
 
     private void RequestForToken()
     {
-        m_httpService = new HttpService(Constants.Url.REQUEST_WS_TOKEN, HttpRequestType.Get);
+        m_httpService = new HttpService(Const.Url.REQUEST_WS_TOKEN, HttpRequestType.Get);
         m_httpService.SendRequest<TokenRequestResponse>(TokenCallback);
     }
 

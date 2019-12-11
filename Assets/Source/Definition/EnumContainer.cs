@@ -6,5 +6,6 @@ using UnityEngine;
 public enum GameStatus
 {
     s,
-    c
+    c,
+    p
 }

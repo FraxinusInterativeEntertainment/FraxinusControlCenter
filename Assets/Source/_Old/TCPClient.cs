@@ -24,7 +24,7 @@ public class TCPClient : MonoBehaviour
     void InitSocket()
     {
         //定义服务器的IP和端口，端口与服务器对应
-        ip = IPAddress.Parse(Constants.URL.TCP_SOCKET_IP); //可以是局域网或互联网ip，此处是本机
+        ip = IPAddress.Parse(Const.URL.TCP_SOCKET_IP); //可以是局域网或互联网ip，此处是本机
         ipEnd = new IPEndPoint(ip, 55666);
 
 
