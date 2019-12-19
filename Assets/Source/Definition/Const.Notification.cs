@@ -19,5 +19,8 @@ public static partial class Const
         public const string LOAD_SCENE = "LoadScene";
         public const string REQUEST_FOR_GAME_STATUS = "RequestForGameSessions";
         public const string RECEIVED_GAME_STATUS = "ReceivedGameStatus";
+        public const string GAME_STARTED = "GameStarted";
+        public const string GAME_CLOSED = "GameClosed";
+        public const string LOAD_UI_FORM = "LoadUIForm";
     }
 }

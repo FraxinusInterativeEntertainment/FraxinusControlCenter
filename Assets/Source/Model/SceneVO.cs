@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SceneVO
 {
-    public int sceneIndex { get; private set; }
+    public string sceneName { get; private set; }
 
-    public SceneVO(int _index)
+    public SceneVO(string _name)
     {
-        sceneIndex = _index;
+        sceneName = _name;
     }
 }

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public static partial class Const
 {
-    public static class SceneIndex
+    public static class SceneNames
     {
-        public const int LOGIN_SCENE = 1;
-        public const int MAIN_PANEL_SCENE = 2;
+        public const string LOGIN_SCENE = "LoginScene";
+        public const string MAIN_PANEL_SCENE = "MainControlView";
+        public const string PRE_GAME_SCENE = "PreGameScene";
     }
 }
 

@@ -5,6 +5,18 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     private static UIManager m_instance;
+
+    [SerializeField]
+    private Transform m_UIContentRoot;
+    [SerializeField]
+    private Transform m_UIPopupRoot;
+
+    private UIForm m_currentForm;
+    private GameObject m_uiRoot;
+    private ResourcesService m_resourcesService;
+
+    public static UIManager instance { get { return m_instance; } }
+    /*
     public static UIManager instance
     {
         get
@@ -16,17 +28,34 @@ public class UIManager : MonoBehaviour
 
             return m_instance;
         }
+    }*/
+
+    
+    void Awake()
+    {
+        DontDestroyOnLoad(this);
+
+        m_instance = this;
+
+        DontDestroyOnLoad(this.gameObject);
+        m_resourcesService = new ResourcesService();
+    }
+    
+    public void ShowForm(string _formName)
+    {
+        if (m_currentForm != null)
+        {
+            Destroy(m_currentForm.gameObject);
+        }
+
+        GameObject uiFormGO = m_resourcesService.Load<GameObject>(_formName);
+        UIFormBase formGO = GameObject.Instantiate(uiFormGO).GetComponent<UIFormBase>();
+        formGO.transform.SetParent(m_UIContentRoot);
+        formGO.Anchor(0, 0, 0);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void ShowView(string _viewName)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        m_currentForm.ShowView(_viewName);
     }
 }

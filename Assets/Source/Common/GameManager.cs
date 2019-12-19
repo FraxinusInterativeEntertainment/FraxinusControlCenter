@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
 
         FSMState loginState = new LoginState((int)MainFSMStateID.LoginState, m_fsmSystem);
         loginState.AddTransition((int)MainFSMTransition.InGame, (int)MainFSMStateID.InGame);
+        loginState.AddTransition((int)MainFSMTransition.PreGame, (int)MainFSMStateID.PreGame);
+        loginState.AddTransition((int)MainFSMTransition.Login, (int)MainFSMStateID.LoginState);
         m_fsmSystem.AddState(loginState);
 
         FSMState InGame = new InGameState((int)MainFSMStateID.InGame, m_fsmSystem);

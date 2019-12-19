@@ -10,6 +10,7 @@ public class MainPanelState : FSMState
     {
         base.DoBeforeEntering();
 
+        Debug.Log("Enter MainPanelState");
         //AppFacade.instance.SendNotification(Const.Notification.REQUEST_FOR_GAME_STATUS);
 
         //AppFacade.instance.SendNotification(Const.Notification.LOAD_SCENE, new SceneVO(Const.SceneIndex.MAIN_PANEL_SCENE));

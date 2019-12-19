@@ -10,8 +10,9 @@ public class PreGameState : FSMState
     {
         base.DoBeforeEntering();
 
-        //AppFacade.instance.SendNotification(Const.Notification.LOAD_SCENE, new SceneVO(Const.SceneIndex.MAIN_PANEL_SCENE));
+        //AppFacade.instance.SendNotification(Const.Notification.LOAD_SCENE, new SceneVO(Const.SceneNames.PRE_GAME_SCENE));
+        AppFacade.instance.SendNotification(Const.Notification.LOAD_UI_FORM, Const.UIFormNames.PRE_GAME_FORM);
 
-        Debug.Log("Pre game");
+        Debug.Log("Enter Pre game State");
     }
 }

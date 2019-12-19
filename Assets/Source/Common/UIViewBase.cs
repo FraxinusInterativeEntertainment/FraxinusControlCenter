@@ -9,6 +9,11 @@ public class UIViewBase : MonoBehaviour
 
     }
 
+    public virtual void Anchor(float x, float y, float z)
+    {
+        this.transform.localPosition = new Vector3(x, y, z);
+    }
+
     public virtual void Show()
     {
         this.gameObject.SetActive(true);

@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainControlView.unity
     guid: 06889bc996a2c7c4f9d44d917efab1b0
+  - enabled: 1
+    path: Assets/Scenes/PreGameScene.unity
+    guid: d0476efadcd280a42b5773f54726fc76
   m_configObjects: {}
