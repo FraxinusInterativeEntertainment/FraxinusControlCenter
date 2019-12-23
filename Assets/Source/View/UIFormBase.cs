@@ -8,6 +8,7 @@ public abstract class UIFormBase : MonoBehaviour
     protected List<string> defaultViewNames = new List<string>();
 
     protected readonly Dictionary<string, UIViewBase> m_loadedViews = new Dictionary<string, UIViewBase>();
+    protected readonly Stack<UIViewBase> m_viewStack = new Stack<UIViewBase>();
 
     protected virtual void Start()
     {
@@ -16,15 +17,24 @@ public abstract class UIFormBase : MonoBehaviour
             ShowView(Const.UIViewNames.UI_VIEW_PATH + viewName);
         }
     }
-    
+
     public virtual void ShowView(string _uiViewName)
     {
         if (!m_loadedViews.ContainsKey(_uiViewName))
         {
             m_loadedViews.Add(_uiViewName, LoadView(_uiViewName));
         }
-
+        
         m_loadedViews[_uiViewName].Show();
+        m_viewStack.Push(m_loadedViews[_uiViewName]);
+    }
+
+    public virtual void HideTopView()
+    {
+        if (m_viewStack.Count > 0)
+        {
+            m_viewStack.Pop().Hide();
+        }
     }
 
     public virtual void Anchor(float _x, float _y, float _z)

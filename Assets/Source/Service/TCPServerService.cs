@@ -9,7 +9,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System;
 
-public class TCPServer 
+public class TCPServerService
 {
     private Socket m_listener;
     private readonly Dictionary<string, MicroControllerClient>  m_connectedClients = new Dictionary<string, MicroControllerClient>();
@@ -21,7 +21,7 @@ public class TCPServer
 
     private Socket testHandler;
 
-    public TCPServer(string _ip, int _port, int _maxConnections)
+    public TCPServerService(string _ip, int _port, int _maxConnections)
     {
         m_listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         m_ip = IPAddress.Parse(_ip);

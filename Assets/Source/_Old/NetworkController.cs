@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 public class NetworkController : MonoBehaviour
 {
-    private TCPServer m_tcpServerSocket;
+    private TCPServerService m_tcpServerSocket;
     private WebSocket m_ws;
 
     public static NetworkController Instance;
