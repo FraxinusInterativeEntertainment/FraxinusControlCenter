@@ -21,7 +21,7 @@ public class GameStatusProxy : Proxy, IProxy, IResponder
 
     public void OnResult(object _data)
     {
-        Debug.Log((_data as GameSessionsResponse).game_sessions_info.Count);
+        //Debug.Log((_data as GameSessionsResponse).game_sessions_info.Count);
         UpdateCurrentGameStatus(_data as GameSessionsResponse);
     }
 
@@ -41,14 +41,13 @@ public class GameStatusProxy : Proxy, IProxy, IResponder
             {
                 if (sessionInfo.status == "s")
                 {
-                    Debug.Log(sessionInfo.game_id);
                     m_currentGameStatus.gameId = sessionInfo.game_id;
                     m_currentGameStatus.gameStatus = GameStatusToEnum(sessionInfo.status);
                     break;
                 }
             }
         }
-
+        Debug.Log(m_currentGameStatus.gameId + ": " + m_currentGameStatus.gameStatus);
         SendNotification(Const.Notification.RECEIVED_GAME_STATUS, m_currentGameStatus);
     }
 

@@ -6,7 +6,6 @@ public static partial class Const
 {
     public static class URL
     {
-        public const string WEB_SOCKET_HOST = "ws://www.fraxinusmothership.cn/ws/player/";
-        public const string TCP_SOCKET_IP = "127.0.0.1";
+        
     }
 }

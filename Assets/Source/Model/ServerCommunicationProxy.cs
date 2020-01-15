@@ -10,7 +10,7 @@ public class ServerCommunicationProxy : Proxy, IProxy
     public const string NAME = "ServerCommunicationProxy";
 
     private WebSocketService m_wsService;
-
+   
     public ServerCommunicationProxy() : base(NAME)
     {
         m_wsService = new WebSocketService();
@@ -18,7 +18,7 @@ public class ServerCommunicationProxy : Proxy, IProxy
 
     public void ConnectFraxMotherShipWs(object _data)
     {
-        m_wsService.Connect(Const.Url.WEB_SOCKET_SERVER_ADDRESS + (string)_data, WebSocketMessageHandler, 
+        m_wsService.Connect(Const.Url.WEB_SOCKET_SERVER_ADDRESS + (_data as string) + "/", Const.Url.WEB_SOCKET_HOST_URI, WebSocketMessageHandler, 
                             WebSocketCloseHandler, WebSocketOpenHandler, WebSocketErrorHandler);
     }
 

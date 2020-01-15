@@ -11,6 +11,9 @@ using System;
 
 public class TCPServerService
 {
+    private event Action<Socket> NewClientConnected;
+    private event Action<Socket, string> MessageArrived;
+
     private Socket m_listener;
     private readonly Dictionary<string, MicroControllerClient>  m_connectedClients = new Dictionary<string, MicroControllerClient>();
     private IPAddress m_ip;
@@ -26,9 +29,10 @@ public class TCPServerService
         m_listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         m_ip = IPAddress.Parse(_ip);
         m_ipEnd = new IPEndPoint(m_ip, _port);
+        m_maxConnections = _maxConnections;
     }
 
-    public void InitSocket()
+    public TCPServerService InitSocket()
     {
         m_listener.Bind(m_ipEnd);
         Debug.Log("TCP Socket Server Started!");
@@ -38,6 +42,20 @@ public class TCPServerService
         m_connectThread = new Thread(new ThreadStart(ListenForNewConnections));
         m_connectThread.IsBackground = true;
         m_connectThread.Start();
+
+        return this;
+    }
+
+    public TCPServerService AddMessageListener(Action<Socket, string> _messageListener)
+    {
+        MessageArrived += _messageListener;
+        return this;
+    }
+
+    public TCPServerService AddNewClientListener(Action<Socket> _newClientListener)
+    {
+        NewClientConnected += _newClientListener;
+        return this;
     }
 
     public bool SocketConnected(Socket s)
@@ -83,6 +101,8 @@ public class TCPServerService
             Debug.Log("\r\n[客户端\"" + remoteEndPoint + "\"建立连接成功！ 客户端数量：" + m_connectedClients.Count + "]");
             Send(newConnectionHandler, remoteEndPoint + "Connected!");
 
+            NewClientConnected(newConnectionHandler);
+
             Thread recvThread = new Thread(Receive);
             recvThread.IsBackground = true;
             recvThread.Start(newConnectionHandler);
@@ -108,6 +128,7 @@ public class TCPServerService
 
                 string recvString = Encoding.ASCII.GetString(recvData, 0, recvLength);
 
+                MessageArrived(socketClient, recvString);
                 //Send(socketClient, "From Frax Server: " + recvString);
             }
             catch (Exception)
