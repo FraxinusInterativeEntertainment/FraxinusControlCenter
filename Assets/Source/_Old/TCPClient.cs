@@ -20,6 +20,8 @@ public class TCPClient : MonoBehaviour
     int recvLen; //接收的数据长度
     Thread connectThread; //连接线程
 
+    
+
     //初始化
     void InitSocket()
     {
@@ -47,6 +49,7 @@ public class TCPClient : MonoBehaviour
         recvLen = serverSocket.Receive(recvData);
         recvStr = Encoding.ASCII.GetString(recvData, 0, recvLen);
         print(recvStr);
+        SocketSend("connect Hi");
     }
 
     void SocketSend(string sendStr)
@@ -74,6 +77,7 @@ public class TCPClient : MonoBehaviour
             }
             recvStr = Encoding.ASCII.GetString(recvData, 0, recvLen);
             print(recvStr);
+            SocketSend("client send Hi");
         }
     }
 

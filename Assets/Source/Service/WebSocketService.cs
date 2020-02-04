@@ -34,7 +34,6 @@ public class WebSocketService
         try
         {
             m_ws.Send(_message);
-            Debug.Log("Sent: " + _message);
         }
         catch (System.Exception e)
         {

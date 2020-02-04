@@ -34,9 +34,48 @@ public class DebugViewMediator : Mediator, IMediator
         }
     }
 
+    string c1 = "1";
+    string c2 = "1";
     private void OnSendWsMsg()
     {
-        SendNotification(Const.Notification.WS_SEND, m_debugView.wsMsgVO);
+        
+        if (m_debugView.wsMsgVO == "location1")
+        {
+            Dictionary<string, LocationInfo> locationInfos = new Dictionary<string, LocationInfo>();
+            locationInfos.Add("TestUWB123",new LocationInfo(1f + (float)Random.Range(1, 10) / 10.0f, 1f, "1"));
+            SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));//m_debugView.wsMsgVO);
+        }
+        else if (m_debugView.wsMsgVO == "location2")
+        {
+            Dictionary<string, LocationInfo> locationInfos = new Dictionary<string, LocationInfo>();
+            locationInfos.Add("TestUWB123", new LocationInfo(4f + (float)Random.Range(1, 10) / 10.0f, 4f, "1"));
+            SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));//m_debugView.wsMsgVO);
+        }
+        else if (m_debugView.wsMsgVO == "conditionC1")
+        {
+            if (c1 == "1") c1 = "0";
+            else if (c1 == "0") c1 = "1";
+            SendNotification(Const.Notification.WS_SEND, new SensorMessage("c1_toggle", c1));//m_debugView.wsMsgVO);
+        }
+        else if (m_debugView.wsMsgVO == "conditionC2")
+        {
+            if (c2 == "1") c2 = "0";
+            else if (c2 == "0") c2 = "1";
+            SendNotification(Const.Notification.WS_SEND, new SensorMessage("c2_toggle", c2));//m_debugView.wsMsgVO);
+        }
+        else if (m_debugView.wsMsgVO == "next")
+        {
+            SendNotification(Const.Notification.WS_SEND, new SensorMessage("g_a_n_1", "1"));//m_debugView.wsMsgVO);
+        }
+        else if (m_debugView.wsMsgVO == "pevious")
+        {
+            SendNotification(Const.Notification.WS_SEND, new SensorMessage("g_a_n_3", "1"));//m_debugView.wsMsgVO);
+        }
+        else if (m_debugView.wsMsgVO == "group")
+        {
+            SendNotification(Const.Notification.WS_SEND, new SensorMessage("test_group_a", "1"));//m_debugView.wsMsgVO);
+        }
+
     }
     
 }

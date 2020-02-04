@@ -11,8 +11,7 @@ public class InGameState : FSMState
         base.DoBeforeEntering();
 
         AppFacade.instance.SendNotification(Const.Notification.GAME_STARTED);
-
-        //UIManager.instance.ShowForm("MainPanel");
+        AppFacade.instance.SendNotification(Const.Notification.LOAD_UI_FORM, Const.UIFormNames.PRE_GAME_FORM);
 
         Debug.Log("Enter Ingame State");
     }

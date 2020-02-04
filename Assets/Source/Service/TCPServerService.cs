@@ -31,7 +31,6 @@ public class TCPServerService
         m_ipEnd = new IPEndPoint(m_ip, _port);
         m_maxConnections = _maxConnections;
     }
-
     public TCPServerService InitSocket()
     {
         m_listener.Bind(m_ipEnd);
@@ -45,7 +44,6 @@ public class TCPServerService
 
         return this;
     }
-
     public TCPServerService AddMessageListener(Action<Socket, string> _messageListener)
     {
         MessageArrived += _messageListener;
@@ -95,9 +93,6 @@ public class TCPServerService
                 m_connectedClients.Add(remoteEndPoint, new MicroControllerClient(Const.NetworkRelated.DEFAULT_CLIENT_ID, newConnectionHandler, false));
             }
             
-            //Send client info request
-            //set clientID and set isOnline to true
-
             Debug.Log("\r\n[客户端\"" + remoteEndPoint + "\"建立连接成功！ 客户端数量：" + m_connectedClients.Count + "]");
             Send(newConnectionHandler, remoteEndPoint + "Connected!");
 
@@ -129,7 +124,6 @@ public class TCPServerService
                 string recvString = Encoding.ASCII.GetString(recvData, 0, recvLength);
 
                 MessageArrived(socketClient, recvString);
-                //Send(socketClient, "From Frax Server: " + recvString);
             }
             catch (Exception)
             {

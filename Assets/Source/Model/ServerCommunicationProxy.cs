@@ -24,7 +24,9 @@ public class ServerCommunicationProxy : Proxy, IProxy
 
     public void SendMessage(object _data)
     {
-        m_wsService.Send((string)_data);
+        string jsonData = JsonConvert.SerializeObject(_data);
+        Debug.Log("WS Send: " + jsonData);
+        m_wsService.Send(jsonData);
     }
 
     private void WebSocketOpenHandler()

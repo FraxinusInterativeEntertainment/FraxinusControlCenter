@@ -20,7 +20,6 @@ public class MicroControllerProxy : Proxy, IProxy
         m_MicroControllerService = new TCPServerService(Const.Url.TCP_SOCKET_IP, Const.NetworkRelated.TCP_SOCKET_PORT, Const.NetworkRelated.MAX_TCP_CONNECTIONS);
         StartMicroControllerService();
     }
-
     public void StartMicroControllerService()
     {
         m_MicroControllerService.InitSocket()
