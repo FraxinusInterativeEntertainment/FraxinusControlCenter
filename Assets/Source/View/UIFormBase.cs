@@ -12,10 +12,18 @@ public abstract class UIFormBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        foreach (string viewName in defaultViewNames)
-        {
-            ShowView(Const.UIViewNames.UI_VIEW_PATH + viewName);
-        }
+
+    }
+
+    public virtual void Show()
+    {
+        this.gameObject.SetActive(true);
+        ShowAllViews();
+    }
+
+    public virtual void Hide()
+    {
+        this.gameObject.SetActive(false);
     }
 
     public virtual void ShowView(string _uiViewName)
@@ -53,5 +61,13 @@ public abstract class UIFormBase : MonoBehaviour
         uiView.Anchor(0, 0, 0);
 
         return uiView;
+    }
+
+    protected void ShowAllViews()
+    {
+        foreach (string viewName in defaultViewNames)
+        {
+            ShowView(Const.UIViewNames.UI_VIEW_PATH + viewName);
+        }
     }
 }

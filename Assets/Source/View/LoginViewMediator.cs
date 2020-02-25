@@ -13,8 +13,9 @@ public class LoginViewMediator : Mediator, IMediator
     public LoginViewMediator(LoginView _view) : base(NAME, _view)
     {
         m_loginView.TryLogin += OnTryLogin;
+        m_loginView.TryLogout += OnTryLogout;
     }
-    
+
     public override System.Collections.Generic.IList<string> ListNotificationInterests()
     {
         return new List<string>()
@@ -44,5 +45,10 @@ public class LoginViewMediator : Mediator, IMediator
     {
         SendNotification(Const.Notification.SEND_LOGIN, m_loginView.loginVO);
     }
-    
+
+    private void OnTryLogout()
+    {
+        SendNotification(Const.Notification.SEND_LOGOUT);
+        m_loginView.ActivateUserInfoPanel();
+    }
 }

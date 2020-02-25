@@ -14,8 +14,8 @@ public class UICommand : SimpleCommand
 
         switch (name)
         {
-            case Const.Notification.LOAD_UI_FORM:
-                UIManager.instance.ShowForm(obj as string);
+            case Const.Notification.SHOW_MAIN_PANEL_CONTENT:
+                UIManager.instance.ShowMainPanelContent(obj as string);
                 break;
 
         }

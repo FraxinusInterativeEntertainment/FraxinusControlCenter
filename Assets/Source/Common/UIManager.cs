@@ -7,29 +7,18 @@ public class UIManager : MonoBehaviour
     private static UIManager m_instance;
 
     [SerializeField]
-    private Transform m_UIContentRoot;
+    private Transform m_mainPanelUIRoot;
     [SerializeField]
     private Transform m_UIPopupRoot;
 
-    private UIForm m_currentForm;
-    private GameObject m_uiRoot;
     private ResourcesService m_resourcesService;
 
+    private UIFormBase m_mainPanelForm;
+    private UIFormBase m_mapPanel;
+
+    private readonly Dictionary<string, UIFormBase> m_loadedMainPanelForms = new Dictionary<string, UIFormBase>();
+
     public static UIManager instance { get { return m_instance; } }
-    /*
-    public static UIManager instance
-    {
-        get
-        {
-            if (m_instance == null)
-            {
-                m_instance = new GameObject(typeof(UIManager).Name).AddComponent<UIManager>();
-            }
-
-            return m_instance;
-        }
-    }*/
-
     
     void Awake()
     {
@@ -39,23 +28,27 @@ public class UIManager : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
         m_resourcesService = new ResourcesService();
+
+        //ShowMainPanelContent(Const.UIFormNames.GAME_STATUS_FORM);
     }
     
-    public void ShowForm(string _formName)
+    public void ShowMainPanelContent(string _formName)
     {
-        if (m_currentForm != null)
+        if (!m_loadedMainPanelForms.ContainsKey(_formName))
         {
-            Destroy(m_currentForm.gameObject);
+            GameObject uiFormGO = m_resourcesService.Load<GameObject>(_formName);
+            UIFormBase uiForm = GameObject.Instantiate(uiFormGO).GetComponent<UIFormBase>();
+            uiForm.transform.SetParent(m_mainPanelUIRoot);
+            uiForm.Anchor(0, 0, 0);
+
+            m_loadedMainPanelForms.Add(_formName, uiForm);
         }
 
-        GameObject uiFormGO = m_resourcesService.Load<GameObject>(_formName);
-        UIFormBase formGO = GameObject.Instantiate(uiFormGO).GetComponent<UIFormBase>();
-        formGO.transform.SetParent(m_UIContentRoot);
-        formGO.Anchor(0, 0, 0);
-    }
-
-    public void ShowView(string _viewName)
-    {
-        m_currentForm.ShowView(_viewName);
+        if (m_mainPanelForm != null)
+        {
+            m_mainPanelForm.Hide();
+        }
+        m_mainPanelForm = m_loadedMainPanelForms[_formName];
+        m_mainPanelForm.Show();
     }
 }

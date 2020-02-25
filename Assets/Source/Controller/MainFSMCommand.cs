@@ -17,8 +17,9 @@ public class MainFSMCommand : SimpleCommand
         {
             case Const.Notification.LOGIN_SUCCESS:
                 //SceneManager.LoadScene(Const.SceneNames.MAIN_PANEL_SCENE);
-                SendNotification(Const.Notification.REQUEST_FOR_GAME_STATUS);
+                //SendNotification(Const.Notification.REQUEST_FOR_GAME_STATUS);
                 break;
+                /*
             case Const.Notification.RECEIVED_GAME_STATUS:
                 if ((obj as GameStatusVO).gameStatus == GameStatus.s)
                 {
@@ -34,6 +35,7 @@ public class MainFSMCommand : SimpleCommand
                     GameManager.instance.ChangeMainFSMState(MainFSMStateID.PreGame);
                 }
                 break;
+                */               
         }
     }
 }

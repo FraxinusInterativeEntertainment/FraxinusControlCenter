@@ -10,5 +10,7 @@ public static partial class Const
 
         public const string LOGIN_FORM = UI_FORM_PATH + "LoginForm";
         public const string PRE_GAME_FORM = UI_FORM_PATH + "PreGameForm";
+
+        public const string GAME_STATUS_FORM = UI_FORM_PATH + "GameStatusForm";
     }
 }
