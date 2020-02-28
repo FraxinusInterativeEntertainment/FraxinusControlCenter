@@ -35,7 +35,7 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.RECEIVED_GAME_STATUS, typeof(MainFSMCommand));
         RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(MainFSMCommand));
         RegisterCommand(Const.Notification.LOAD_SCENE, typeof(SceneCommand));
-        RegisterCommand(Const.Notification.LOAD_UI_FORM, typeof(UICommand));
+        RegisterCommand(Const.Notification.SHOW_MAIN_PANEL_CONTENT, typeof(UICommand));
     }
 
     public void startup()

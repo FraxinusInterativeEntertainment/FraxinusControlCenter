@@ -12,7 +12,7 @@ public class LoginState : FSMState
 
         //AppFacade.instance.SendNotification(Const.Notification.LOAD_SCENE, new SceneVO(Const.SceneIndex.MAIN_PANEL_SCENE));
 
-        AppFacade.instance.SendNotification(Const.Notification.LOAD_UI_FORM, Const.UIFormNames.LOGIN_FORM);
+        //AppFacade.instance.SendNotification(Const.Notification.LOAD_UI_FORM, Const.UIFormNames.LOGIN_FORM);
 
         //UIManager.instance.ShowForm("MainForm");
     }
