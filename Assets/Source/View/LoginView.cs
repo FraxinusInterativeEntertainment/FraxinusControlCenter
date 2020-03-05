@@ -43,28 +43,17 @@ public class LoginView : UIViewBase
         AppFacade.instance.RemoveMediator(LoginViewMediator.NAME);
     }
 
-    public void OnLoginSuccess(object _vo)
-    {
-        Debug.Log(_vo);
-        ActivateLoginPanel();
-    }
-
-    public void OnLoginFail(object _vo)
-    {
-        Debug.Log(_vo);
-    }
-
     public void ActivateLoginPanel()
     {
-        m_userInfoPanel.SetActive(true);
-        m_loginPanel.SetActive(false);
+        m_userInfoPanel.SetActive(false);
+        m_loginPanel.SetActive(true);
         ClearUI();
     }
 
     public void ActivateUserInfoPanel()
     {
-        m_userInfoPanel.SetActive(false);
-        m_loginPanel.SetActive(true);
+        m_userInfoPanel.SetActive(true);
+        m_loginPanel.SetActive(false);
         ClearUI();
     }
 

@@ -21,7 +21,10 @@ public class ChangeGameStatusProxy : Proxy, IProxy, IResponder
     
     public void OnResult(object _data)
     {
-        SendNotification(Const.Notification.GAME_STATUS_CHANGED, _data);
+        SendNotification(Const.Notification.GAME_STATUS_CHANGED, 
+                        new GameStatusVO((_data as ChangeGameStatusResponse).game_id, 
+                                         (_data as ChangeGameStatusResponse).gameStatus,
+                                         (_data as ChangeGameStatusResponse).game_time));
 
         if ((_data as ChangeGameStatusResponse).device_id_2_user_info != null)
         {
@@ -45,6 +48,7 @@ public class ChangeGameStatusResponse : HttpResponse
     public Dictionary<string, UwbUserInfo> device_id_2_user_info { get; set; }
     public string game_id { get; set; }
     public GameStatus gameStatus { get; set; }
+    public string game_time { get; set; }
 
     public ChangeGameStatusResponse(int _errCode, string _errMsg) : base(_errCode, _errMsg) { }
 }

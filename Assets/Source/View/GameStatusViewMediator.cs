@@ -8,11 +8,14 @@ public class GameStatusViewMediator : Mediator, IMediator
 {
     public const string NAME = "GameStatusViewMediator";
 
-    protected GameStatusView m_gameStatusView { get { return m_viewComponent as GameStatusView; } }
+    private GameStatusView m_gameStatusView { get { return m_viewComponent as GameStatusView; } }
+    private readonly GameStatusVO m_currentGameStatus = new GameStatusVO("", GameStatus.c);
 
     public GameStatusViewMediator(GameStatusView _view) : base(NAME, _view)
     {
         _view.ChangeGameStatus += ChangeGameStatusHandler;
+        _view.OnUpdateGameStatusClick += UpdateGameStatusHandler;
+        _view.OnGameStatusViewShowed += UpdateGameStatusHandler;
     }
 
     public override System.Collections.Generic.IList<string> ListNotificationInterests()
@@ -20,7 +23,9 @@ public class GameStatusViewMediator : Mediator, IMediator
         return new List<string>()
         {
             Const.Notification.GAME_STATUS_CHANGED,
-            Const.Notification.GAME_STATUS_CHANGE_ERROR
+            Const.Notification.GAME_STATUS_CHANGE_ERROR,
+            Const.Notification.RECEIVED_GAME_STATUS,
+            Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO
         };
     }
 
@@ -32,16 +37,67 @@ public class GameStatusViewMediator : Mediator, IMediator
         switch (name)
         {
             case Const.Notification.GAME_STATUS_CHANGED:
-                Debug.Log("Changed: " + (vo as ChangeGameStatusResponse).device_id_2_user_info);
+                UpdateCurrentGameStatus((vo as GameStatusVO).gameId, (vo as GameStatusVO).gameStatus, (vo as GameStatusVO).gameTime);
                 break;
             case Const.Notification.GAME_STATUS_CHANGE_ERROR:
                 Debug.Log(vo as string);
                 break;
+            case Const.Notification.RECEIVED_GAME_STATUS:
+                (vo as GameSessionsResponse).game_sessions_info.ForEach((section) => { Debug.Log(section.game_time + ": " + section.status); });
+                //TODO: Instantiate Blocks and show current game session
+                break;
+            case Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO:
+                Debug.Log("Player Updated: " + (vo as Dictionary<string, UwbUserInfo>).Count);
+                break;
         }
     }
 
-    private void ChangeGameStatusHandler()
+    private void ChangeGameStatusHandler(GameStatus _status)
     {
-        SendNotification(Const.Notification.CHANGE_GAME_STATUS, m_gameStatusView.gameStatusVO);
+        if (m_currentGameStatus == null || m_currentGameStatus.gameId.Length <= 0)
+        {
+            return;
+        }
+
+        GameStatusVO gamestatus = new GameStatusVO();
+        gamestatus.gameId = m_currentGameStatus.gameId;
+        gamestatus.gameStatus = _status;
+        SendNotification(Const.Notification.CHANGE_GAME_STATUS, gamestatus);
+    }
+
+    private void UpdateGameStatusHandler()
+    {
+        SendNotification(Const.Notification.REQUEST_FOR_GAME_STATUS);
+    }
+
+
+    private void UpdateCurrentGameStatus(string _gameID, GameStatus _gameStatus, string _gameTime)
+    {
+        if (_gameID != null && _gameID.Length >= 0)
+        { 
+            m_currentGameStatus.gameId = _gameID;
+        }
+        m_currentGameStatus.gameStatus = _gameStatus;
+        m_currentGameStatus.gameTime = _gameTime;
+
+        UpdateGameStatusIndicator(m_currentGameStatus.gameStatus);
+        m_gameStatusView.SetGameIdText(m_currentGameStatus.gameId);
+        m_gameStatusView.SetGameStartTimeText(m_currentGameStatus.gameTime);
+    }
+
+    private void UpdateGameStatusIndicator(GameStatus _status)
+    { 
+        switch(_status)
+        {
+            case GameStatus.p:
+                m_gameStatusView.ActiveReadyStatus();
+                break;
+            case GameStatus.s:
+                m_gameStatusView.ActiveStartStatus();
+                break;
+            case GameStatus.c:
+                m_gameStatusView.ActiveClosedStatus();
+                break;
+        }
     }
 }

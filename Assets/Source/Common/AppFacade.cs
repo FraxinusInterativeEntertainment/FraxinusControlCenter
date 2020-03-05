@@ -27,6 +27,7 @@ public class AppFacade : Facade, IFacade
         base.InitializeController();
         RegisterCommand(STARTUP, typeof(StartupCommand));
         RegisterCommand(Const.Notification.SEND_LOGIN, typeof(LoginCommand));
+        RegisterCommand(Const.Notification.SEND_LOGOUT, typeof(LoginCommand));
         RegisterCommand(Const.Notification.CONNECT_TO_WS_SERVER, typeof(ServerCommunicationCommand));
         RegisterCommand(Const.Notification.WS_SEND, typeof(ServerCommunicationCommand));
         RegisterCommand(Const.Notification.CHANGE_GAME_STATUS, typeof(GameStatusCommand));

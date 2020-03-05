@@ -12,6 +12,7 @@ public static partial class Const
         public const string TCP_SOCKET_IP = "192.168.1.111";
 
         public const string CONTROL_CENTER_LOGIN = HTTP_SERVER_ADDRESS + "/auth/check_control_center_login/";
+        public const string CONTROL_CENTER_LOGOUT = HTTP_SERVER_ADDRESS + "/auth/logout/";
         public const string REQUEST_WS_TOKEN = HTTP_SERVER_ADDRESS + "/auth/get_ws_token/";
 
         public const string CHANGE_GAME_STATUS = HTTP_SERVER_ADDRESS + "/game_map/change_game_status/";

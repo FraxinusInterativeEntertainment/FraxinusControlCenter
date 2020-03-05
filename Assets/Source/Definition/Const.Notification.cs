@@ -8,7 +8,9 @@ public static partial class Const
     {
         public const string TRY_LOGIN = "TryLogin";
         public const string LOGIN_SUCCESS = "LoginSuccess";
+        public const string LOGOUT_SUCCESS = "LogoutSuccess";
         public const string LOGIN_FAIL = "LoginFail";
+        public const string LOGOUT_FAIL = "LogoutFail";
         public const string SEND_LOGIN = "SendLogin";
         public const string SEND_LOGOUT = "SendLogout";
         public const string CONNECT_TO_WS_SERVER = "ConnectToWsServer";
@@ -24,5 +26,6 @@ public static partial class Const
         public const string GAME_CLOSED = "GameClosed";
         public const string LOAD_UI_FORM = "LoadUIForm";
         public const string SHOW_MAIN_PANEL_CONTENT = "ShowMainPanelContent";
+        public const string TRY_UPDATE_GAME_STATUS = "TryUpdateGameStatus";
     }
 }

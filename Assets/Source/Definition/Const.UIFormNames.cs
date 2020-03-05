@@ -13,5 +13,6 @@ public static partial class Const
 
         public const string GAME_STATUS_FORM = UI_FORM_PATH + "GameStatusForm";
         public const string QUEST_FORM = UI_FORM_PATH + "QuestForm";
+        public const string CONDITION_FORM = UI_FORM_PATH + "ConditionForm";
     }
 }

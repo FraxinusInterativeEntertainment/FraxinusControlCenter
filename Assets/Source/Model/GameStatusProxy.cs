@@ -21,54 +21,49 @@ public class GameStatusProxy : Proxy, IProxy, IResponder
 
     public void OnResult(object _data)
     {
-        //Debug.Log((_data as GameSessionsResponse).game_sessions_info.Count);
-        UpdateCurrentGameStatus(_data as GameSessionsResponse);
+        SendNotification(Const.Notification.RECEIVED_GAME_STATUS, _data);
+        OnReceivedGameSessions(_data as GameSessionsResponse);
     }
 
     public void OnFault(object _data)
     {
-        Debug.Log((_data as GameSessionsResponse).err_msg);
+        Debug.Log((_data as string));
     }
 
-    private void UpdateCurrentGameStatus(GameSessionsResponse _response)
+    private void OnReceivedGameSessions(GameSessionsResponse _response)
     {
         if (_response.game_sessions_info != null && _response.game_sessions_info.Count > 0)
         {
-            m_currentGameStatus.gameStatus = GameStatus.c;
-            m_currentGameStatus.gameId = _response.game_sessions_info[0].game_id;
+            GameStatusVO tempGameStatusVO = new GameStatusVO();
+
+            tempGameStatusVO.gameStatus = _response.game_sessions_info[_response.game_sessions_info.Count - 1].status;
+            tempGameStatusVO.gameId = _response.game_sessions_info[_response.game_sessions_info.Count - 1].game_id;
+            tempGameStatusVO.gameTime = _response.game_sessions_info[_response.game_sessions_info.Count - 1].game_time;
 
             foreach (GameSessionInfo sessionInfo in _response.game_sessions_info)
             {
-                if (sessionInfo.status == "s")
+                if (sessionInfo.status == GameStatus.p)
                 {
-                    m_currentGameStatus.gameId = sessionInfo.game_id;
-                    m_currentGameStatus.gameStatus = GameStatusToEnum(sessionInfo.status);
+                    tempGameStatusVO.gameId = sessionInfo.game_id;
+                    tempGameStatusVO.gameStatus = sessionInfo.status;
+                    tempGameStatusVO.gameTime = sessionInfo.game_time;
                     break;
                 }
             }
+
+            foreach (GameSessionInfo sessionInfo in _response.game_sessions_info)
+            {
+                if (sessionInfo.status == GameStatus.s)
+                {
+                    tempGameStatusVO.gameId = sessionInfo.game_id;
+                    tempGameStatusVO.gameStatus = sessionInfo.status;
+                    tempGameStatusVO.gameTime = sessionInfo.game_time;
+                    break;
+                }
+            }
+
+            SendNotification(Const.Notification.GAME_STATUS_CHANGED, tempGameStatusVO);
         }
-        Debug.Log(m_currentGameStatus.gameId + ": " + m_currentGameStatus.gameStatus);
-        SendNotification(Const.Notification.RECEIVED_GAME_STATUS, m_currentGameStatus);
-    }
-
-    private GameStatus GameStatusToEnum(string statusStr)
-    {
-        GameStatus result = GameStatus.c;
-
-        switch (statusStr)
-        {
-            case "s":
-                result = GameStatus.s;
-                break;
-            case "c":
-                result = GameStatus.c;
-                break;
-            case "p":
-                result = GameStatus.p;
-                break;
-        }
-
-        return result;
     }
 }
 
@@ -83,5 +78,5 @@ public class GameSessionInfo
 {
     public string game_id { get; set; }
     public string game_time { get; set; }
-    public string status { get; set; }
+    public GameStatus status { get; set; }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 470894019527771486}
   - component: {fileID: 7246705873704825918}
   m_Layer: 5
-  m_Name: QuestForm
+  m_Name: ConditionForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,4 +49,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultViewNames:
-  - DebugView
+  - ConditionView

@@ -8,6 +8,7 @@ public class ModelPreCommand : SimpleCommand
     public override void Execute(PureMVC.Interfaces.INotification notification)
     {
         Facade.RegisterProxy(new LoginProxy());
+        Facade.RegisterProxy(new LogoutProxy());
         Facade.RegisterProxy(new ServerCommunicationProxy());
         Facade.RegisterProxy(new ChangeGameStatusProxy());
         Facade.RegisterProxy(new GameMapProxy());
