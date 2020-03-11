@@ -16,6 +16,7 @@ public class SideBarViewMediator : Mediator, IMediator
         m_sideBarView.GameStatusToggleChanged += OnGameStatusToggleChanged;
         m_sideBarView.QuestToggleChanged += OnQuestToggleChanged;
         m_sideBarView.ConditionToggleChanged += OnConditionToggleChanged;
+        m_sideBarView.McuToggleChanged += OnMcuToggleChanged;
     }
 
     public override System.Collections.Generic.IList<string> ListNotificationInterests()
@@ -69,6 +70,19 @@ public class SideBarViewMediator : Mediator, IMediator
         {
             _toggle.interactable = false;
             SendNotification(Const.Notification.SHOW_MAIN_PANEL_CONTENT, Const.UIFormNames.CONDITION_FORM);
+        }
+        else
+        {
+            _toggle.interactable = true;
+        }
+    }
+
+    private void OnMcuToggleChanged(Toggle _toggle)
+    {
+        if (_toggle.isOn)
+        {
+            _toggle.interactable = false;
+            SendNotification(Const.Notification.SHOW_MAIN_PANEL_CONTENT, Const.UIFormNames.MCU_FORM);
         }
         else
         {

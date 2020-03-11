@@ -30,6 +30,11 @@ public class ChangeGameStatusProxy : Proxy, IProxy, IResponder
         {
             SendNotification(Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO, (_data as ChangeGameStatusResponse).device_id_2_user_info);
         }
+
+        if ((_data as ChangeGameStatusResponse).game_condition_status != null)
+        {
+            SendNotification(Const.Notification.RECV_ALL_GAME_CONDITIONS, (_data as ChangeGameStatusResponse).game_condition_status);
+        }
     }
 
     public void OnFault(object _data)
@@ -45,6 +50,7 @@ public class ChangeGameStatusProxy : Proxy, IProxy, IResponder
 
 public class ChangeGameStatusResponse : HttpResponse
 {
+    public Dictionary<string, int> game_condition_status;
     public Dictionary<string, UwbUserInfo> device_id_2_user_info { get; set; }
     public string game_id { get; set; }
     public GameStatus gameStatus { get; set; }

@@ -47,6 +47,7 @@ public class ServerCommunicationProxy : Proxy, IProxy
     private void WebSocketMessageHandler(string _message)
     {
         Debug.Log("Message Arrived: " + _message);
+        MainThreadCall.SafeCallback(() => { SendNotification(Const.Notification.SERVER_MSG_ARRIVED, _message); });
     }
 
     private string ToJson(object _data)

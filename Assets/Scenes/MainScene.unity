@@ -167,6 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 795960678}
   - component: {fileID: 795960677}
+  - component: {fileID: 795960679}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -200,6 +201,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &795960679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795960676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 192675907c47e41b0b2672526fe71872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1003128330
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +470,26 @@ PrefabInstance:
       propertyPath: graphic
       value: 
       objectReference: {fileID: 2091796438}
+    - target: {fileID: 1320425436724959201, guid: e28e57e761d764b4aa97eef7f81fc769,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320425436724959201, guid: e28e57e761d764b4aa97eef7f81fc769,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320425436724959201, guid: e28e57e761d764b4aa97eef7f81fc769,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320425436724959201, guid: e28e57e761d764b4aa97eef7f81fc769,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2133497213761266657, guid: e28e57e761d764b4aa97eef7f81fc769,
         type: 3}
       propertyPath: m_Name

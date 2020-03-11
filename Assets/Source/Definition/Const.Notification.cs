@@ -19,6 +19,11 @@ public static partial class Const
         public const string GAME_STATUS_CHANGED = "GameStatusChanged";
         public const string GAME_STATUS_CHANGE_ERROR = "GameStatusChangeError";
         public const string UPDATE_DEVICE_ID_TO_USER_INFO = "UpdateDeviceIdToUserInfo";
+        public const string RECV_ALL_GAME_CONDITIONS = "RecvALLGameConditions";
+        public const string RECV_GAME_CONDITION_CHANGE = "RecvGameConditionChange";
+        public const string ALL_CONDITION_UPDATED = "AllConditionUpdated";
+        public const string ALL_MCU_UPDATED = "AllMcuUpdated";
+        public const string UPDATE_MCU_REQUEST = "UpdateMcuRequest";
         public const string LOAD_SCENE = "LoadScene";
         public const string REQUEST_FOR_GAME_STATUS = "RequestForGameSessions";
         public const string RECEIVED_GAME_STATUS = "ReceivedGameStatus";
@@ -27,5 +32,6 @@ public static partial class Const
         public const string LOAD_UI_FORM = "LoadUIForm";
         public const string SHOW_MAIN_PANEL_CONTENT = "ShowMainPanelContent";
         public const string TRY_UPDATE_GAME_STATUS = "TryUpdateGameStatus";
+        public const string SERVER_MSG_ARRIVED = "ServerMsgArrived";
     }
 }
