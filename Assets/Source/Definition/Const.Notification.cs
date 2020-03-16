@@ -33,5 +33,6 @@ public static partial class Const
         public const string SHOW_MAIN_PANEL_CONTENT = "ShowMainPanelContent";
         public const string TRY_UPDATE_GAME_STATUS = "TryUpdateGameStatus";
         public const string SERVER_MSG_ARRIVED = "ServerMsgArrived";
+        public const string DEBUG_LOG = "DebugLog";
     }
 }

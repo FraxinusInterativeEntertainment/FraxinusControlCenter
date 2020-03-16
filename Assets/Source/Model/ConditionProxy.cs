@@ -40,6 +40,7 @@ public class ConditionProxy : Proxy, IProxy, IResponder
         }
 
         Debug.Log("Condition Proxy Updated: " +  _vo.condition_name + "/" + _vo.status);
+        SendNotification(Const.Notification.DEBUG_LOG, "Condition Proxy Updated: " + _vo.condition_name + "/" + _vo.status);
     }
 }
 

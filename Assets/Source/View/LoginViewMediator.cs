@@ -38,13 +38,15 @@ public class LoginViewMediator : Mediator, IMediator
                 OnLoginSuccess();
                 break;
             case Const.Notification.LOGIN_FAIL:
-                Debug.Log("Login failed: " + vo);
+                OnLoginFailed(vo as string);
+                SendNotification(Const.Notification.DEBUG_LOG, vo);
                 break;
             case Const.Notification.LOGOUT_SUCCESS:
                 OnLogoutSuccess();
                 break;
             case Const.Notification.LOGOUT_FAIL:
                 Debug.Log("Logout failed: " + vo);
+                SendNotification(Const.Notification.DEBUG_LOG, vo);
                 break;
         }
     }
@@ -63,6 +65,13 @@ public class LoginViewMediator : Mediator, IMediator
     private void OnLoginSuccess()
     {
         m_loginView.ActivateUserInfoPanel();
+        m_loginView.SetLoginResultText("Login Success!");
+        m_loginView.UpdateUserNameText();
+    }
+
+    private void OnLoginFailed(string _errMsg)
+    {
+        m_loginView.SetLoginResultText(_errMsg);
     }
 
     private void OnLogoutSuccess()

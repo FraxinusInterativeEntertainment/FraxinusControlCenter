@@ -19,7 +19,7 @@ public class DebugViewMediator : Mediator, IMediator
     {
         return new List<string>()
         {
-            
+            Const.Notification.DEBUG_LOG
         };
     }
 
@@ -30,7 +30,9 @@ public class DebugViewMediator : Mediator, IMediator
 
         switch (name)
         {
-            
+            case Const.Notification.DEBUG_LOG:
+                m_debugView.ShowDebugText(vo as string);
+                break;
         }
     }
 

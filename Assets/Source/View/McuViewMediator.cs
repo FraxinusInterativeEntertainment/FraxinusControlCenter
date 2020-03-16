@@ -43,8 +43,18 @@ public class McuViewMediator : Mediator, IMediator
     {
         foreach (KeyValuePair<string, McuVO> mcuItem in m_mcuProxy.mcu)
         {
-            m_mcuView.AddConditionItem(mcuItem.Value);
+            m_mcuView.UpdateMcuItem(mcuItem.Value);
         }
         Debug.Log("Mcu Updated");
+    }
+
+    private void OnMcuConnected(McuVO _vo)
+    {
+        m_mcuView.UpdateMcuStatus(_vo);
+    }
+
+    private void OnMcudisConnected(McuVO _vo)
+    {
+        m_mcuView.UpdateMcuStatus(_vo);
     }
 }

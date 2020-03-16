@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class McuItemView : UIViewBase
 {
+    public event Action TryLoadModules = delegate { };
+
     [SerializeField]
     private Text m_mcuNameText;
     [SerializeField]
@@ -13,10 +16,17 @@ public class McuItemView : UIViewBase
     private Image m_statusIndicator;
     [SerializeField]
     private Toggle m_expandToggle;
+
     [SerializeField]
     private GameObject m_expandPanel;
+    [SerializeField]
+    private GameObject m_moduleContainer;
+    [SerializeField]
+    private GameObject m_moduleItemPrefab;
+
 
     private McuVO m_mcuVO;
+    public McuVO mcuVO { get { return m_mcuVO; } }
 
     private void Start()
     {
@@ -88,10 +98,26 @@ public class McuItemView : UIViewBase
     {
         m_expandPanel.SetActive(true);
         //TODO: request for control infos(get all module attached to this mcu)
+
+        //TODO: check if loaded, do not load more than one time!
+        if (m_moduleContainer.transform.childCount > 1)
+        {
+            return;
+        }
+
+        TryLoadModules();
     }
 
     private void OnCloseExpandPanel()
     {
         m_expandPanel.SetActive(false);
+    }
+
+    public void LoadModule(McuModule _vo)
+    {
+        ModuleItemView moduleItemView = Instantiate(m_moduleItemPrefab).GetComponent<ModuleItemView>();
+        moduleItemView.Init(_vo);
+        moduleItemView.transform.SetParent(m_moduleContainer.transform);
+        moduleItemView.transform.SetAsFirstSibling();
     }
 }

@@ -43,11 +43,13 @@ public class NetworkController : MonoBehaviour
     private void WebSocketCloseHandler(string message)
     {
         Debug.Log("Websocket closed: " + message);
+        AppFacade.instance.SendNotification(Const.Notification.DEBUG_LOG, message);
     }
 
     private void WebSocketMessageHandler(string message)
     {
         Debug.Log("Message Arrived: " + message);
+        AppFacade.instance.SendNotification(Const.Notification.DEBUG_LOG, message);
     }
 
     private void SetupSocketServer()

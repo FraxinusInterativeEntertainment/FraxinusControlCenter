@@ -12,6 +12,8 @@ public class McuView : UIViewBase
     [SerializeField]
     private GameObject m_mcuItemPrefab;
 
+    private readonly Dictionary<string, McuItemView> m_mcuItems = new Dictionary<string, McuItemView>();
+
     void Start()
     {
         AppFacade.instance.RegisterMediator(new McuViewMediator(this));
@@ -30,10 +32,22 @@ public class McuView : UIViewBase
         }
     }
 
-    public void AddConditionItem(McuVO _vo)
+    public void UpdateMcuItem(McuVO _vo)
     {
-        GameObject mcuItem = Instantiate(m_mcuItemPrefab);
-        mcuItem.transform.SetParent(m_mcuItemContainer.transform);
-        mcuItem.GetComponent<McuItemView>().Init(_vo);
+        if (!m_mcuItems.ContainsKey(_vo.mcuName))
+        {
+            GameObject mcuItem = Instantiate(m_mcuItemPrefab);
+            mcuItem.transform.SetParent(m_mcuItemContainer.transform);
+            mcuItem.GetComponent<McuItemView>().Init(_vo);
+        }
+        else
+        {
+            m_mcuItems[_vo.mcuName].Init(_vo);
+        }
+    }
+
+    public void UpdateMcuStatus(McuVO _vo)
+    {
+        m_mcuItems[_vo.mcuName].UpdateStatus(_vo.mcuStatus);
     }
 }

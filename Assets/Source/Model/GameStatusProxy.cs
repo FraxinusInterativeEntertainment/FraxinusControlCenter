@@ -28,6 +28,7 @@ public class GameStatusProxy : Proxy, IProxy, IResponder
     public void OnFault(object _data)
     {
         Debug.Log((_data as string));
+        SendNotification(Const.Notification.DEBUG_LOG, _data as string);
     }
 
     private void OnReceivedGameSessions(GameSessionsResponse _response)

@@ -14,6 +14,7 @@ public class ServerCommunicationProxy : Proxy, IProxy
     public ServerCommunicationProxy() : base(NAME)
     {
         m_wsService = new WebSocketService();
+        m_wsService.AddExceptionHandler((string _msg) => { SendNotification(Const.Notification.DEBUG_LOG, _msg); });
     }
 
     public void ConnectFraxMotherShipWs(object _data)
@@ -32,22 +33,26 @@ public class ServerCommunicationProxy : Proxy, IProxy
     private void WebSocketOpenHandler()
     {
         Debug.Log("Websocket Opened!");
+        SendNotification(Const.Notification.DEBUG_LOG, "WS Server Opened!");
     }
 
     private void WebSocketErrorHandler(string _message)
     {
         Debug.Log("Websocket closed: " + _message);
+        SendNotification(Const.Notification.DEBUG_LOG, "WS Server Error: " + _message);
     }
 
     private void WebSocketCloseHandler(string _message)
     {
         Debug.Log("Websocket closed: " + _message);
+        SendNotification(Const.Notification.DEBUG_LOG, "WS Server Closed: " + _message);
     }
 
     private void WebSocketMessageHandler(string _message)
     {
         Debug.Log("Message Arrived: " + _message);
         MainThreadCall.SafeCallback(() => { SendNotification(Const.Notification.SERVER_MSG_ARRIVED, _message); });
+        SendNotification(Const.Notification.DEBUG_LOG, "WS Server Message: " + _message);
     }
 
     private string ToJson(object _data)

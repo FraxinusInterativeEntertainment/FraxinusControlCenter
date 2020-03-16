@@ -8,7 +8,7 @@ public class MicroControllerVO
     public string endPoint { get; private set; }
     public string id { get; private set; }
     public MicroControllerStatus status { get; set; }
-    public readonly List<McModule> mcModules = new List<McModule>();
+    public readonly List<McuModule> mcModules = new List<McuModule>();
 }
 
 public enum MicroControllerStatus

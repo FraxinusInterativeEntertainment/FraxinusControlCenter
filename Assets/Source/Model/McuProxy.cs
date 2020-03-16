@@ -34,6 +34,10 @@ public class McuProxy : Proxy, IProxy, IResponder
         m_mcu.Add("MCU5", new McuVO("MCU5", McuStatus.Unknown, "room4"));
         m_mcu.Add("MCU6", new McuVO("MCU6", McuStatus.Connected, "room1"));
 
+        m_mcu["MCU1"].modules.Add(new McuModule("c1_toggle", "condition_c1", "MCU1", 0, 1, "111"));
+        m_mcu["MCU1"].modules.Add(new McuModule("c2_toggle", "condition_c2", "MCU1", 0, 1, "111a"));
+        m_mcu["MCU2"].modules.Add(new McuModule("test_group_a", "groupA加入玩家", "MCU2", 0, 0, "222"));
+
         SendNotification(Const.Notification.ALL_MCU_UPDATED);
     }
 

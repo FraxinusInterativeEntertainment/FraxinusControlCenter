@@ -14,7 +14,9 @@ public class DebugView : UIViewBase
     private InputField m_WsMsgInputField;
     [SerializeField]
     private Button m_wsSendButton;
-    
+    [SerializeField]
+    private Text m_debugText;
+
     void Start()
     {
         AppFacade.instance.RegisterMediator(new DebugViewMediator(this));
@@ -26,5 +28,10 @@ public class DebugView : UIViewBase
     private void OnWsSendButton()
     {
         SendWsMsg();
+    }
+
+    public void ShowDebugText(string debugMsg)
+    {
+        m_debugText.text = debugMsg;
     }
 }

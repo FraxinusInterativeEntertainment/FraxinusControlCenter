@@ -14,16 +14,21 @@ public class LoginProxy : Proxy, IProxy, IResponder
     {
         LoginDelegate loginDelegate = new LoginDelegate(this, _data as LoginVO);
         loginDelegate.LoginService();
+
     }
 
     public void OnResult(object _data)
     {
+
+        SendNotification(Const.Notification.DEBUG_LOG, "result");
         SendNotification(Const.Notification.LOGIN_SUCCESS, _data);
         SendNotification(Const.Notification.CONNECT_TO_WS_SERVER, _data);
     }
 
     public void OnFault(object _data)
     {
+
+        SendNotification(Const.Notification.DEBUG_LOG, "fault");
         SendNotification(Const.Notification.LOGIN_FAIL, _data);
     }
 }

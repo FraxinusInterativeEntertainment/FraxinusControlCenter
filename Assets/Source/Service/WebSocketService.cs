@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
+using System;
 
 public class WebSocketService
 {
+    private event Action<string> OnException = delegate { };
+
     private WebSocket m_ws;
 
     public WebSocketService()
@@ -23,6 +26,10 @@ public class WebSocketService
         m_ws.ConnectAsync();
     }
 
+    public void AddExceptionHandler(System.Action<string> _handler)
+    {
+        OnException += _handler;
+    }
 
     public void p(string url)
     {
@@ -31,14 +38,20 @@ public class WebSocketService
     }
     public void Send(string _message)
     {
+        if (m_ws == null)
+        { 
+            OnException("Websocket尚未初始化，请重新登录！");
+            Debug.Log("Websocket not initialized yet, please login and retry sending!");
+            return;
+        }
+
         try
         {
             m_ws.Send(_message);
         }
         catch (System.Exception e)
         {
-            //TODO: Throw Ws not init exception, or popup login window
-            Debug.Log("Websocket not initialized yet, please login and retry sending!");
+            OnException("WS ExceptionL: " + e.Message);
         }
         
     }

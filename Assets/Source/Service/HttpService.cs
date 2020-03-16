@@ -32,11 +32,10 @@ public class HttpService
     private IEnumerator DownloadFromServer<T>(string _url, System.Action<T> _callback) where T : HttpResponse
     {
         UnityWebRequest www = UnityWebRequest.Get(_url);
-
         yield return www.SendWebRequest();
         if (www.isNetworkError || www.isHttpError)
         {
-            //_callback((new HttpResponse(-99, www.error) as T));
+            _callback((new HttpResponse(-99, www.error) as T));
         }
         else
         {
@@ -52,8 +51,7 @@ public class HttpService
         yield return www.SendWebRequest();
         if (www.isNetworkError || www.isHttpError)
         {
-            //_callback(new HttpResponse(-99, www.error));
-            //Throw NetworkError Exception
+            _callback(new HttpResponse(-99, www.error) as T);
             Debug.Log(www.error);
         }
         else
