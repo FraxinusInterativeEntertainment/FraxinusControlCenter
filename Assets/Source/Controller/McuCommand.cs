@@ -18,6 +18,9 @@ public class McuCommand : SimpleCommand
             case Const.Notification.UPDATE_MCU_REQUEST:
                 mcu_proxy.RequestForAllMcu();
                 break;
+            case Const.Notification.UPDATE_MCU_STATUS:
+                mcu_proxy.UpdateMcu(obj as McuVO);
+                break;
         }
     }
 }

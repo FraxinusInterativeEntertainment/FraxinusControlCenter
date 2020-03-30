@@ -9,7 +9,7 @@ public static partial class Const
         public const string HTTP_SERVER_ADDRESS = "http://152.136.99.117";
         public const string WEB_SOCKET_HOST_URI = "http://www.fraxinusmothership.cn";
         public const string WEB_SOCKET_SERVER_ADDRESS = "ws://www.fraxinusmothership.cn/ws/control_center/";
-        public const string TCP_SOCKET_IP = "192.168.1.111";
+        public const string TCP_SOCKET_IP = "192.168.0.103";
 
         public const string CONTROL_CENTER_LOGIN = HTTP_SERVER_ADDRESS + "/auth/check_control_center_login/";
         public const string CONTROL_CENTER_LOGOUT = HTTP_SERVER_ADDRESS + "/auth/logout/";

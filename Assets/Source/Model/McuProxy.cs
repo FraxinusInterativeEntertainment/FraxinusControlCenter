@@ -27,7 +27,7 @@ public class McuProxy : Proxy, IProxy, IResponder
     public void RequestForAllMcu()
     {
         //TODO: Remove Fake data
-        m_mcu.Add("MCU1", new McuVO("MCU1", McuStatus.Connected, "room1"));
+        m_mcu.Add("MCU1", new McuVO("MCU1", McuStatus.Disconnnected, "room1"));
         m_mcu.Add("MCU2", new McuVO("MCU2", McuStatus.Disconnnected, "room2"));
         m_mcu.Add("MCU3", new McuVO("MCU3", McuStatus.Connected, "room3"));
         m_mcu.Add("MCU4", new McuVO("MCU4", McuStatus.Connected, "room3"));
@@ -44,6 +44,15 @@ public class McuProxy : Proxy, IProxy, IResponder
     public void UpdateAllMcu(Dictionary<string, McuVO> _allMcu)
     {
         m_mcu = _allMcu;
-        //SendNotification(Const.Notification.ALL_CONDITION_UPDATED);
+        SendNotification(Const.Notification.ALL_MCU_UPDATED);
+    }
+
+    public void UpdateMcu(McuVO _mcuVO)
+    {
+        if(m_mcu.ContainsKey(_mcuVO.mcuName))
+        {
+            m_mcu[_mcuVO.mcuName].mcuStatus = _mcuVO.mcuStatus;
+            SendNotification(Const.Notification.UPDATE_MCU_ITEM, m_mcu[_mcuVO.mcuName]);
+        }
     }
 }

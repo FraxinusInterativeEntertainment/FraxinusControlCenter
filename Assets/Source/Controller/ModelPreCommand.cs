@@ -16,6 +16,6 @@ public class ModelPreCommand : SimpleCommand
         Facade.RegisterProxy(new ConditionProxy());
         Facade.RegisterProxy(new McuProxy());
 
-        Facade.RegisterProxy(new MicroControllerProxy());
+        Facade.RegisterProxy(new McuServerProxy());
     }
 }

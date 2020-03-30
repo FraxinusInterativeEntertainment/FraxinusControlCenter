@@ -5,8 +5,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Newtonsoft.Json;
 
-public class TCPClient : MonoBehaviour
+public class TCPClient_mcu_test : MonoBehaviour
 {
     string editString = "hello wolrd"; //编辑框文字
 
@@ -49,9 +50,19 @@ public class TCPClient : MonoBehaviour
         recvLen = serverSocket.Receive(recvData);
         recvStr = Encoding.ASCII.GetString(recvData, 0, recvLen);
         print(recvStr);
-        SocketSend("connect Hi");
 
-        Heartbeat();
+        McuHeartbeatMsg mcuMessage = new McuHeartbeatMsg();
+        McuHeartbeatContent hbContent = new McuHeartbeatContent();
+        hbContent.Mcuid = "MCU1";
+        mcuMessage.MsgType = "Heart";
+        mcuMessage.MsgContent = hbContent;
+
+        string testMsg = JsonConvert.SerializeObject(mcuMessage);
+        //SocketSend("{\"MsgType\":\"Heart\",\"MsgContent\":{\"Mcuid\":\"A11\"}}");
+        SocketSend(testMsg);
+        MainThreadCall.SafeCallback(() => { Heartbeat(); });
+
+
     }
 
     void SocketSend(string sendStr)
@@ -79,7 +90,7 @@ public class TCPClient : MonoBehaviour
             }
             recvStr = Encoding.ASCII.GetString(recvData, 0, recvLen);
             print(recvStr);
-            SocketSend("client send Hi");
+            //SocketSend("client send Hi");
         }
     }
 
@@ -107,7 +118,7 @@ public class TCPClient : MonoBehaviour
     {
         editString = GUI.TextField(new Rect(10, 10, 100, 20), editString);
         if (GUI.Button(new Rect(10, 30, 60, 20), "send"))
-            SocketSend(editString);
+            SocketSend("hihihhi");
     }
 
     // Update is called once per frame
@@ -124,8 +135,11 @@ public class TCPClient : MonoBehaviour
 
     void Heartbeat()
     {
-        Debug.Log("***Mcu1 send heart beat!");
-        SocketSend("{\"MsgType\":\"Heart\",\"MsgContent\":{\"Mcuid\":\"MCU2\"}}");
+        if (this.enabled)
+        {
+            SocketSend("{\"MsgType\":\"Heart\",\"MsgContent\":{\"Mcuid\":\"MCU1\"}}");
+
+        }
         Timer.Instance.AddTimerTask(2f, Heartbeat);
     }
 }

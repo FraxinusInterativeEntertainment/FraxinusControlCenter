@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviour
         InitMainFSMSystem();
     }
 
+    private void Update()
+    {
+        Timer.Instance.UpdateTimer();
+    }
+
     public void ChangeMainFSMState(MainFSMStateID _stateID)
     {
         m_fsmSystem.PerformTransition((int)_stateID);

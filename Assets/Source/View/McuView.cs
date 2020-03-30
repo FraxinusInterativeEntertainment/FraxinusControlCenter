@@ -39,6 +39,8 @@ public class McuView : UIViewBase
             GameObject mcuItem = Instantiate(m_mcuItemPrefab);
             mcuItem.transform.SetParent(m_mcuItemContainer.transform);
             mcuItem.GetComponent<McuItemView>().Init(_vo);
+
+            m_mcuItems.Add(_vo.mcuName, mcuItem.GetComponent<McuItemView>());
         }
         else
         {

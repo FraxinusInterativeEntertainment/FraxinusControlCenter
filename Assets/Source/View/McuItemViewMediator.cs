@@ -22,7 +22,6 @@ public class McuItemViewMediator : Mediator, IMediator
     {
         return new List<string>()
         {
-
         };
     }
 
@@ -33,6 +32,7 @@ public class McuItemViewMediator : Mediator, IMediator
 
         switch (name)
         {
+
         }
     }
 

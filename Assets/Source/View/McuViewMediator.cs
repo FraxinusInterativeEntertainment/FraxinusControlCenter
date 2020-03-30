@@ -22,7 +22,8 @@ public class McuViewMediator : Mediator, IMediator
     {
         return new List<string>()
         {
-            Const.Notification.ALL_MCU_UPDATED
+            Const.Notification.ALL_MCU_UPDATED,
+            Const.Notification.UPDATE_MCU_ITEM
         };
     }
 
@@ -35,6 +36,9 @@ public class McuViewMediator : Mediator, IMediator
         {
             case Const.Notification.ALL_MCU_UPDATED:
                 UpdateAllMcu();
+                break;
+            case Const.Notification.UPDATE_MCU_ITEM:
+                m_mcuView.UpdateMcuItem(vo as McuVO);
                 break;
         }
     }

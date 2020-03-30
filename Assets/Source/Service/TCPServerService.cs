@@ -1,151 +1,146 @@
-﻿
-using UnityEngine;
+﻿using System;
 using System.Collections;
-//引入库
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Collections.Generic;
-using System;
-
-public class TCPServerService
+using UnityEngine;
+public class TcpServerService
 {
-    private event Action<Socket> NewClientConnected;
-    private event Action<Socket, string> MessageArrived;
+    private event Action<TcpClient> NewClientConnected;
+    private event Action<TcpClient, string> MessageArrived;
+    private event Action<TcpClient> ClientDisconnected;
 
-    private Socket m_listener;
-    private readonly Dictionary<string, MicroControllerClient>  m_connectedClients = new Dictionary<string, MicroControllerClient>();
-    private IPAddress m_ip;
-    private IPEndPoint m_ipEnd;
+    private List<TcpClient> listConnectedClients = new List<TcpClient>(new TcpClient[0]);
+    private TcpListener tcpListener;
+    /// <summary>
+    /// Background thread for TcpServer workload.  
+    /// </summary>  
+    private Thread tcpListenerThread;
+    /// <summary>  
+    /// Create handle to connected tcp client.  
+    /// </summary>  
+    private TcpClient connectedTcpClient;
     private int m_port;
-    private Thread m_connectThread;
-    private int m_maxConnections;
+    private string m_ip;
 
-    private Socket testHandler;
-
-    public TCPServerService(string _ip, int _port, int _maxConnections)
+    public TcpServerService(string _ip, int _port, int _maxConnections)
     {
-        m_listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        m_ip = IPAddress.Parse(_ip);
-        m_ipEnd = new IPEndPoint(m_ip, _port);
-        m_maxConnections = _maxConnections;
+        m_port = _port;
+        m_ip = _ip;
     }
-    public TCPServerService InitSocket()
+
+    public void StartListening()
     {
-        m_listener.Bind(m_ipEnd);
-        Debug.Log("TCP Socket Server Started!");
-
-        m_listener.Listen(m_maxConnections);
-
-        m_connectThread = new Thread(new ThreadStart(ListenForNewConnections));
-        m_connectThread.IsBackground = true;
-        m_connectThread.Start();
-
-        return this;
+        tcpListenerThread = new Thread(new ThreadStart(ListenForIncommingRequests));
+        tcpListenerThread.IsBackground = true;
+        tcpListenerThread.Start();
     }
-    public TCPServerService AddMessageListener(Action<Socket, string> _messageListener)
+
+    public TcpServerService AddMessageListener(Action<TcpClient, string> _messageListener)
     {
         MessageArrived += _messageListener;
         return this;
     }
 
-    public TCPServerService AddNewClientListener(Action<Socket> _newClientListener)
+    public TcpServerService AddNewClientListener(Action<TcpClient> _newClientListener)
     {
         NewClientConnected += _newClientListener;
         return this;
     }
 
-    public bool SocketConnected(Socket s)
+    public TcpServerService AddClientDisconnectedListener(Action<TcpClient> _clientDisconnectListener)
     {
-        bool part1 = s.Poll(1000, SelectMode.SelectRead);
-        bool part2 = (s.Available == 0);
-        if (part1 && part2)
-            return false;
-        else
-            return true;
+        ClientDisconnected += _clientDisconnectListener;
+        return this;
     }
 
-    private void ListenForNewConnections()
+    public void SendMessage(object token, string msg)
     {
-        Socket newConnectionHandler = null;
-
-        while (true)
+        if (connectedTcpClient == null)
         {
-            try
-            {
-                newConnectionHandler = m_listener.Accept();
-            }
-            catch (Exception ex)
-            {
-                Debug.Log(ex.Message);
-                break;
-            }
-
-            string remoteEndPoint = newConnectionHandler.RemoteEndPoint.ToString();
-
-            if (m_connectedClients.ContainsKey(remoteEndPoint))
-            {
-                m_connectedClients[remoteEndPoint] = new MicroControllerClient(Const.NetworkRelated.DEFAULT_CLIENT_ID, newConnectionHandler, false);
-            }
-            else
-            {
-                m_connectedClients.Add(remoteEndPoint, new MicroControllerClient(Const.NetworkRelated.DEFAULT_CLIENT_ID, newConnectionHandler, false));
-            }
-            
-            Debug.Log("\r\n[客户端\"" + remoteEndPoint + "\"建立连接成功！ 客户端数量：" + m_connectedClients.Count + "]");
-            Send(newConnectionHandler, remoteEndPoint + "Connected!");
-
-            NewClientConnected(newConnectionHandler);
-
-            Thread recvThread = new Thread(Receive);
-            recvThread.IsBackground = true;
-            recvThread.Start(newConnectionHandler);
+            Debug.Log("Problem connectedTCPClient null");
+            return;
         }
-    }
-
-    private void Receive(object _socketClientPara)
-    {
-        Socket socketClient = _socketClientPara as Socket;
-
-        while (true)
+        var client = token as TcpClient;
         {
-            byte[] recvData = new byte[Const.NetworkRelated.BUFFER_SIZE];
-
             try
             {
-                int recvLength = socketClient.Receive(recvData);
-
-                if (recvLength <= 0)
+                NetworkStream stream = client.GetStream();
+                if (stream.CanWrite)
                 {
-                    continue;
+                    // Get a stream object for writing.    
+                    // Convert string message to byte array.              
+                    byte[] serverMessageAsByteArray = Encoding.ASCII.GetBytes(msg);
+                    // Write byte array to socketConnection stream.            
+                    stream.Write(serverMessageAsByteArray, 0, serverMessageAsByteArray.Length);
+                    Debug.Log("Server sent his message - should be received by client");
                 }
-
-                string recvString = Encoding.ASCII.GetString(recvData, 0, recvLength);
-
-                MessageArrived(socketClient, recvString);
             }
-            catch (Exception)
+            catch (SocketException socketException)
             {
-                m_connectedClients.Remove(socketClient.RemoteEndPoint.ToString());
-                //Set MicroController Client status to offline
-                
-                Console.WriteLine("\r\n[客户端\"" + socketClient.RemoteEndPoint + "\"已经中断连接！ 客户端数量：" + m_connectedClients.Count + "]");
-
-                socketClient.Close();
-                break;
+                Debug.Log("Socket exception: " + socketException);
+                AbortClient(client);
+                return;
             }
         }
     }
 
-    private void Send(Socket _client, string _message)
+    public void AbortClient(TcpClient _client)
     {
-        byte[] sendData = new byte[Const.NetworkRelated.BUFFER_SIZE];
-
-        sendData = Encoding.ASCII.GetBytes(_message);
-
-        _client.Send(sendData, sendData.Length, SocketFlags.None);
+        _client.Close();
+        if (listConnectedClients.Contains(_client))
+        {
+            listConnectedClients.Remove(_client);
+        }
+        ClientDisconnected(_client);
     }
 
-    
+
+    private void ListenForIncommingRequests()
+    {
+        tcpListener = new TcpListener(IPAddress.Parse(m_ip), m_port);
+        tcpListener.Start();
+        ThreadPool.QueueUserWorkItem(this.ListenerWorker, null);
+    }
+
+    private void ListenerWorker(object token)
+    {
+        while (tcpListener != null)
+        {
+            Debug.Log("New Listener Deployed");
+            connectedTcpClient = tcpListener.AcceptTcpClient();
+            listConnectedClients.Add(connectedTcpClient);
+            // Thread thread = new Thread(HandleClientWorker);
+            // thread.Start(connectedTcpClient);
+            ThreadPool.QueueUserWorkItem(this.HandleClientWorker, connectedTcpClient);
+        }
+    }
+
+    private void HandleClientWorker(object token)
+    {
+        Byte[] bytes = new Byte[1024];
+        using (var client = token as TcpClient)
+        using (var stream = client.GetStream())
+        {
+            NewClientConnected(client);
+            SendMessage(client, "Hi MCU");
+            int length;
+            // Read incomming stream into byte arrary.                      
+            while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
+            {
+                var incommingData = new byte[length];
+                Array.Copy(bytes, 0, incommingData, 0, length);
+                // Convert byte array to string message.                          
+                string clientMessage = Encoding.ASCII.GetString(incommingData);
+                MessageArrived(client, clientMessage);
+            }
+            if (connectedTcpClient == null)
+            {
+                return;
+            }
+        }
+        //  ThreadPool.QueueUserWorkItem(this.SendMessage, connectedTcpClient);
+    }
 }
