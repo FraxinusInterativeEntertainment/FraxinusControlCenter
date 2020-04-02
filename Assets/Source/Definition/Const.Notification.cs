@@ -26,6 +26,8 @@ public static partial class Const
         public const string UPDATE_MCU_REQUEST = "UpdateMcuRequest";
         public const string UPDATE_MCU_STATUS = "UpdateMcuStatus";
         public const string UPDATE_MCU_ITEM = "UpdateMcuItem";
+        public const string TRY_SEND_MCU_MSG = "TrySendMcuMsg";
+        public const string TRY_CONFIRM_MCU_DISCONNECTED = "TryConfirmMcuDisconnnected";
 
         public const string LOAD_SCENE = "LoadScene";
         public const string REQUEST_FOR_GAME_STATUS = "RequestForGameSessions";

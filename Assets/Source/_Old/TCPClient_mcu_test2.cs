@@ -59,7 +59,7 @@ public class TCPClient_mcu_test2 : MonoBehaviour
 
         string testMsg = JsonConvert.SerializeObject(mcuMessage);
         //SocketSend("{\"MsgType\":\"Heart\",\"MsgContent\":{\"Mcuid\":\"A11\"}}");
-        SocketSend(testMsg);
+        //SocketSend(testMsg);
         MainThreadCall.SafeCallback(() => { Heartbeat(); });
 
     }
@@ -118,7 +118,7 @@ public class TCPClient_mcu_test2 : MonoBehaviour
     {
         editString = GUI.TextField(new Rect(10, 10, 100, 20), editString);
         if (GUI.Button(new Rect(10, 30, 60, 20), "send"))
-            SocketSend("hihihhi");
+            SocketSend("{\"MsgType\":\"Heart\",\"MsgContent\":{\"Mcuid\":\"MCU2\"}}");
     }
 
     // Update is called once per frame
@@ -137,9 +137,10 @@ public class TCPClient_mcu_test2 : MonoBehaviour
     {
         if (this.enabled)
         {
+            //Debug.Log("MCU2 Send hb");
             SocketSend("{\"MsgType\":\"Heart\",\"MsgContent\":{\"Mcuid\":\"MCU2\"}}");
-
+            Timer.Instance.AddTimerTask(1f, Heartbeat);
         }
-        Timer.Instance.AddTimerTask(2f, Heartbeat);
+
     }
 }

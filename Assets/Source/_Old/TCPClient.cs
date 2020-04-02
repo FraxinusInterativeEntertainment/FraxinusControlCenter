@@ -52,6 +52,7 @@ public class TCPClient : MonoBehaviour
         SocketSend("connect Hi");
 
         Heartbeat();
+        Timer.Instance.AddTimerTask(5f, SocketQuit);
     }
 
     void SocketSend(string sendStr)
@@ -81,6 +82,8 @@ public class TCPClient : MonoBehaviour
             print(recvStr);
             SocketSend("client send Hi");
         }
+
+
     }
 
     void SocketQuit()
@@ -92,8 +95,6 @@ public class TCPClient : MonoBehaviour
             connectThread.Abort();
         }
         //最后关闭服务器
-        if (serverSocket != null)
-            serverSocket.Close();
         print("diconnect");
     }
 

@@ -11,6 +11,7 @@ public class TcpServerService
     private event Action<TcpClient> NewClientConnected;
     private event Action<TcpClient, string> MessageArrived;
     private event Action<TcpClient> ClientDisconnected;
+    private event Action<TcpClient, string> SendMessageFailed;
 
     private List<TcpClient> listConnectedClients = new List<TcpClient>(new TcpClient[0]);
     private TcpListener tcpListener;
@@ -21,11 +22,10 @@ public class TcpServerService
     /// <summary>  
     /// Create handle to connected tcp client.  
     /// </summary>  
-    private TcpClient connectedTcpClient;
     private int m_port;
-    private string m_ip;
+    private IPAddress m_ip;
 
-    public TcpServerService(string _ip, int _port, int _maxConnections)
+    public TcpServerService(IPAddress _ip, int _port, int _maxConnections)
     {
         m_port = _port;
         m_ip = _ip;
@@ -56,17 +56,25 @@ public class TcpServerService
         return this;
     }
 
+    public TcpServerService AddSendMessageFailedListener(Action<TcpClient, string> _sendMessageFailedListener)
+    {
+        SendMessageFailed += _sendMessageFailedListener;
+        return this;
+    }
+
     public void SendMessage(object token, string msg)
     {
-        if (connectedTcpClient == null)
-        {
-            Debug.Log("Problem connectedTCPClient null");
-            return;
-        }
         var client = token as TcpClient;
         {
             try
             {
+                if (client == null || !IsConnected(client.Client))
+                {
+                    SendMessageFailed(client, msg);
+                    AbortClient(client);
+                    return;
+                }
+
                 NetworkStream stream = client.GetStream();
                 if (stream.CanWrite)
                 {
@@ -75,32 +83,53 @@ public class TcpServerService
                     byte[] serverMessageAsByteArray = Encoding.ASCII.GetBytes(msg);
                     // Write byte array to socketConnection stream.            
                     stream.Write(serverMessageAsByteArray, 0, serverMessageAsByteArray.Length);
-                    Debug.Log("Server sent his message - should be received by client");
+                    Debug.Log("Server sent: " + msg);
+                }
+                else
+                {
+                    Debug.Log("Exception: cant write");
+                    SendMessageFailed(client, msg);
                 }
             }
             catch (SocketException socketException)
             {
                 Debug.Log("Socket exception: " + socketException);
+                SendMessageFailed(client, msg);
                 AbortClient(client);
                 return;
+            }
+            catch (ObjectDisposedException objectDisposedException)
+            {
+                Debug.Log("Object Disposed exception: " + objectDisposedException);
+                SendMessageFailed(client, msg);
+                AbortClient(client);
             }
         }
     }
 
+    public static bool IsConnected(Socket _socket)
+    {
+        try
+        {
+            return !(_socket.Available == 0 && _socket.Poll(1, SelectMode.SelectRead));
+        }
+        catch (SocketException) { return false; }
+    }
+
     public void AbortClient(TcpClient _client)
     {
-        _client.Close();
         if (listConnectedClients.Contains(_client))
         {
             listConnectedClients.Remove(_client);
         }
         ClientDisconnected(_client);
+        _client.Close();
     }
 
 
     private void ListenForIncommingRequests()
     {
-        tcpListener = new TcpListener(IPAddress.Parse(m_ip), m_port);
+        tcpListener = new TcpListener(m_ip, m_port);
         tcpListener.Start();
         ThreadPool.QueueUserWorkItem(this.ListenerWorker, null);
     }
@@ -110,10 +139,8 @@ public class TcpServerService
         while (tcpListener != null)
         {
             Debug.Log("New Listener Deployed");
-            connectedTcpClient = tcpListener.AcceptTcpClient();
+            TcpClient connectedTcpClient = tcpListener.AcceptTcpClient();
             listConnectedClients.Add(connectedTcpClient);
-            // Thread thread = new Thread(HandleClientWorker);
-            // thread.Start(connectedTcpClient);
             ThreadPool.QueueUserWorkItem(this.HandleClientWorker, connectedTcpClient);
         }
     }
@@ -136,11 +163,6 @@ public class TcpServerService
                 string clientMessage = Encoding.ASCII.GetString(incommingData);
                 MessageArrived(client, clientMessage);
             }
-            if (connectedTcpClient == null)
-            {
-                return;
-            }
         }
-        //  ThreadPool.QueueUserWorkItem(this.SendMessage, connectedTcpClient);
     }
 }

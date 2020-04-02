@@ -55,4 +55,14 @@ public class McuProxy : Proxy, IProxy, IResponder
             SendNotification(Const.Notification.UPDATE_MCU_ITEM, m_mcu[_mcuVO.mcuName]);
         }
     }
+
+    public McuStatus GetMcuStatus(string _mcuID)
+    {
+        if (m_mcu.ContainsKey(_mcuID))
+        {
+            return m_mcu[_mcuID].mcuStatus;
+        }
+
+        return McuStatus.Unknown;
+    }
 }

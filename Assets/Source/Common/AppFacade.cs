@@ -42,6 +42,8 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.RECV_GAME_CONDITION_CHANGE, typeof(ConditionCommand));
         RegisterCommand(Const.Notification.UPDATE_MCU_REQUEST, typeof(McuCommand));
         RegisterCommand(Const.Notification.UPDATE_MCU_STATUS, typeof(McuCommand));
+        RegisterCommand(Const.Notification.TRY_SEND_MCU_MSG, typeof(McuCommand));
+        RegisterCommand(Const.Notification.TRY_CONFIRM_MCU_DISCONNECTED, typeof(McuCommand));
     }
 
     public void startup()

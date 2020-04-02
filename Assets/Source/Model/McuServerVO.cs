@@ -6,22 +6,38 @@ using System.Net.Sockets;
 
 public class McuServerVO
 {
-    public Dictionary<string, McuConnectionVO> connectedMcus { get; set; }
+    public Dictionary<string, McuClient> connectedMcus { get; set; }
 
     public McuServerVO()
     {
-        connectedMcus = new Dictionary<string, McuConnectionVO>();
+        connectedMcus = new Dictionary<string, McuClient>();
     }
 }
 
-public class McuConnectionVO
+public class McuClient
 {
-    public TcpClient client;
-    public bool isAlive;
+    public string mcuId { get; set; }
+    public TcpClient client { get; set; }
+    public bool isAlive { get; set; }
+    public bool disconnected { get; set; }
 
-    public McuConnectionVO(TcpClient _client, bool _heartbeat)
+    public McuClient(string _mcuId, TcpClient _client)
     {
+        mcuId = _mcuId;
         client = _client;
-        isAlive = _heartbeat;
+        isAlive = false;
+        disconnected = true;
+    }
+}
+
+public class McuMsg
+{
+    public string McuId { get; set; }
+    public string msg { get; set; }
+
+    public McuMsg(string _id, string _msg)
+    {
+        McuId = _id;
+        msg = _msg;
     }
 }

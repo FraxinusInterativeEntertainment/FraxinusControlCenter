@@ -59,20 +59,30 @@ public class TCPClient_mcu_test : MonoBehaviour
 
         string testMsg = JsonConvert.SerializeObject(mcuMessage);
         //SocketSend("{\"MsgType\":\"Heart\",\"MsgContent\":{\"Mcuid\":\"A11\"}}");
-        SocketSend(testMsg);
-        MainThreadCall.SafeCallback(() => { Heartbeat(); });
+       // SocketSend(testMsg);
+        //MainThreadCall.SafeCallback(() => { Heartbeat(); });
 
 
+        MainThreadCall.SafeCallback(() => {
+            Timer.Instance.AddTimerTask(20f, SocketQuit);
+        });
     }
 
     void SocketSend(string sendStr)
     {
-        //清空发送缓存
-        sendData = new byte[1024];
-        //数据类型转换
-        sendData = Encoding.ASCII.GetBytes(sendStr);
-        //发送
-        serverSocket.Send(sendData, sendData.Length, SocketFlags.None);
+        try
+        {
+            //清空发送缓存
+            sendData = new byte[1024];
+            //数据类型转换
+            sendData = Encoding.ASCII.GetBytes(sendStr);
+            //发送
+            serverSocket.Send(sendData, sendData.Length, SocketFlags.None);
+        }
+        catch (System.ObjectDisposedException _exception)
+        {
+            //Debug.Log("MCU1 Exception: " + _exception.ToString());
+        }
     }
 
     void SocketReceive()
@@ -81,16 +91,25 @@ public class TCPClient_mcu_test : MonoBehaviour
         //不断接收服务器发来的数据
         while (true)
         {
-            recvData = new byte[1024];
-            recvLen = serverSocket.Receive(recvData);
-            if (recvLen == 0)
+            try
             {
-                SocketConnet();
-                continue;
+                recvData = new byte[1024];
+                recvLen = serverSocket.Receive(recvData);
+                if (recvLen == 0)
+                {
+                    SocketConnet();
+                    continue;
+                }
+                recvStr = Encoding.ASCII.GetString(recvData, 0, recvLen);
+                // print(recvStr);
+                Debug.Log("MCU1 Recv: " + recvStr);
+                //SocketSend("client send Hi");
             }
-            recvStr = Encoding.ASCII.GetString(recvData, 0, recvLen);
-            print(recvStr);
-            //SocketSend("client send Hi");
+            catch(SocketException _exception)
+            {
+                Debug.Log("MCU1 Exception: " + _exception.ToString());
+            }
+
         }
     }
 
@@ -102,7 +121,6 @@ public class TCPClient_mcu_test : MonoBehaviour
             connectThread.Interrupt();
             connectThread.Abort();
         }
-        //最后关闭服务器
         if (serverSocket != null)
             serverSocket.Close();
         print("diconnect");
@@ -118,7 +136,7 @@ public class TCPClient_mcu_test : MonoBehaviour
     {
         editString = GUI.TextField(new Rect(10, 10, 100, 20), editString);
         if (GUI.Button(new Rect(10, 30, 60, 20), "send"))
-            SocketSend("hihihhi");
+            SocketSend("{\"MsgType\":\"Heart\",\"MsgContent\":{\"Mcuid\":\"MCU1\"}}");
     }
 
     // Update is called once per frame

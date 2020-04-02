@@ -40,7 +40,8 @@ public class DebugViewMediator : Mediator, IMediator
     string c2 = "1";
     private void OnSendWsMsg()
     {
-        
+        //SendNotification(Const.Notification.TRY_SEND_MCU_MSG, new McuMsg(m_debugView.wsMsgVO, "************test send***********"));
+
         if (m_debugView.wsMsgVO == "location1")
         {
             Dictionary<string, LocationInfo> locationInfos = new Dictionary<string, LocationInfo>();
