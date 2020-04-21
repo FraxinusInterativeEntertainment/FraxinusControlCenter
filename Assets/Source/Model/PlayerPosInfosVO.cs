@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class PlayerPosInfosVO
 {
-    public readonly List<PlayerPosInfo> playerPosInfos = new List<PlayerPosInfo>();
+    public readonly Dictionary<string, PlayerPosInfo> playerPosInfos = new Dictionary<string, PlayerPosInfo>();
 }
 
 public class PlayerPosInfo
 { 
-    public string tagId { get; set; }
-    public Coor2D position { get; set; }
+    public string did { get; set; }
+    public float x { get; set; }
+    public float y { get; set; }
+    public string rid { get; set; }
 
-    public PlayerPosInfo (string _tagId, Coor2D _pos)
+    public PlayerPosInfo (string _did, Coor2D _pos)
     {
-        tagId = _tagId;
-        position = _pos;
+        did = _did;
+        x = _pos.x;
+        y = _pos.y;
     }
 }
 

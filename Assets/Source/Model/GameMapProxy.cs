@@ -10,8 +10,6 @@ public class GameMapProxy : Proxy, IProxy
     public const string NAME = "GameMapProxy";
     public const string HSV_REF_MAP_PATH = "Textures/Other/HsvRefMap2";
 
-    private GameMap m_gameMap;
-
     public GameMapProxy() : base(NAME, new GameMap())
     {
         LoadHsvRefMap(new ResourcesService().Load<Texture2D>(HSV_REF_MAP_PATH));
