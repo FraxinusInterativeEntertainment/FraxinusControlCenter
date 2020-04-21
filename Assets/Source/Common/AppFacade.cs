@@ -44,6 +44,7 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.UPDATE_MCU_STATUS, typeof(McuCommand));
         RegisterCommand(Const.Notification.TRY_SEND_MCU_MSG, typeof(McuCommand));
         RegisterCommand(Const.Notification.TRY_CONFIRM_MCU_DISCONNECTED, typeof(McuCommand));
+        RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(McuCommand));
     }
 
     public void startup()

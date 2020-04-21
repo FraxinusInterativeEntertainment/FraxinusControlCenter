@@ -12,11 +12,14 @@ public class McuView : UIViewBase
     [SerializeField]
     private GameObject m_mcuItemPrefab;
 
+    public Action OnMcuViewInit;
+
     private readonly Dictionary<string, McuItemView> m_mcuItems = new Dictionary<string, McuItemView>();
 
     void Start()
     {
         AppFacade.instance.RegisterMediator(new McuViewMediator(this));
+        OnMcuViewInit();
     }
     
     void OnDestroy()

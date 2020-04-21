@@ -10,14 +10,15 @@ public class McuDelegate
     public McuDelegate(IResponder _responder)
     {
         m_responder = _responder;
+        m_httpService = new HttpService(Const.Url.GET_ALL_MCU_INFO, HttpRequestType.Get);
     }
 
     public void GetAllMcu()
     {
-        
+        m_httpService.SendRequest<McuResponse>(McuInfoCallback);
     }
 
-    private void LoginCallback(McuResponse _mcuResponse)
+    private void McuInfoCallback(McuResponse _mcuResponse)
     {
         if (_mcuResponse.err_code == 0)
         {
@@ -30,10 +31,4 @@ public class McuDelegate
     }
 }
 
-public class McuResponse : HttpResponse
-{ 
-    public McuResponse(int _errCode, string _errMsg) : base(_errCode, _errMsg)
-    { 
-    
-    }
-}
+

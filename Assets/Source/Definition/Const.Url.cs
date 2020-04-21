@@ -17,7 +17,10 @@ public static partial class Const
 
         public const string CHANGE_GAME_STATUS = HTTP_SERVER_ADDRESS + "/game_map/change_game_status/";
         public const string GET_AVAILABLE_GAME_SESSIONS = HTTP_SERVER_ADDRESS + "/game_map/get_available_game_sessions/";
+        public const string GET_ALL_MCU_INFO = HTTP_SERVER_ADDRESS + "/game_map/get_all_mcu_info/";
+        public const string GET_ALL_MCU_MODULE_INFO = HTTP_SERVER_ADDRESS + "/game_map/get_all_mcu_module_info/";
 
 
     }
 }
+

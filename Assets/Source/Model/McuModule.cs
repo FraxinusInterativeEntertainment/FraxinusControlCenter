@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class McuModule
 {
-    public string mcuID { get; set; }
-    public string moduleName { get; set; }
-    public string ModuleID { get; set; }
+    public string module_name { get; set; }
+    public string title { get; set; }
+    public string module_type { get; set; }
     public int min { get; set; }
     public int max { get; set; }
-    public string description { get; set; }
+    public string mcu_name { get; set; }
+    public string desc { get; set; }
 
     public McuModule(string _moduleID, string _moduleName, string _mcuID, int _min, int _max, string _description)
     {
-        ModuleID = _moduleID;
-        moduleName = _moduleName;
-        mcuID = _mcuID;
-        min = _min;
-        max = _max;
-        description = _description;
+
     }
 }
+
 
 public enum ModuleType
 {

@@ -35,7 +35,7 @@ public class ModuleItemView : UIViewBase
 
     public ModuleItemView Init(McuModule _vo)
     {
-        AppFacade.instance.RegisterMediator(new ModuleItemViewMediator(this, ModuleItemViewMediator.NAME + _vo.moduleName));
+        AppFacade.instance.RegisterMediator(new ModuleItemViewMediator(this, ModuleItemViewMediator.NAME + _vo.module_name));
 
         UpdateModuleVO(_vo);
 
@@ -45,8 +45,8 @@ public class ModuleItemView : UIViewBase
     public void UpdateModuleVO(McuModule _vo)
     {
         //m_moduleVO = _vo;
-        controlSignalVO = new ControlSignalVO(_vo.ModuleID, _vo.min);
-        SetUiText(_vo.moduleName, _vo.min, _vo.max);
+        controlSignalVO = new ControlSignalVO(_vo.mcu_name, _vo.min);
+        SetUiText(_vo.title, _vo.min, _vo.max);
     }
 
     private void SetValue(int _value)

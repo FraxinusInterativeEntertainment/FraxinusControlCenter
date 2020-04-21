@@ -21,9 +21,6 @@ public class McuCommand : SimpleCommand
 
         switch (name)
         {
-            case Const.Notification.UPDATE_MCU_REQUEST:
-                mcu_proxy.RequestForAllMcu();
-                break;
             case Const.Notification.UPDATE_MCU_STATUS:
                 mcu_proxy.UpdateMcu(obj as McuVO);
                 break;
@@ -32,6 +29,10 @@ public class McuCommand : SimpleCommand
                 break;
             case Const.Notification.TRY_CONFIRM_MCU_DISCONNECTED:
                 TryConfirmMcuDisconnected(obj as string);
+                break;
+            case Const.Notification.LOGIN_SUCCESS:
+                mcu_proxy.InitMcuInfos();
+                mcu_proxy.InitMcuModuleInfos();
                 break;
         }
     }
