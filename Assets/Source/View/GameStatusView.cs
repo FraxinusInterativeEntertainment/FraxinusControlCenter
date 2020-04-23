@@ -30,6 +30,10 @@ public class GameStatusView : UIViewBase
     private GameObject m_startStatusIndicator;
     [SerializeField]
     private GameObject m_closedStatusIndicator;
+    [SerializeField]
+    private GameObject m_gameSessions;
+    [SerializeField]
+    private GameObject m_gameSessionItem;
 
     void Start()
     {
@@ -39,7 +43,7 @@ public class GameStatusView : UIViewBase
         m_startGame.onClick.AddListener(() => { ChangeGameStatus(GameStatus.s); });
         m_closeGame.onClick.AddListener(() => { ChangeGameStatus(GameStatus.c); });
         m_updateGameStatus.onClick.AddListener(() => { OnUpdateGameStatusClick(); });
-
+        
         Show();
     }
 
@@ -97,6 +101,17 @@ public class GameStatusView : UIViewBase
         m_readyStatusIndicator.SetActive(false);
         m_startStatusIndicator.SetActive(false);
         m_closedStatusIndicator.SetActive(false);
+    }
+    public void UpdateGameSession(GameSessionInfo _vo)
+    {
+        GameObject sessionItem = Instantiate(m_gameSessionItem);
+        sessionItem.transform.SetParent(m_gameSessions.transform);
+        GameSessionItem gameSessionItem = sessionItem.GetComponent<GameSessionItem>();
+        gameSessionItem.SetSessionInfo(_vo);
+        if (_vo.status==GameStatus.c)
+        {
+            gameSessionItem.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f,0.5f);
+        }
     }
 }
 

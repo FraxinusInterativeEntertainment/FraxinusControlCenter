@@ -24,7 +24,7 @@ public class McuServerProxy : Proxy, IProxy
     }
     public void StartMicroControllerService()
     {
-        m_MicroControllerService = new TcpServerService(IPAddress.Parse("192.168.0.103"), Const.NetworkRelated.TCP_SOCKET_PORT, Const.NetworkRelated.MAX_TCP_CONNECTIONS);
+        m_MicroControllerService = new TcpServerService(IPAddress.Any, Const.NetworkRelated.TCP_SOCKET_PORT, Const.NetworkRelated.MAX_TCP_CONNECTIONS);
 
         m_MicroControllerService.AddMessageListener(OnMessageArrived)
                                 .AddNewClientListener(OnNewClientConnected)
