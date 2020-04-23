@@ -13,7 +13,7 @@ public class McuProxy : Proxy, IProxy, IResponder
 
     public McuProxy() : base(NAME)
     {
-        RequestForAllMcu();
+
     }
 
     public void OnResult(object _data)
@@ -24,21 +24,16 @@ public class McuProxy : Proxy, IProxy, IResponder
     {
     }
 
-    public void RequestForAllMcu()
+    public void InitMcuInfos()
     {
-        //TODO: Remove Fake data
-        m_mcu.Add("MCU1", new McuVO("MCU1", McuStatus.Disconnnected, "room1"));
-        m_mcu.Add("MCU2", new McuVO("MCU2", McuStatus.Disconnnected, "room2"));
-        m_mcu.Add("MCU3", new McuVO("MCU3", McuStatus.Connected, "room3"));
-        m_mcu.Add("MCU4", new McuVO("MCU4", McuStatus.Connected, "room3"));
-        m_mcu.Add("MCU5", new McuVO("MCU5", McuStatus.Unknown, "room4"));
-        m_mcu.Add("MCU6", new McuVO("MCU6", McuStatus.Connected, "room1"));
+        HttpService m_McuInfoService = new HttpService(Const.Url.GET_ALL_MCU_INFO, HttpRequestType.Get);
+        m_McuInfoService.SendRequest<McuResponse>(OnReceivedMcuInfos);
+    }
 
-        m_mcu["MCU1"].modules.Add(new McuModule("c1_toggle", "condition_c1", "MCU1", 0, 1, "111"));
-        m_mcu["MCU1"].modules.Add(new McuModule("c2_toggle", "condition_c2", "MCU1", 0, 1, "111a"));
-        m_mcu["MCU2"].modules.Add(new McuModule("test_group_a", "groupA加入玩家", "MCU2", 0, 0, "222"));
-
-        SendNotification(Const.Notification.ALL_MCU_UPDATED);
+    public void InitMcuModuleInfos()
+    {
+        HttpService m_McuModuleInfoService = new HttpService(Const.Url.GET_ALL_MCU_MODULE_INFO, HttpRequestType.Get);
+        m_McuModuleInfoService.SendRequest<McuModuleResponse>(OnReceivedMcuModuleInfos);
     }
 
     public void UpdateAllMcu(Dictionary<string, McuVO> _allMcu)
@@ -64,5 +59,64 @@ public class McuProxy : Proxy, IProxy, IResponder
         }
 
         return McuStatus.Unknown;
+    }
+
+    private void OnReceivedMcuInfos(McuResponse _response)
+    {
+        Dictionary<string, string> mcuInfos = _response.mcu_infos;
+
+        m_mcu.Clear();
+
+        foreach(KeyValuePair<string, string> kvp in mcuInfos)
+        {
+            if (!m_mcu.ContainsKey(kvp.Key))
+            {
+                m_mcu.Add(kvp.Key, null);
+            }
+
+            m_mcu[kvp.Key] = new McuVO(kvp.Key, McuStatus.Unknown, kvp.Value);
+        }
+    }
+
+    private void OnReceivedMcuModuleInfos(McuModuleResponse _response)
+    {
+        Dictionary<string, McuModule> moduleInfos = _response.mcu_module_infos;
+
+        foreach (KeyValuePair<string, McuModule> kvp in moduleInfos)
+        { 
+            if (!m_mcu.ContainsKey(kvp.Value.mcu_name))
+            {
+                //TODO: Warning: could not find parent mcu of this module
+                SendNotification(Const.Notification.DEBUG_LOG, "Parent MCU of this module Not Found!");
+                Debug.Log("NotFound");
+                continue;
+            }
+            else
+            {
+                m_mcu[kvp.Value.mcu_name].modules.Add(kvp.Value);
+            }
+        }
+
+        SendNotification(Const.Notification.ALL_MCU_UPDATED);
+    }
+}
+
+public class McuResponse : HttpResponse
+{
+    public Dictionary<string, string> mcu_infos { get; set; }
+
+    public McuResponse(int _errCode, string _errMsg) : base(_errCode, _errMsg)
+    {
+
+    }
+}
+
+public class McuModuleResponse : HttpResponse
+{ 
+    public Dictionary<string, McuModule> mcu_module_infos { get; set; }
+
+    public McuModuleResponse(int _errCode, string _errMsg) : base(_errCode, _errMsg)
+    {
+
     }
 }

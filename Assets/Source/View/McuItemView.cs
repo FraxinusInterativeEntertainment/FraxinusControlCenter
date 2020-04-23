@@ -43,6 +43,7 @@ public class McuItemView : UIViewBase
         AppFacade.instance.RegisterMediator(new McuItemViewMediator(this, McuItemViewMediator.NAME + _vo.mcuName));
 
         UpdateMcuVO(_vo);
+        TryLoadModules();
 
         return this;
     }
@@ -104,8 +105,6 @@ public class McuItemView : UIViewBase
         {
             return;
         }
-
-        TryLoadModules();
     }
 
     private void OnCloseExpandPanel()

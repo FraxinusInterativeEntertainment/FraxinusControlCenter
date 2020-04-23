@@ -15,7 +15,7 @@ public class McuViewMediator : Mediator, IMediator
     public McuViewMediator(McuView _view) : base(NAME, _view)
     {
         m_mcuProxy = Facade.RetrieveProxy(McuProxy.NAME) as McuProxy;
-        UpdateAllMcu();
+        m_mcuView.OnMcuViewInit += UpdateAllMcu;
     }
 
     public override System.Collections.Generic.IList<string> ListNotificationInterests()

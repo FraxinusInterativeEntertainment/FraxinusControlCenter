@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameMap
 {
-    public readonly Dictionary<string, DeviceLocationInfo> deviceLocationInfo = new Dictionary<string, DeviceLocationInfo>();
-    public readonly Dictionary<string, UwbUserInfo> deviceIdToUserInfo = new Dictionary<string, UwbUserInfo>();
+    public Texture2D hsvRefMap { get; set; }
+    public readonly Dictionary<string, string> roomIdHsvRef = new Dictionary<string, string>();
 }
 
 public class DeviceLocationInfo
