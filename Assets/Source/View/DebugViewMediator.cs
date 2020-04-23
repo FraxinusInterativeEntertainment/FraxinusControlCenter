@@ -46,13 +46,13 @@ public class DebugViewMediator : Mediator, IMediator
         {
             Dictionary<string, LocationInfo> locationInfos = new Dictionary<string, LocationInfo>();
             locationInfos.Add("TestUWB123",new LocationInfo(1f + (float)Random.Range(1, 10) / 10.0f, 1f, "1"));
-            SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));//m_debugView.wsMsgVO);
+           // SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));//m_debugView.wsMsgVO);
         }
         else if (m_debugView.wsMsgVO == "location2")
         {
             Dictionary<string, LocationInfo> locationInfos = new Dictionary<string, LocationInfo>();
             locationInfos.Add("TestUWB123", new LocationInfo(4f + (float)Random.Range(1, 10) / 10.0f, 4f, "1"));
-            SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));//m_debugView.wsMsgVO);
+           //SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));//m_debugView.wsMsgVO);
         }
         else if (m_debugView.wsMsgVO == "conditionC1")
         {

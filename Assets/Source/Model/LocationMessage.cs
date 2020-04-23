@@ -5,9 +5,9 @@ using UnityEngine;
 public class LocationMessage : ServerMessage
 {
     public const string LOCATION_MSG_TYPE = "location";
-    public Dictionary<string, LocationInfo> MsgContent { get; private set; }
+    public Dictionary<string, PlayerPosInfo> MsgContent { get; private set; }
 
-    public LocationMessage(Dictionary<string, LocationInfo> _msgContent) : base(LOCATION_MSG_TYPE)
+    public LocationMessage(Dictionary<string, PlayerPosInfo> _msgContent) : base(LOCATION_MSG_TYPE)
     {
         MsgContent = _msgContent;
     }
