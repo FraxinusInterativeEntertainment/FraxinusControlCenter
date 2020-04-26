@@ -45,7 +45,7 @@ public class ModuleItemView : UIViewBase
     public void UpdateModuleVO(McuModule _vo)
     {
         //m_moduleVO = _vo;
-        controlSignalVO = new ControlSignalVO(_vo.mcu_name, _vo.min);
+        controlSignalVO = new ControlSignalVO(_vo.module_name, _vo.min);
         SetUiText(_vo.title, _vo.min, _vo.max);
     }
 

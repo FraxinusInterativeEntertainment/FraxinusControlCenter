@@ -26,6 +26,11 @@ public class ChangeGameStatusProxy : Proxy, IProxy, IResponder
                                          (_data as ChangeGameStatusResponse).gameStatus,
                                          (_data as ChangeGameStatusResponse).game_time));
 
+        if ((_data as ChangeGameStatusResponse).gameStatus == GameStatus.s)
+        {
+            SendNotification(Const.Notification.GAME_STARTED);
+        }
+
         if ((_data as ChangeGameStatusResponse).device_id_2_user_info != null)
         {
             SendNotification(Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO, (_data as ChangeGameStatusResponse).device_id_2_user_info);

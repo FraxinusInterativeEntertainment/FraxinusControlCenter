@@ -51,7 +51,7 @@ public class WebSocketService
         }
         catch (System.Exception e)
         {
-            OnException("WS ExceptionL: " + e.Message);
+            OnException("WS Exception: " + e.Message);
         }
         
     }

@@ -38,6 +38,7 @@ public class DebugViewMediator : Mediator, IMediator
 
     string c1 = "1";
     string c2 = "1";
+
     private void OnSendWsMsg()
     {
         //SendNotification(Const.Notification.TRY_SEND_MCU_MSG, new McuMsg(m_debugView.wsMsgVO, "************test send***********"));
@@ -77,6 +78,13 @@ public class DebugViewMediator : Mediator, IMediator
         else if (m_debugView.wsMsgVO == "group")
         {
             SendNotification(Const.Notification.WS_SEND, new SensorMessage("test_group_a", "1"));//m_debugView.wsMsgVO);
+        }
+        else if (m_debugView.wsMsgVO == "newplayer")
+        {
+            GameStatusProxy gameStatusProxy;
+            gameStatusProxy = Facade.RetrieveProxy(GameStatusProxy.NAME) as GameStatusProxy;
+
+            SendNotification(Const.Notification.GENERATE_VIRTUAL_PLAYER, gameStatusProxy.GetCurrentGameId());
         }
 
     }

@@ -5,15 +5,17 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerPosSImulator : MonoBehaviour
 {
+    public static PlayerPosSImulator instance;
     public List<PlayerPosInfoSim> playerPosInfos;
 
-    public const float dTime = 1;
+    public float dTime = 0.5f;
     public float nextTime;
     public bool sendInfos = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        instance = this;
     }
 
     // Update is called once per frame
@@ -27,6 +29,11 @@ public class PlayerPosSImulator : MonoBehaviour
                 AppFacade.instance.SendNotification(Const.Notification.RECV_PLAYER_POS_INFOS, playerPosInfos);
         }
     }
+
+    public void OnNewVirtualPlayer(string _tagId)
+    {
+        playerPosInfos.Add(new PlayerPosInfoSim(_tagId));
+    }
 }
 
 
@@ -38,5 +45,10 @@ public class PlayerPosInfoSim
     public float x;
     [Range(0, 1)]
     public float y;
+
+    public PlayerPosInfoSim(string _tagId)
+    {
+        TagId = _tagId;
+    }
 
 }

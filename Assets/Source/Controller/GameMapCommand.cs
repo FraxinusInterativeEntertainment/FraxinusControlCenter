@@ -50,8 +50,6 @@ public class GameMapCommand : SimpleCommand
             playerInfo.posInfo.x = _playerPosInfos[i].x;
             playerInfo.posInfo.y = _playerPosInfos[i].y;
             playerInfo.posInfo.rid = _gameMapProxy.GetRoomIdByHsv(hsv);
-
-            Debug.Log(playerInfo.posInfo.did + ": " + playerInfo.posInfo.rid + " (" + hsv + ")");
         }
         //TODO: Send PlayerInfo Updated notification
     }
