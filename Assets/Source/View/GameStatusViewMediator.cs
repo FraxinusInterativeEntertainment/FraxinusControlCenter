@@ -40,15 +40,22 @@ public class GameStatusViewMediator : Mediator, IMediator
                 UpdateCurrentGameStatus((vo as GameStatusVO).gameId, (vo as GameStatusVO).gameStatus, (vo as GameStatusVO).gameTime);
                 break;
             case Const.Notification.GAME_STATUS_CHANGE_ERROR:
-                Debug.Log(vo as string);
-                AppFacade.instance.SendNotification(Const.Notification.DEBUG_LOG, "Game Status change error: " + vo as string);
+                SendNotification(Const.Notification.WARNING_POPUP, (vo as string));
+                SendNotification(Const.Notification.DEBUG_LOG, "Game Status change error: " + vo as string);
                 break;
             case Const.Notification.RECEIVED_GAME_STATUS:
                 (vo as GameSessionsResponse).game_sessions_info.ForEach((section) => { Debug.Log(section.game_time + ": " + section.status); });
                 UpdateGamesessioInfo(vo as GameSessionsResponse);
                 break;
             case Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO:
-                Debug.Log("Player Updated: " + (vo as Dictionary<string, UwbUserInfo>).Count);
+                SendNotification(Const.Notification.DEBUG_LOG, "Player Updated: " + (vo as Dictionary<string, UwbUserInfo>).Count);
+
+                //TODO: Remove foreach{} when finished testing
+                foreach(KeyValuePair<string, UwbUserInfo> kvp in (vo as Dictionary<string, UwbUserInfo>))
+                {
+                    PlayerPosSImulator.instance.OnNewVirtualPlayer(kvp.Key);
+                }
+
                 AppFacade.instance.SendNotification(Const.Notification.DEBUG_LOG, "Players updated: " + (vo as Dictionary<string, UwbUserInfo>).Count.ToString());
                 break;
         }
@@ -76,7 +83,7 @@ public class GameStatusViewMediator : Mediator, IMediator
     private void UpdateCurrentGameStatus(string _gameID, GameStatus _gameStatus, string _gameTime)
     {
         if (_gameID != null && _gameID.Length >= 0)
-        { 
+        {
             m_currentGameStatus.gameId = _gameID;
         }
         m_currentGameStatus.gameStatus = _gameStatus;
@@ -85,8 +92,19 @@ public class GameStatusViewMediator : Mediator, IMediator
         UpdateGameStatusIndicator(m_currentGameStatus.gameStatus);
         m_gameStatusView.SetGameIdText(m_currentGameStatus.gameId);
         m_gameStatusView.SetGameStartTimeText(m_currentGameStatus.gameTime);
-    }
 
+        switch (_gameStatus)
+        {
+            case GameStatus.p:
+                break;
+            case GameStatus.s:
+                SendNotification(Const.Notification.GAME_STARTED);
+                break;
+            case GameStatus.c:
+                SendNotification(Const.Notification.GAME_CLOSED);
+                break;
+        }
+    }
     private void UpdateGameStatusIndicator(GameStatus _status)
     { 
         switch(_status)

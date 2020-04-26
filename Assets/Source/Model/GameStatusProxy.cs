@@ -31,23 +31,32 @@ public class GameStatusProxy : Proxy, IProxy, IResponder
         SendNotification(Const.Notification.DEBUG_LOG, _data as string);
     }
 
+    public string GetCurrentGameId()
+    {
+        return m_currentGameStatus.gameId;
+    }
+
+    public GameStatus GetCurrentGameStatus()
+    {
+        return m_currentGameStatus.gameStatus;
+    }
+
     private void OnReceivedGameSessions(GameSessionsResponse _response)
     {
         if (_response.game_sessions_info != null && _response.game_sessions_info.Count > 0)
         {
-            GameStatusVO tempGameStatusVO = new GameStatusVO();
 
-            tempGameStatusVO.gameStatus = _response.game_sessions_info[_response.game_sessions_info.Count - 1].status;
-            tempGameStatusVO.gameId = _response.game_sessions_info[_response.game_sessions_info.Count - 1].game_id;
-            tempGameStatusVO.gameTime = _response.game_sessions_info[_response.game_sessions_info.Count - 1].game_time;
+            m_currentGameStatus.gameStatus = _response.game_sessions_info[_response.game_sessions_info.Count - 1].status;
+            m_currentGameStatus.gameId = _response.game_sessions_info[_response.game_sessions_info.Count - 1].game_id;
+            m_currentGameStatus.gameTime = _response.game_sessions_info[_response.game_sessions_info.Count - 1].game_time;
 
             foreach (GameSessionInfo sessionInfo in _response.game_sessions_info)
             {
                 if (sessionInfo.status == GameStatus.p)
                 {
-                    tempGameStatusVO.gameId = sessionInfo.game_id;
-                    tempGameStatusVO.gameStatus = sessionInfo.status;
-                    tempGameStatusVO.gameTime = sessionInfo.game_time;
+                    m_currentGameStatus.gameId = sessionInfo.game_id;
+                    m_currentGameStatus.gameStatus = sessionInfo.status;
+                    m_currentGameStatus.gameTime = sessionInfo.game_time;
                     break;
                 }
             }
@@ -56,14 +65,18 @@ public class GameStatusProxy : Proxy, IProxy, IResponder
             {
                 if (sessionInfo.status == GameStatus.s)
                 {
-                    tempGameStatusVO.gameId = sessionInfo.game_id;
-                    tempGameStatusVO.gameStatus = sessionInfo.status;
-                    tempGameStatusVO.gameTime = sessionInfo.game_time;
-                    break;
+                    m_currentGameStatus.gameId = sessionInfo.game_id;
+                    m_currentGameStatus.gameStatus = sessionInfo.status;
+                    m_currentGameStatus.gameTime = sessionInfo.game_time;
+
                 }
             }
 
-            SendNotification(Const.Notification.GAME_STATUS_CHANGED, tempGameStatusVO);
+            SendNotification(Const.Notification.GAME_STATUS_CHANGED, m_currentGameStatus);
+            if (m_currentGameStatus.gameStatus == GameStatus.s)
+            {
+                SendNotification(Const.Notification.CHANGE_GAME_STATUS, m_currentGameStatus);
+            }
         }
     }
 }

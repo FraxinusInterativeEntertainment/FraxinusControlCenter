@@ -20,6 +20,7 @@ public class GameStatusCommand : SimpleCommand
 
         switch (name)
         {
+
             case Const.Notification.CHANGE_GAME_STATUS:
                 changeGameStatusProxy.ChangeGameStatus(obj);
                 break;

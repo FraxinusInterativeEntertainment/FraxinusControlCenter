@@ -38,6 +38,7 @@ public class DebugViewMediator : Mediator, IMediator
 
     string c1 = "1";
     string c2 = "1";
+
     private void OnSendWsMsg()
     {
         //SendNotification(Const.Notification.TRY_SEND_MCU_MSG, new McuMsg(m_debugView.wsMsgVO, "************test send***********"));
@@ -46,13 +47,13 @@ public class DebugViewMediator : Mediator, IMediator
         {
             Dictionary<string, LocationInfo> locationInfos = new Dictionary<string, LocationInfo>();
             locationInfos.Add("TestUWB123",new LocationInfo(1f + (float)Random.Range(1, 10) / 10.0f, 1f, "1"));
-            SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));//m_debugView.wsMsgVO);
+           // SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));//m_debugView.wsMsgVO);
         }
         else if (m_debugView.wsMsgVO == "location2")
         {
             Dictionary<string, LocationInfo> locationInfos = new Dictionary<string, LocationInfo>();
             locationInfos.Add("TestUWB123", new LocationInfo(4f + (float)Random.Range(1, 10) / 10.0f, 4f, "1"));
-            SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));//m_debugView.wsMsgVO);
+           //SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));//m_debugView.wsMsgVO);
         }
         else if (m_debugView.wsMsgVO == "conditionC1")
         {
@@ -77,6 +78,13 @@ public class DebugViewMediator : Mediator, IMediator
         else if (m_debugView.wsMsgVO == "group")
         {
             SendNotification(Const.Notification.WS_SEND, new SensorMessage("test_group_a", "1"));//m_debugView.wsMsgVO);
+        }
+        else if (m_debugView.wsMsgVO == "newplayer")
+        {
+            GameStatusProxy gameStatusProxy;
+            gameStatusProxy = Facade.RetrieveProxy(GameStatusProxy.NAME) as GameStatusProxy;
+
+            SendNotification(Const.Notification.GENERATE_VIRTUAL_PLAYER, gameStatusProxy.GetCurrentGameId());
         }
 
     }

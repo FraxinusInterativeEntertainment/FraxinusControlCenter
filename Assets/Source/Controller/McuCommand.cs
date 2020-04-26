@@ -30,7 +30,7 @@ public class McuCommand : SimpleCommand
             case Const.Notification.TRY_CONFIRM_MCU_DISCONNECTED:
                 TryConfirmMcuDisconnected(obj as string);
                 break;
-            case Const.Notification.LOGIN_SUCCESS:
+            case Const.Notification.INIT_MCU:
                 mcu_proxy.InitMcuInfos();
                 mcu_proxy.InitMcuModuleInfos();
                 break;

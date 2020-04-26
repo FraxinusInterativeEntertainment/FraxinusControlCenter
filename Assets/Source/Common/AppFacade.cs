@@ -31,8 +31,6 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.CONNECT_TO_WS_SERVER, typeof(ServerCommunicationCommand));
         RegisterCommand(Const.Notification.SERVER_MSG_ARRIVED, typeof(ServerCommunicationCommand));
         RegisterCommand(Const.Notification.WS_SEND, typeof(ServerCommunicationCommand));
-        RegisterCommand(Const.Notification.CHANGE_GAME_STATUS, typeof(GameStatusCommand));
-        RegisterCommand(Const.Notification.REQUEST_FOR_GAME_STATUS, typeof(GameStatusCommand));
         RegisterCommand(Const.Notification.RECV_PLAYER_POS_INFOS, typeof(GameMapCommand));
         RegisterCommand(Const.Notification.RECEIVED_GAME_STATUS, typeof(MainFSMCommand));
         RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(MainFSMCommand));
@@ -40,15 +38,28 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.SHOW_MAIN_PANEL_CONTENT, typeof(UICommand));
         RegisterCommand(Const.Notification.RECV_ALL_GAME_CONDITIONS, typeof(ConditionCommand));
         RegisterCommand(Const.Notification.RECV_GAME_CONDITION_CHANGE, typeof(ConditionCommand));
+        RegisterCommand(Const.Notification.INIT_MCU, typeof(McuCommand));
         RegisterCommand(Const.Notification.UPDATE_MCU_REQUEST, typeof(McuCommand));
         RegisterCommand(Const.Notification.UPDATE_MCU_STATUS, typeof(McuCommand));
         RegisterCommand(Const.Notification.TRY_SEND_MCU_MSG, typeof(McuCommand));
         RegisterCommand(Const.Notification.TRY_CONFIRM_MCU_DISCONNECTED, typeof(McuCommand));
         RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(McuCommand));
+        RegisterCommand(Const.Notification.GAME_STARTED, typeof(UpdateGameServerCommand));
+        RegisterCommand(Const.Notification.GAME_CLOSED, typeof(UpdateGameServerCommand));
+        RegisterCommand(Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO, typeof(PlayerCommand));
+        RegisterCommand(Const.Notification.ADD_VIRTUAL_PLAYER_TO_GAME, typeof(SimulationCommand));
+        RegisterCommand(Const.Notification.GENERATE_VIRTUAL_PLAYER, typeof(SimulationCommand));
+        RegisterCommand(Const.Notification.CHANGE_GAME_STATUS, typeof(GameStatusCommand));
+        RegisterCommand(Const.Notification.REQUEST_FOR_GAME_STATUS, typeof(GameStatusCommand));
+        RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(OnLoginSuccessCommand));
+        RegisterCommand(Const.Notification.DEBUG_LOG, typeof(ErrorHandlerCommand));
+        RegisterCommand(Const.Notification.WARNING_POPUP, typeof(ErrorHandlerCommand));
     }
+
 
     public void startup()
     {
         SendNotification(STARTUP);
+        SendNotification(Const.Notification.SEND_LOGOUT);
     }
 }

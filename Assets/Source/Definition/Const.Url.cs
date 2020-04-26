@@ -20,7 +20,10 @@ public static partial class Const
         public const string GET_ALL_MCU_INFO = HTTP_SERVER_ADDRESS + "/game_map/get_all_mcu_info/";
         public const string GET_ALL_MCU_MODULE_INFO = HTTP_SERVER_ADDRESS + "/game_map/get_all_mcu_module_info/";
 
-
+        //test
+        public const string ADD_USER_TO_GAME = HTTP_SERVER_ADDRESS + "/game_map/add_user_to_game_test/";
+        public const string GET_TEST_USER = HTTP_SERVER_ADDRESS + "/game_map/get_test_user/";
+        public const string BAND_ID_LOGIN = HTTP_SERVER_ADDRESS + "/game_auth/device_wristband_login/";
     }
 }
 

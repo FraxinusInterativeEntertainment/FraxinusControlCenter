@@ -14,7 +14,10 @@ public class ServerCommunicationProxy : Proxy, IProxy
     public ServerCommunicationProxy() : base(NAME)
     {
         m_wsService = new WebSocketService();
-        m_wsService.AddExceptionHandler((string _msg) => { SendNotification(Const.Notification.DEBUG_LOG, _msg); });
+        m_wsService.AddExceptionHandler((string _msg) => { 
+            SendNotification(Const.Notification.WARNING_POPUP, _msg + "\n请重新登录");
+            SendNotification(Const.Notification.GAME_CLOSED);
+        });
     }
 
     public void ConnectFraxMotherShipWs(object _data)
@@ -26,33 +29,34 @@ public class ServerCommunicationProxy : Proxy, IProxy
     public void SendMessage(object _data)
     {
         string jsonData = JsonConvert.SerializeObject(_data);
-        Debug.Log("WS Send: " + jsonData);
+        SendNotification(Const.Notification.DEBUG_LOG, "WS Send: " + jsonData);
         m_wsService.Send(jsonData);
     }
 
     private void WebSocketOpenHandler()
     {
-        Debug.Log("Websocket Opened!");
-        SendNotification(Const.Notification.DEBUG_LOG, "WS Server Opened!");
+        MainThreadCall.SafeCallback(() => {
+            SendNotification(Const.Notification.DEBUG_LOG, "WS Server Opened!");
+        });
     }
 
     private void WebSocketErrorHandler(string _message)
     {
-        Debug.Log("Websocket closed: " + _message);
         SendNotification(Const.Notification.DEBUG_LOG, "WS Server Error: " + _message);
     }
 
     private void WebSocketCloseHandler(string _message)
     {
-        Debug.Log("Websocket closed: " + _message);
         SendNotification(Const.Notification.DEBUG_LOG, "WS Server Closed: " + _message);
     }
 
     private void WebSocketMessageHandler(string _message)
     {
-        Debug.Log("Message Arrived: " + _message);
-        MainThreadCall.SafeCallback(() => { SendNotification(Const.Notification.SERVER_MSG_ARRIVED, _message); });
-        SendNotification(Const.Notification.DEBUG_LOG, "WS Server Message: " + _message);
+
+        MainThreadCall.SafeCallback(() => { 
+            SendNotification(Const.Notification.SERVER_MSG_ARRIVED, _message);
+            SendNotification(Const.Notification.DEBUG_LOG, "WS Server Message: " + _message);
+        });
     }
 
     private string ToJson(object _data)

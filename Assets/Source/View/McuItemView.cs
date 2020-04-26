@@ -43,7 +43,12 @@ public class McuItemView : UIViewBase
         AppFacade.instance.RegisterMediator(new McuItemViewMediator(this, McuItemViewMediator.NAME + _vo.mcuName));
 
         UpdateMcuVO(_vo);
-        TryLoadModules();
+
+        //防止多次生成module
+        if (m_moduleContainer.transform.childCount <= 1)
+        {
+            TryLoadModules();
+        }
 
         return this;
     }

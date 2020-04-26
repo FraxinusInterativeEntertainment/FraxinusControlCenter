@@ -47,11 +47,11 @@ public class GameMapCommand : SimpleCommand
                 continue;
             }
 
+            playerInfo.posInfo.x = _playerPosInfos[i].x;
+            playerInfo.posInfo.y = _playerPosInfos[i].y;
             playerInfo.posInfo.rid = _gameMapProxy.GetRoomIdByHsv(hsv);
-
-            Debug.Log(playerInfo.posInfo.did + ": " + playerInfo.posInfo.rid + " (" + hsv + ")");
-            //TODO: Send PlayerInfo Updated notification
         }
+        //TODO: Send PlayerInfo Updated notification
     }
 
     private string GetHsvByPosition(Texture2D _hsvRefMap, Coor2D position)
@@ -61,6 +61,7 @@ public class GameMapCommand : SimpleCommand
         float s;
         float v;
 
+        //TODO: 需要实地大小和地图大小的等比例换算
         int x = (int)(position.x * (_hsvRefMap.width - 1));
         int y = (int)(position.y * (_hsvRefMap.height - 1));
 

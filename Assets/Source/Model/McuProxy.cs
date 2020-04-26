@@ -87,12 +87,12 @@ public class McuProxy : Proxy, IProxy, IResponder
             if (!m_mcu.ContainsKey(kvp.Value.mcu_name))
             {
                 //TODO: Warning: could not find parent mcu of this module
-                SendNotification(Const.Notification.DEBUG_LOG, "Parent MCU of this module Not Found!");
-                Debug.Log("NotFound");
+                SendNotification(Const.Notification.DEBUG_LOG, "Parent MCU of this module Not Found: " + kvp.Value.mcu_name + ": " + kvp.Key);
                 continue;
             }
             else
             {
+                kvp.Value.module_name = kvp.Key;
                 m_mcu[kvp.Value.mcu_name].modules.Add(kvp.Value);
             }
         }
