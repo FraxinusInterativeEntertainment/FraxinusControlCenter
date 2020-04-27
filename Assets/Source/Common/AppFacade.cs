@@ -56,6 +56,7 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(OnLoginSuccessCommand));
         RegisterCommand(Const.Notification.DEBUG_LOG, typeof(ErrorHandlerCommand));
         RegisterCommand(Const.Notification.WARNING_POPUP, typeof(ErrorHandlerCommand));
+        RegisterCommand(Const.Notification.CUSTOMIZED_POPUP, typeof(ErrorHandlerCommand));
     }
 
 

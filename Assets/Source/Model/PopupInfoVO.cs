@@ -8,13 +8,19 @@ public class PopupInfoVO
     public string description { get; set; }
     public string buttonName { get; set; }
     public bool preventOtherInteractions { get; set; }
-    public List<System.Action> buttonActions { get; set; }
+    public System.Action buttonAction { get; set; }
 
-    public PopupInfoVO(string _title, string _desc, string _buttonName, bool _preventOtherInteractions, List<System.Action> _buttonActions = null)
+    public PopupInfoVO(string _title, string _desc, string _buttonName, bool _preventOtherInteractions, System.Action _buttonAction = null)
     {
         title = _title;
         description = _desc;
         buttonName = _buttonName;
         preventOtherInteractions = _preventOtherInteractions;
+        buttonAction = _buttonAction;
+
+        if (buttonAction == null)
+        {
+            buttonAction = () => { };
+        }
     }
 }

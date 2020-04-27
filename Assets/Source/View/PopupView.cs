@@ -36,24 +36,18 @@ public class PopupView : UIViewBase
 
     public override void Show()
     {
-        ConfirmButtonClicked += Hide;
-        ConfirmButtonClicked += () => { AppFacade.instance.SendNotification(Const.Notification.CHECK_POPUP_QUE); };
+
         base.Show();
     }
 
     public void Init(PopupInfoVO _vo)
     {
+        ConfirmButtonClicked += Hide;
+        ConfirmButtonClicked += () => { AppFacade.instance.SendNotification(Const.Notification.CHECK_POPUP_QUE); };
         m_title.text = _vo.title;
         m_desc.text = _vo.description;
         m_confirmButtonName.text = _vo.buttonName;
         m_backgroundPanel.SetActive(_vo.preventOtherInteractions);
-
-        if (_vo.buttonActions != null && _vo.buttonActions.Count > 0)
-        { 
-            foreach (Action action in _vo.buttonActions)
-            {
-                ConfirmButtonClicked += action;
-            }
-        }
+        ConfirmButtonClicked += _vo.buttonAction;
     }
 }

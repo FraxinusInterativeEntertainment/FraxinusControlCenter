@@ -16,7 +16,11 @@ public class ServerCommunicationProxy : Proxy, IProxy
         m_wsService = new WebSocketService();
         m_wsService.AddExceptionHandler((string _msg) => {
             SendNotification(Const.Notification.GAME_CLOSED);
-            SendNotification(Const.Notification.WARNING_POPUP, _msg + "\n请重新登录");
+            SendNotification(Const.Notification.CUSTOMIZED_POPUP, new PopupInfoVO("Websocket错误", 
+                                                                                  _msg + "\n请重新登录", 
+                                                                                  "确认", 
+                                                                                  true, 
+                                                                                  () => { SendNotification(Const.Notification.SEND_LOGOUT); }));
         });
     }
 
