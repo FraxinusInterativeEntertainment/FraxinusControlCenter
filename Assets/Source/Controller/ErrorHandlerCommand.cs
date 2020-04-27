@@ -18,6 +18,7 @@ public class ErrorHandlerCommand : SimpleCommand
                 break;
             case Const.Notification.WARNING_POPUP:
                 Debug.Log("Warning Popup: " + obj as string);
+                SendNotification(Const.Notification.SHOW_POPUP, new PopupInfoVO("错误", obj as string, "确认", true));
                 break;
         }
     }

@@ -48,4 +48,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d280ced86d5c7c4ea2122b25048d57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultViewNames: []
+  defaultViewNames:
+  - DebugView

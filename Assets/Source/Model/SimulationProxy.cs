@@ -53,8 +53,10 @@ public class SimulationProxy : Proxy, IProxy, IResponder
         {
             SendNotification(Const.Notification.WARNING_POPUP, _response.err_code + ": " + _response.err_msg);
         }
-        
-        SendNotification(Const.Notification.ADD_VIRTUAL_PLAYER_TO_GAME, new VirtualLoginVO(_response.band_id, "tag" + _response.band_id.Substring(_response.band_id.Length - 2, 2), ""));
+        else
+        {
+            SendNotification(Const.Notification.ADD_VIRTUAL_PLAYER_TO_GAME, new VirtualLoginVO(_response.band_id, "tag" + _response.band_id.Substring(_response.band_id.Length - 2, 2), ""));
+        }
     }
 
     public void VirtualPersonalDeviceLogin(VirtualLoginVO _vo)

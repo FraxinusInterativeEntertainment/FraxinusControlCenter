@@ -17,7 +17,9 @@ public class UICommand : SimpleCommand
             case Const.Notification.SHOW_MAIN_PANEL_CONTENT:
                 UIManager.instance.ShowMainPanelContent(obj as string);
                 break;
-
+            case Const.Notification.SHOW_POPUP:
+                UIManager.instance.ShowPopup(obj as PopupInfoVO);
+                break;
         }
     }
 }

@@ -16,6 +16,9 @@ public class UIManager : MonoBehaviour
     private UIFormBase m_mainPanelForm;
     private UIFormBase m_mapPanel;
 
+    [SerializeField]
+    private PopupView m_warningPopup;
+
     private readonly Dictionary<string, UIFormBase> m_loadedMainPanelForms = new Dictionary<string, UIFormBase>();
 
     public static UIManager instance { get { return m_instance; } }
@@ -50,5 +53,11 @@ public class UIManager : MonoBehaviour
         }
         m_mainPanelForm = m_loadedMainPanelForms[_formName];
         m_mainPanelForm.Show();
+    }
+
+    public void ShowPopup(PopupInfoVO _vo)
+    {
+        m_warningPopup.Init(_vo);
+        m_warningPopup.Show();
     }
 }
