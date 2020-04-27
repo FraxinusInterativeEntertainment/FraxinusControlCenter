@@ -20,6 +20,9 @@ public class UICommand : SimpleCommand
             case Const.Notification.SHOW_POPUP:
                 UIManager.instance.ShowPopup(obj as PopupInfoVO);
                 break;
+            case Const.Notification.CHECK_POPUP_QUE:
+                UIManager.instance.CheckPopupQueue();
+                break;
         }
     }
 }
