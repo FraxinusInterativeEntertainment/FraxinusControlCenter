@@ -46,10 +46,17 @@ public class GameStatusView : UIViewBase
         
         Show();
     }
-
+    private void OnDisable()
+    {
+        for (int i = 0; i < m_gameSessions.transform.childCount; i++)
+        {
+            Destroy(m_gameSessions.transform.GetChild(i).gameObject);
+        }
+    }
     void OnDestroy()
     {
         AppFacade.instance.RemoveMediator(GameStatusViewMediator.NAME);
+       
     }
 
     public override void Show()

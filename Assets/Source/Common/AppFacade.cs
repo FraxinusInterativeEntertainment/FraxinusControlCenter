@@ -38,6 +38,7 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.SHOW_MAIN_PANEL_CONTENT, typeof(UICommand));
         RegisterCommand(Const.Notification.RECV_ALL_GAME_CONDITIONS, typeof(ConditionCommand));
         RegisterCommand(Const.Notification.RECV_GAME_CONDITION_CHANGE, typeof(ConditionCommand));
+        RegisterCommand(Const.Notification.GAME_STATUS_CHANGED, typeof(ConditionCommand));
         RegisterCommand(Const.Notification.INIT_MCU, typeof(McuCommand));
         RegisterCommand(Const.Notification.UPDATE_MCU_REQUEST, typeof(McuCommand));
         RegisterCommand(Const.Notification.UPDATE_MCU_STATUS, typeof(McuCommand));

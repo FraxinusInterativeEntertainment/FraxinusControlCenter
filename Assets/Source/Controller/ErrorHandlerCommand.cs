@@ -14,10 +14,10 @@ public class ErrorHandlerCommand : SimpleCommand
         switch (name)
         {
             case Const.Notification.DEBUG_LOG:
-                Debug.Log("Debug Log: " + obj as string);
+                //Debug.Log("Debug Log: " + obj as string);
                 break;
             case Const.Notification.WARNING_POPUP:
-                Debug.Log("Warning Popup: " + obj as string);
+                //Debug.Log("Warning Popup: " + obj as string);
                 break;
         }
     }

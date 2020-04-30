@@ -16,10 +16,16 @@ public class ConditionCommand : SimpleCommand
         switch (name)
         {
             case Const.Notification.RECV_ALL_GAME_CONDITIONS:
-                conditionProxy.UpdateConditions(obj as Dictionary<string, int>);
+                conditionProxy.UpdateConditions(obj as Dictionary<string, ConditionVO>);
                 break;
             case Const.Notification.RECV_GAME_CONDITION_CHANGE:
                 conditionProxy.UpdateChangedCondition(obj as ConditionVO);
+                break;
+            case Const.Notification.GAME_STATUS_CHANGED:
+                if ((obj as GameStatusVO).gameStatus == GameStatus.s )
+                {
+                    conditionProxy.RequestAllCondition();
+                }
                 break;
         }
     }

@@ -13,6 +13,8 @@ public class ModuleItemViewMediator : Mediator, IMediator
     public ModuleItemViewMediator(ModuleItemView _view, string _name) : base(_name, _view)
     {
         m_moduleItemView.OnSendSignalButtonClicked += TrySendControlSignal;
+        m_moduleItemView.mouseDetectionTool.AddMouseOverListener(m_moduleItemView.ShowModuleDescText);
+        m_moduleItemView.mouseDetectionTool.AddMouseLeaveListener(m_moduleItemView.ConcealModuleDescText);
     }
 
     public override System.Collections.Generic.IList<string> ListNotificationInterests()
