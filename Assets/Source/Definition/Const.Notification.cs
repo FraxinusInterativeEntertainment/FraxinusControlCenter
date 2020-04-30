@@ -47,5 +47,7 @@ public static partial class Const
         public const string WARNING_POPUP = "WarningPopup";
         public const string CUSTOMIZED_POPUP = "CustomizedPopup";
         public const string CHECK_POPUP_QUE = "CheckPopuQue";
+        public const string TRY_CHANGE_QUEST_NODE = "TryCHangeQuestNode";
+
     }
 }

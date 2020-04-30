@@ -55,7 +55,8 @@ public class SimulationProxy : Proxy, IProxy, IResponder
         }
         else
         {
-            SendNotification(Const.Notification.ADD_VIRTUAL_PLAYER_TO_GAME, new VirtualLoginVO(_response.band_id, "tag" + _response.band_id.Substring(_response.band_id.Length - 2, 2), ""));
+            Debug.Log(_response.band_id + _response.nickname);
+            SendNotification(Const.Notification.ADD_VIRTUAL_PLAYER_TO_GAME, new VirtualLoginVO(_response.band_id, "tag" + _response.nickname, "mofi" + _response.nickname));
         }
     }
 
@@ -64,6 +65,7 @@ public class SimulationProxy : Proxy, IProxy, IResponder
         WWWForm form = new WWWForm();
         form.AddField("band_id", _vo.bandId);
         form.AddField("device_id", _vo.tagId);
+        form.AddField("mofi_id", _vo.mofiId);
 
         HttpService m_httpService = new HttpService(Const.Url.BAND_ID_LOGIN, HttpRequestType.Post, form);
         m_httpService.SendRequest<HttpResponse>(VirtualLoginCallback);

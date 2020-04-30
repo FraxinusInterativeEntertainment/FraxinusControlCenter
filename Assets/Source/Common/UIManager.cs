@@ -60,9 +60,10 @@ public class UIManager : MonoBehaviour
     {
         if (m_popupQueue.Count == 0)
         {
-            m_popupQueue.Enqueue(_vo);
             m_warningPopup.Init(_vo);
             m_warningPopup.Show();
+
+            m_popupQueue.Enqueue(_vo);
         }
         else
         {

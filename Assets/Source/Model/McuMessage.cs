@@ -16,3 +16,14 @@ public class McuHeartbeatContent
 {
     public string Mcuid { get; set; }
 }
+
+public class McuConditionMsg : McuMessage
+{
+    public ConditionMsgContent MsgContent { get; set; }
+}
+
+public class ConditionMsgContent
+{
+    public string moduleName { get; set; }
+    public string value { get; set; }
+}

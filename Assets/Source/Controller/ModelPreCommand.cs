@@ -18,7 +18,7 @@ public class ModelPreCommand : SimpleCommand
         Facade.RegisterProxy(new McuProxy());
         Facade.RegisterProxy(new PlayerInfoProxy());
         Facade.RegisterProxy(new SimulationProxy());
-
+        Facade.RegisterProxy(new QuestControlProxy());
         Facade.RegisterProxy(new McuServerProxy());
 
     }

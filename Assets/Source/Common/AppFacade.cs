@@ -54,6 +54,7 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.CHANGE_GAME_STATUS, typeof(GameStatusCommand));
         RegisterCommand(Const.Notification.REQUEST_FOR_GAME_STATUS, typeof(GameStatusCommand));
         RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(OnLoginSuccessCommand));
+        RegisterCommand(Const.Notification.TRY_CHANGE_QUEST_NODE, typeof(QuestControlCommand));
         RegisterCommand(Const.Notification.DEBUG_LOG, typeof(ErrorHandlerCommand));
         RegisterCommand(Const.Notification.WARNING_POPUP, typeof(ErrorHandlerCommand));
         RegisterCommand(Const.Notification.CUSTOMIZED_POPUP, typeof(ErrorHandlerCommand));

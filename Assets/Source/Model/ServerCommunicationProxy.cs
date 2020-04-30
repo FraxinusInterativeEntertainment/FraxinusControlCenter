@@ -14,14 +14,7 @@ public class ServerCommunicationProxy : Proxy, IProxy
     public ServerCommunicationProxy() : base(NAME)
     {
         m_wsService = new WebSocketService();
-        m_wsService.AddExceptionHandler((string _msg) => {
-            SendNotification(Const.Notification.GAME_CLOSED);
-            SendNotification(Const.Notification.CUSTOMIZED_POPUP, new PopupInfoVO("Websocket错误", 
-                                                                                  _msg + "\n请重新登录", 
-                                                                                  "确认", 
-                                                                                  true, 
-                                                                                  () => { SendNotification(Const.Notification.SEND_LOGOUT); }));
-        });
+        m_wsService.AddExceptionHandler(WebSocketExceptionHandler);
     }
 
     public void ConnectFraxMotherShipWs(object _data)
@@ -46,12 +39,18 @@ public class ServerCommunicationProxy : Proxy, IProxy
 
     private void WebSocketErrorHandler(string _message)
     {
-        SendNotification(Const.Notification.DEBUG_LOG, "WS Server Error: " + _message);
+        MainThreadCall.SafeCallback(() => {
+            SendNotification(Const.Notification.CUSTOMIZED_POPUP,
+                              new PopupInfoVO("Websocket错误", _message, "确认", true, () => { SendNotification(Const.Notification.SEND_LOGOUT); }));
+        });
     }
 
     private void WebSocketCloseHandler(string _message)
     {
-        SendNotification(Const.Notification.DEBUG_LOG, "WS Server Closed: " + _message);
+        MainThreadCall.SafeCallback(() => {
+            SendNotification(Const.Notification.CUSTOMIZED_POPUP,
+                              new PopupInfoVO("Websocket关闭", _message, "确认", true, () => { SendNotification(Const.Notification.SEND_LOGOUT); }));
+        });
     }
 
     private void WebSocketMessageHandler(string _message)
@@ -60,6 +59,16 @@ public class ServerCommunicationProxy : Proxy, IProxy
         MainThreadCall.SafeCallback(() => { 
             SendNotification(Const.Notification.SERVER_MSG_ARRIVED, _message);
             SendNotification(Const.Notification.DEBUG_LOG, "WS Server Message: " + _message);
+        });
+    }
+
+    private void WebSocketExceptionHandler(string _msg)
+    {
+        MainThreadCall.SafeCallback(() =>
+        {
+            SendNotification(Const.Notification.GAME_CLOSED);
+            SendNotification(Const.Notification.CUSTOMIZED_POPUP,
+                             new PopupInfoVO("Websocket异常", _msg, "确认", true, () => { SendNotification(Const.Notification.SEND_LOGOUT); }));
         });
     }
 

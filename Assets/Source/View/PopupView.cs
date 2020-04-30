@@ -36,7 +36,6 @@ public class PopupView : UIViewBase
 
     public override void Show()
     {
-
         base.Show();
     }
 
