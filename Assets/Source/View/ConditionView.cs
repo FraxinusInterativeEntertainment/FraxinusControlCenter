@@ -51,7 +51,6 @@ public class ConditionView : UIViewBase
             m_conditionItems[_vo.condition_name].SetValue(_vo.status);
         }
     }
-
     public void OnConditionValueEdit(ConditionVO _vo)
     {
         TrySubmitNewValue(_vo);

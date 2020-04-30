@@ -35,7 +35,6 @@ public class ChangeGameStatusProxy : Proxy, IProxy, IResponder
         {
             SendNotification(Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO, (_data as ChangeGameStatusResponse).device_id_2_user_info);
         }
-
         if ((_data as ChangeGameStatusResponse).game_condition_status != null)
         {
             SendNotification(Const.Notification.RECV_ALL_GAME_CONDITIONS, (_data as ChangeGameStatusResponse).game_condition_status);

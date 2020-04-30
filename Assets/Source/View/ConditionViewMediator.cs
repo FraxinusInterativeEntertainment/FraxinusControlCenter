@@ -48,9 +48,9 @@ public class ConditionViewMediator : Mediator, IMediator
 
     private void UpdateAllConditions()
     {
-        foreach(KeyValuePair<string, int> condition in m_conditionProxy.conditions)
+        foreach(KeyValuePair<string, ConditionVO> condition in m_conditionProxy.conditions)
         {
-            m_conditionView.UpdateConditionItem(new ConditionVO(condition.Key, condition.Value));
+            m_conditionView.UpdateConditionItem(new ConditionVO(condition.Key, condition.Value.status, condition.Value.desc, condition.Value.title));
         }
     }
 

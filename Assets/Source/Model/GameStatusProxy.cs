@@ -73,10 +73,6 @@ public class GameStatusProxy : Proxy, IProxy, IResponder
             }
 
             SendNotification(Const.Notification.GAME_STATUS_CHANGED, m_currentGameStatus);
-            if (m_currentGameStatus.gameStatus == GameStatus.s)
-            {
-                SendNotification(Const.Notification.CHANGE_GAME_STATUS, m_currentGameStatus);
-            }
         }
     }
 }

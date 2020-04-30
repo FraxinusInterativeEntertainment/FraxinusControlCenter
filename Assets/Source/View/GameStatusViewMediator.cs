@@ -45,7 +45,7 @@ public class GameStatusViewMediator : Mediator, IMediator
                 break;
             case Const.Notification.RECEIVED_GAME_STATUS:
                 (vo as GameSessionsResponse).game_sessions_info.ForEach((section) => { Debug.Log(section.game_time + ": " + section.status); });
-                //TODO: Instantiate Blocks and show current game session
+                UpdateGamesessioInfo(vo as GameSessionsResponse);
                 break;
             case Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO:
                 SendNotification(Const.Notification.DEBUG_LOG, "Player Updated: " + (vo as Dictionary<string, UwbUserInfo>).Count);
@@ -118,6 +118,13 @@ public class GameStatusViewMediator : Mediator, IMediator
             case GameStatus.c:
                 m_gameStatusView.ActiveClosedStatus();
                 break;
+        }
+    }
+    private void UpdateGamesessioInfo(GameSessionsResponse _vo)
+    {
+        for (int i = 0; i < _vo.game_sessions_info.Count; i++)
+        {
+            m_gameStatusView.UpdateGameSession(_vo.game_sessions_info[i]);
         }
     }
 }
