@@ -23,8 +23,6 @@ public class ModuleItemView : UIViewBase
     [SerializeField]
     private Text m_descText;
     public MouseDetectionTool mouseDetectionTool;
-    //private McuModule m_moduleVO;
-    //public McuModule moduleVO { get { return m_moduleVO; } }
 
     private void Start()
     {
@@ -48,9 +46,8 @@ public class ModuleItemView : UIViewBase
 
     public void UpdateModuleVO(McuModule _vo)
     {
-        //m_moduleVO = _vo;
         controlSignalVO = new ControlSignalVO(_vo.module_name, _vo.min);
-        SetUiText(_vo.title, _vo.min, _vo.max,_vo.desc);
+        SetUiText(_vo.title, _vo.min, _vo.max, _vo.desc);
     }
 
     private void SetValue(int _value)

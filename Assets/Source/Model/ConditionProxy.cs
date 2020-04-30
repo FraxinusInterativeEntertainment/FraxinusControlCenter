@@ -9,7 +9,6 @@ public class ConditionProxy : Proxy, IProxy, IResponder
     public const string NAME = "ConditionProxy";
 
     private Dictionary<string, ConditionVO> m_conditions = new Dictionary<string, ConditionVO>();
-    //
     public Dictionary<string, ConditionVO> conditions { get { return m_conditions; } }
 
     public ConditionProxy() : base(NAME) { }
@@ -37,7 +36,7 @@ public class ConditionProxy : Proxy, IProxy, IResponder
     {
         if (m_conditions.ContainsKey(_vo.condition_name))
         {
-            m_conditions.Add(_vo.condition_name, _vo);
+            m_conditions[_vo.condition_name] = _vo;
         }
         Debug.Log("Condition Proxy Updated: " +  _vo.condition_name + "/" + _vo.status);
         SendNotification(Const.Notification.DEBUG_LOG, "Condition Proxy Updated: " + _vo.condition_name + "/" + _vo.status);
