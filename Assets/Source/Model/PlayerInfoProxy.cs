@@ -58,7 +58,17 @@ public class PlayerInfoProxy : Proxy, IProxy
 
             (m_data as PlayerInfoModel).connectedPlayers[kvp.Key].status = PlayerStatus.Connected;
         }
+    }
 
+    public void UpdatePlayerList(Dictionary<string, UwbUserInfo> _playerList)
+    {
+        (m_data as PlayerInfoModel).connectedPlayers.Clear();
+
+        foreach (KeyValuePair<string, UwbUserInfo> kvp in _playerList)
+        {
+            (m_data as PlayerInfoModel).connectedPlayers.Add(kvp.Key, new PlayerInfo(kvp.Value.user_id, kvp.Key, kvp.Value.nickname, PlayerStatus.Unknown));
+            (m_data as PlayerInfoModel).connectedPlayers[kvp.Key].status = PlayerStatus.Connected;
+        }
     }
 
     public void OnPlayerJoined()

@@ -10,6 +10,7 @@ public class SideBarView : UIViewBase
     public event Action<Toggle> QuestToggleChanged = delegate { };
     public event Action<Toggle> ConditionToggleChanged = delegate { };
     public event Action<Toggle> McuToggleChanged = delegate { };
+    public event Action<Toggle> DebugToggleChanged = delegate { };
 
     [SerializeField]
     private Toggle m_gameStatusToggle;
@@ -21,6 +22,8 @@ public class SideBarView : UIViewBase
     private Toggle m_conditionToggle;
     [SerializeField]
     private Toggle m_mcuToggle;
+    [SerializeField]
+    private Toggle m_debugToggle;
 
     void Start()
     {
@@ -30,5 +33,6 @@ public class SideBarView : UIViewBase
         m_questToggle.onValueChanged.AddListener(delegate { QuestToggleChanged(m_questToggle); });
         m_conditionToggle.onValueChanged.AddListener(delegate { ConditionToggleChanged(m_conditionToggle); });
         m_mcuToggle.onValueChanged.AddListener(delegate { McuToggleChanged(m_mcuToggle); });
+        m_debugToggle.onValueChanged.AddListener(delegate { DebugToggleChanged(m_debugToggle); });
     }
 }

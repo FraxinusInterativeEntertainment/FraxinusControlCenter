@@ -21,7 +21,7 @@ public class WebSocketService
         m_ws.Origin = _host;
         m_ws.OnOpen += (sender, e) => WebSocketOpenHandler();
         m_ws.OnError += (sender, e) => WebSocketErrorHandler("Error: " + e.Message + e.Exception.ToString());
-        m_ws.OnClose += (sender, e) => WebSocketCloseHandler(e.Reason);
+        m_ws.OnClose += (sender, e) => WebSocketCloseHandler("Reason: " + e.Reason);
         m_ws.OnMessage += (sender, e) => WebSocketMessageHandler(e.Data);
         m_ws.ConnectAsync();
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PureMVC.Patterns;
 using PureMVC.Interfaces;
+using System;
 
 public class ErrorHandlerCommand : SimpleCommand
 {
@@ -18,6 +19,12 @@ public class ErrorHandlerCommand : SimpleCommand
                 break;
             case Const.Notification.WARNING_POPUP:
                 Debug.Log("Warning Popup: " + obj as string);
+                PopupInfoVO vo = new PopupInfoVO("错误", obj as string, "确认", true);
+                SendNotification(Const.Notification.SHOW_POPUP, vo);
+                break;
+            case Const.Notification.CUSTOMIZED_POPUP:
+                Debug.Log("Warning Popup: " + obj as string);
+                SendNotification(Const.Notification.SHOW_POPUP, obj as PopupInfoVO);
                 break;
         }
     }

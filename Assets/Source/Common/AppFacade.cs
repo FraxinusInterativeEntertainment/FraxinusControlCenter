@@ -36,6 +36,8 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(MainFSMCommand));
         RegisterCommand(Const.Notification.LOAD_SCENE, typeof(SceneCommand));
         RegisterCommand(Const.Notification.SHOW_MAIN_PANEL_CONTENT, typeof(UICommand));
+        RegisterCommand(Const.Notification.SHOW_POPUP, typeof(UICommand));
+        RegisterCommand(Const.Notification.CHECK_POPUP_QUE, typeof(UICommand));
         RegisterCommand(Const.Notification.RECV_ALL_GAME_CONDITIONS, typeof(ConditionCommand));
         RegisterCommand(Const.Notification.RECV_GAME_CONDITION_CHANGE, typeof(ConditionCommand));
         RegisterCommand(Const.Notification.GAME_STATUS_CHANGED, typeof(ConditionCommand));
@@ -53,8 +55,10 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.CHANGE_GAME_STATUS, typeof(GameStatusCommand));
         RegisterCommand(Const.Notification.REQUEST_FOR_GAME_STATUS, typeof(GameStatusCommand));
         RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(OnLoginSuccessCommand));
+        RegisterCommand(Const.Notification.TRY_CHANGE_QUEST_NODE, typeof(QuestControlCommand));
         RegisterCommand(Const.Notification.DEBUG_LOG, typeof(ErrorHandlerCommand));
         RegisterCommand(Const.Notification.WARNING_POPUP, typeof(ErrorHandlerCommand));
+        RegisterCommand(Const.Notification.CUSTOMIZED_POPUP, typeof(ErrorHandlerCommand));
     }
 
 

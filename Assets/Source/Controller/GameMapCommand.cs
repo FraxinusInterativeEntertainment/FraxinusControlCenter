@@ -7,6 +7,7 @@ using PureMVC.Interfaces;
 public class GameMapCommand : SimpleCommand
 {
     public const float MIN_V = 25.0f;
+    public const float MAP_RATIO = 100f;
 
     public override void Execute(INotification _notification)
     {
@@ -62,8 +63,8 @@ public class GameMapCommand : SimpleCommand
         float v;
 
         //TODO: 需要实地大小和地图大小的等比例换算
-        int x = (int)(position.x * (_hsvRefMap.width - 1));
-        int y = (int)(position.y * (_hsvRefMap.height - 1));
+        int x = (int)(position.x / MAP_RATIO * (_hsvRefMap.width - 1));
+        int y = (int)(position.y / MAP_RATIO * (_hsvRefMap.height - 1));
 
         Color.RGBToHSV(_hsvRefMap.GetPixel(x, y), out h, out s, out v);
 

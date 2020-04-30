@@ -41,9 +41,9 @@ public class PlayerPosSImulator : MonoBehaviour
 public class PlayerPosInfoSim
 {
     public string TagId;
-    [Range(0, 1)]
+    [Range(0, 100)]
     public float x;
-    [Range(0, 1)]
+    [Range(0, 100)]
     public float y;
 
     public PlayerPosInfoSim(string _tagId)

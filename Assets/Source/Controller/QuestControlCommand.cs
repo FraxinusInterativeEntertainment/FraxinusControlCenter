@@ -4,19 +4,19 @@ using UnityEngine;
 using PureMVC.Patterns;
 using PureMVC.Interfaces;
 
-public class PlayerCommand : SimpleCommand
+public class QuestControlCommand : SimpleCommand
 {
     public override void Execute(INotification notification)
     {
         object obj = notification.Body;
-        PlayerInfoProxy playerInfoProxy;
-        playerInfoProxy = Facade.RetrieveProxy(PlayerInfoProxy.NAME) as PlayerInfoProxy;
+        QuestControlProxy questControlProxy;
+        questControlProxy = Facade.RetrieveProxy(QuestControlProxy.NAME) as QuestControlProxy;
         string name = notification.Name;
 
         switch (name)
         {
-            case Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO:
-                playerInfoProxy.UpdatePlayerList(obj as Dictionary<string, UwbUserInfo>);
+            case Const.Notification.TRY_CHANGE_QUEST_NODE:
+                questControlProxy.TryChangeQuestNode(obj as QuestControlVO);
                 break;
         }
     }
