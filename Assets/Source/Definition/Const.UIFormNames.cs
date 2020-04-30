@@ -15,5 +15,6 @@ public static partial class Const
         public const string QUEST_FORM = UI_FORM_PATH + "QuestForm";
         public const string CONDITION_FORM = UI_FORM_PATH + "ConditionForm";
         public const string MCU_FORM = UI_FORM_PATH + "McuForm";
+        public const string DEBUG_FORM = UI_FORM_PATH + "DebugForm";
     }
 }

@@ -16,6 +16,10 @@ public class UIManager : MonoBehaviour
     private UIFormBase m_mainPanelForm;
     private UIFormBase m_mapPanel;
 
+    [SerializeField]
+    private PopupView m_warningPopup;
+    private readonly Queue<PopupInfoVO> m_popupQueue = new Queue<PopupInfoVO>();
+
     private readonly Dictionary<string, UIFormBase> m_loadedMainPanelForms = new Dictionary<string, UIFormBase>();
 
     public static UIManager instance { get { return m_instance; } }
@@ -50,5 +54,33 @@ public class UIManager : MonoBehaviour
         }
         m_mainPanelForm = m_loadedMainPanelForms[_formName];
         m_mainPanelForm.Show();
+    }
+
+    public void ShowPopup(PopupInfoVO _vo)
+    {
+        if (m_popupQueue.Count == 0)
+        {
+            m_warningPopup.Init(_vo);
+            m_warningPopup.Show();
+
+            m_popupQueue.Enqueue(_vo);
+        }
+        else
+        {
+            m_popupQueue.Enqueue(_vo);
+        }
+    }
+
+    public void CheckPopupQueue()
+    {
+        if (m_popupQueue.Count > 0)
+        {
+            m_popupQueue.Dequeue();
+        }
+        if (m_popupQueue.Count > 0) 
+        {
+            m_warningPopup.Init(m_popupQueue.Dequeue());
+            m_warningPopup.Show();
+        }
     }
 }

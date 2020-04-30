@@ -13,6 +13,8 @@ public class DebugViewMediator : Mediator, IMediator
     public DebugViewMediator(DebugView _view) : base(NAME, _view)
     {
         m_debugView.SendWsMsg += OnSendWsMsg;
+        m_debugView.TryAddPlayer += OnTryAddVPlayer;
+        Application.RegisterLogCallback(UnityLogHandler);
     }
     
     public override System.Collections.Generic.IList<string> ListNotificationInterests()
@@ -36,8 +38,25 @@ public class DebugViewMediator : Mediator, IMediator
         }
     }
 
+    private void UnityLogHandler(string _condition, string _stackTrace, LogType _type)
+    {
+        //TODO: Remove type check after testing
+        if (_type != LogType.Log)
+        {
+            SendNotification(Const.Notification.DEBUG_LOG, _condition + "\n" + _stackTrace);
+        }
+    }
+
     string c1 = "1";
     string c2 = "1";
+
+    private void OnTryAddVPlayer()
+    {
+        GameStatusProxy gameStatusProxy;
+        gameStatusProxy = Facade.RetrieveProxy(GameStatusProxy.NAME) as GameStatusProxy;
+
+        SendNotification(Const.Notification.GENERATE_VIRTUAL_PLAYER, gameStatusProxy.GetCurrentGameId());
+    }
 
     private void OnSendWsMsg()
     {
@@ -81,10 +100,7 @@ public class DebugViewMediator : Mediator, IMediator
         }
         else if (m_debugView.wsMsgVO == "newplayer")
         {
-            GameStatusProxy gameStatusProxy;
-            gameStatusProxy = Facade.RetrieveProxy(GameStatusProxy.NAME) as GameStatusProxy;
 
-            SendNotification(Const.Notification.GENERATE_VIRTUAL_PLAYER, gameStatusProxy.GetCurrentGameId());
         }
 
     }

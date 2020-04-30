@@ -62,6 +62,12 @@ public class McuServerProxy : Proxy, IProxy
                 case "Heart":
                     McuHeartbeatHandler(_client, _msg);
                     break;
+                case "Sensor":
+                    SensorMsgHandler(_msg);
+                    break;
+                case "Signal":
+
+                    break;
             }
         }
         catch(JsonReaderException exception)
@@ -88,6 +94,13 @@ public class McuServerProxy : Proxy, IProxy
     public void SendAreYouOK(string _mcuID)
     {
         m_MicroControllerService.SendMessage(McuServerData().connectedMcus[_mcuID].client, "Are you OK?");
+    }
+
+    private void SensorMsgHandler(string _msg)
+    {
+        McuConditionMsg conditionMsg = JsonConvert.DeserializeObject<McuConditionMsg>(_msg);
+        SendNotification(Const.Notification.WS_SEND, new SensorMessage(conditionMsg.MsgContent.moduleName, 
+                                                                       conditionMsg.MsgContent.value));
     }
 
     private void McuHeartbeatHandler(TcpClient _client, string _msg)
