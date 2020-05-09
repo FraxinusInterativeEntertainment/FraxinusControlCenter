@@ -46,12 +46,16 @@ public class GameStatusView : UIViewBase
         
         Show();
     }
-    private void OnDisable()
+    public void DestoryAllGameSessions()
     {
-        for (int i = 0; i < m_gameSessions.transform.childCount; i++)
+        if (m_gameSessions.transform.childCount>=0)
         {
-            Destroy(m_gameSessions.transform.GetChild(i).gameObject);
+            for (int i = 0; i < m_gameSessions.transform.childCount; i++)
+            {
+                Destroy(m_gameSessions.transform.GetChild(i).gameObject);
+            }
         }
+       
     }
     void OnDestroy()
     {

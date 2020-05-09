@@ -76,6 +76,7 @@ public class GameStatusViewMediator : Mediator, IMediator
 
     private void UpdateGameStatusHandler()
     {
+        m_gameStatusView.DestoryAllGameSessions();
         SendNotification(Const.Notification.REQUEST_FOR_GAME_STATUS);
     }
 
@@ -122,6 +123,7 @@ public class GameStatusViewMediator : Mediator, IMediator
     }
     private void UpdateGamesessioInfo(GameSessionsResponse _vo)
     {
+        m_gameStatusView.DestoryAllGameSessions();
         for (int i = 0; i < _vo.game_sessions_info.Count; i++)
         {
             m_gameStatusView.UpdateGameSession(_vo.game_sessions_info[i]);
