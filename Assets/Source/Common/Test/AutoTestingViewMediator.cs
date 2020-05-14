@@ -159,7 +159,7 @@ public class AutoTestingViewMediator : Mediator, IMediator
                 break;
             case TestState.End:
                 SendNotification(Const.Notification.DEBUG_LOG, AUTO_TEST_TEXT + "Test Finished.");
-                ShowAutoTestResult(m_resultText + "\n测试通过!");
+                ShowAutoTestResult("所有测试通过!\n\n" + m_resultText);
                 ResetTestState();
                 break;
         }
