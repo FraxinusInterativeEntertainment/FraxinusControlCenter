@@ -32,7 +32,11 @@ public static partial class Const
         public const string RECV_PLAYER_POS_INFOS = "RecvPlayerPosInfos";
         public const string ADD_VIRTUAL_PLAYER_TO_GAME = "AddVirtualPlayerToGame";
         public const string GENERATE_VIRTUAL_PLAYER = "GenerateVirtualPlayer";
+        public const string SEND_PLAYER_LOCATION_INFOS = "SendPlayerLocationInfos";
+        public const string SERVER_MSG_USER_INFO = "ServerMsgUserInfo";
+        public const string SERVER_MSG_GROUP_INFO = "ServerMsgGroupInfo";
 
+        #region System Core
         public const string LOAD_SCENE = "LoadScene";
         public const string REQUEST_FOR_GAME_STATUS = "RequestForGameSessions";
         public const string RECEIVED_GAME_STATUS = "ReceivedGameStatus";
@@ -48,6 +52,10 @@ public static partial class Const
         public const string CUSTOMIZED_POPUP = "CustomizedPopup";
         public const string CHECK_POPUP_QUE = "CheckPopuQue";
         public const string TRY_CHANGE_QUEST_NODE = "TryCHangeQuestNode";
+        #endregion
 
+        #region Testing
+        public const string V_PLAYER_LOGIN_SUCCESS = "VPlayerLoginSuccess";
+        #endregion
     }
 }

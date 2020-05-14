@@ -38,6 +38,13 @@ public class ServerCommunicationCommand : SimpleCommand
                 ServerConditionMessage conditionMsg = JsonConvert.DeserializeObject<ServerConditionMessage>(_msg);
                 SendNotification(Const.Notification.RECV_GAME_CONDITION_CHANGE, conditionMsg.MsgContent);
                 break;
+            case "user_info":
+                ServerUserInfoMessage userInfoMsg = JsonConvert.DeserializeObject<ServerUserInfoMessage>(_msg);
+                SendNotification(Const.Notification.SERVER_MSG_USER_INFO, userInfoMsg.MsgContent);
+                break;
+            case "group_info":
+                SendNotification(Const.Notification.SERVER_MSG_GROUP_INFO);
+                break;
         }
     }
 }
