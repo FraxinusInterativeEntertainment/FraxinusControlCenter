@@ -48,15 +48,15 @@ public class GameStatusViewMediator : Mediator, IMediator
                 UpdateGamesessioInfo(vo as GameSessionsResponse);
                 break;
             case Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO:
-                SendNotification(Const.Notification.DEBUG_LOG, "Player Updated: " + (vo as Dictionary<string, UwbUserInfo>).Count);
+                SendNotification(Const.Notification.DEBUG_LOG, "Player Updated: " + (vo as Dictionary<string, UserInfo>).Count);
 
                 //TODO: Remove foreach{} when finished testing
-                foreach(KeyValuePair<string, UwbUserInfo> kvp in (vo as Dictionary<string, UwbUserInfo>))
+                foreach(KeyValuePair<string, UserInfo> kvp in (vo as Dictionary<string, UserInfo>))
                 {
                     PlayerPosSImulator.instance.OnNewVirtualPlayer(kvp.Key);
                 }
 
-                AppFacade.instance.SendNotification(Const.Notification.DEBUG_LOG, "Players updated: " + (vo as Dictionary<string, UwbUserInfo>).Count.ToString());
+                AppFacade.instance.SendNotification(Const.Notification.DEBUG_LOG, "Players updated: " + (vo as Dictionary<string, UserInfo>).Count.ToString());
                 break;
         }
     }
@@ -106,6 +106,7 @@ public class GameStatusViewMediator : Mediator, IMediator
                 break;
         }
     }
+
     private void UpdateGameStatusIndicator(GameStatus _status)
     { 
         switch(_status)

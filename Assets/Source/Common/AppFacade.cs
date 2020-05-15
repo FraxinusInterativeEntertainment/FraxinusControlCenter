@@ -50,6 +50,8 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.GAME_STARTED, typeof(UpdateGameServerCommand));
         RegisterCommand(Const.Notification.GAME_CLOSED, typeof(UpdateGameServerCommand));
         RegisterCommand(Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO, typeof(PlayerCommand));
+        RegisterCommand(Const.Notification.SEND_PLAYER_LOCATION_INFOS, typeof(PlayerCommand));
+        RegisterCommand(Const.Notification.SERVER_MSG_USER_INFO, typeof(PlayerCommand));
         RegisterCommand(Const.Notification.ADD_VIRTUAL_PLAYER_TO_GAME, typeof(SimulationCommand));
         RegisterCommand(Const.Notification.GENERATE_VIRTUAL_PLAYER, typeof(SimulationCommand));
         RegisterCommand(Const.Notification.CHANGE_GAME_STATUS, typeof(GameStatusCommand));

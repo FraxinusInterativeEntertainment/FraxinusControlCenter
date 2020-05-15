@@ -46,16 +46,16 @@ public class ChangeGameStatusProxy : Proxy, IProxy, IResponder
         SendNotification(Const.Notification.GAME_STATUS_CHANGE_ERROR, _data);
     }
 
-    private Dictionary<string, UwbUserInfo> DeserializeDeviceID2UserInfo(string _json)
+    private Dictionary<string, UserInfo> DeserializeDeviceID2UserInfo(string _json)
     {
-        return JsonConvert.DeserializeObject<Dictionary<string, UwbUserInfo>>(_json);
+        return JsonConvert.DeserializeObject<Dictionary<string, UserInfo>>(_json);
     }
 }
 
 public class ChangeGameStatusResponse : HttpResponse
 {
     public Dictionary<string, int> game_condition_status;
-    public Dictionary<string, UwbUserInfo> device_id_2_user_info { get; set; }
+    public Dictionary<string, UserInfo> device_id_2_user_info { get; set; }
     public string game_id { get; set; }
     public GameStatus gameStatus { get; set; }
     public string game_time { get; set; }

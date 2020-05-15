@@ -21,6 +21,11 @@ public class PlayerInfoProxy : Proxy, IProxy
         GameManager.instance.StartCoroutine(m_sendPosInfoCoroutine);
     }
 
+    public PlayerInfoModel GetPlayerInfos()
+    {
+        return m_data as PlayerInfoModel;
+    }
+
     public PlayerInfo GetPlayerInfoByTagId(string _tagId)
     {
         Dictionary<string, PlayerInfo> info = (m_data as PlayerInfoModel).connectedPlayers;
@@ -47,26 +52,26 @@ public class PlayerInfoProxy : Proxy, IProxy
         m_sendPosInfo = false;
     }
 
-    public void OnMultiplePlayersJoined(Dictionary<string, UwbUserInfo> _newPlayers)
+    public void OnMultiplePlayersJoined(Dictionary<string, UserInfo> _newPlayers)
     {
-        foreach (KeyValuePair<string, UwbUserInfo> kvp in _newPlayers)
+        foreach (KeyValuePair<string, UserInfo> kvp in _newPlayers)
         {
             if (!(m_data as PlayerInfoModel).connectedPlayers.ContainsKey(kvp.Key))
             {
-                (m_data as PlayerInfoModel).connectedPlayers.Add(kvp.Key, new PlayerInfo(kvp.Value.user_id, kvp.Key, kvp.Value.nickname, PlayerStatus.Unknown));
+                (m_data as PlayerInfoModel).connectedPlayers.Add(kvp.Key, new PlayerInfo(kvp.Value.uid, kvp.Key, kvp.Value.nickname, PlayerStatus.Unknown));
             }
 
             (m_data as PlayerInfoModel).connectedPlayers[kvp.Key].status = PlayerStatus.Connected;
         }
     }
 
-    public void UpdatePlayerList(Dictionary<string, UwbUserInfo> _playerList)
+    public void UpdatePlayerList(Dictionary<string, UserInfo> _playerList)
     {
         (m_data as PlayerInfoModel).connectedPlayers.Clear();
 
-        foreach (KeyValuePair<string, UwbUserInfo> kvp in _playerList)
+        foreach (KeyValuePair<string, UserInfo> kvp in _playerList)
         {
-            (m_data as PlayerInfoModel).connectedPlayers.Add(kvp.Key, new PlayerInfo(kvp.Value.user_id, kvp.Key, kvp.Value.nickname, PlayerStatus.Unknown));
+            (m_data as PlayerInfoModel).connectedPlayers.Add(kvp.Key, new PlayerInfo(kvp.Value.uid, kvp.Key, kvp.Value.nickname, PlayerStatus.Unknown));
             (m_data as PlayerInfoModel).connectedPlayers[kvp.Key].status = PlayerStatus.Connected;
         }
     }
@@ -93,13 +98,14 @@ public class PlayerInfoProxy : Proxy, IProxy
             if (m_sendPosInfo)
             {
                 //使用多线程打包玩家位置信息防止以后同场玩家过多的情况下造成程序卡顿
-                ThreadPool.QueueUserWorkItem(PackAndSend, m_data);
+                //TODO: 可能造成deadlock
+                ThreadPool.QueueUserWorkItem( (object state) => { SendNotification(Const.Notification.SEND_PLAYER_LOCATION_INFOS, m_data); });
             }
             yield return new WaitForSeconds(1/_freq);
         }
     }
 
-    private void PackAndSend(object _playerInfoModel)
+    public void PackAndSend(object _playerInfoModel)
     {
         Dictionary<string, PlayerInfo> connectedPlayers = (_playerInfoModel as PlayerInfoModel).connectedPlayers;
 

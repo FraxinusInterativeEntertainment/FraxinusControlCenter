@@ -73,6 +73,7 @@ public class SimulationProxy : Proxy, IProxy, IResponder
 
     private void VirtualLoginCallback(HttpResponse _response)
     {
+        SendNotification(Const.Notification.V_PLAYER_LOGIN_SUCCESS);
         SendNotification(Const.Notification.DEBUG_LOG, _response.err_code + _response.err_msg);
         Debug.Log(_response.err_code + _response.err_msg);
     }

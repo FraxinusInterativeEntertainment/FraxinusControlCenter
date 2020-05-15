@@ -16,7 +16,13 @@ public class PlayerCommand : SimpleCommand
         switch (name)
         {
             case Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO:
-                playerInfoProxy.UpdatePlayerList(obj as Dictionary<string, UwbUserInfo>);
+                playerInfoProxy.UpdatePlayerList(obj as Dictionary<string, UserInfo>);
+                break;
+            case Const.Notification.SEND_PLAYER_LOCATION_INFOS:
+                playerInfoProxy.PackAndSend(playerInfoProxy.GetPlayerInfos());
+                break;
+            case Const.Notification.SERVER_MSG_USER_INFO:
+                playerInfoProxy.OnMultiplePlayersJoined(obj as Dictionary<string, UserInfo>);
                 break;
         }
     }
