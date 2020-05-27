@@ -19,11 +19,25 @@ public class PlayerCommand : SimpleCommand
                 playerInfoProxy.UpdatePlayerList(obj as Dictionary<string, UserInfo>);
                 break;
             case Const.Notification.SEND_PLAYER_LOCATION_INFOS:
-                playerInfoProxy.PackAndSend(playerInfoProxy.GetPlayerInfos());
+                PackAndSend(playerInfoProxy.GetPlayerInfos());
                 break;
             case Const.Notification.SERVER_MSG_USER_INFO:
                 playerInfoProxy.OnMultiplePlayersJoined(obj as Dictionary<string, UserInfo>);
                 break;
         }
+    }
+
+    public void PackAndSend(object _playerInfoModel)
+    {
+        Dictionary<string, PlayerInfo> connectedPlayers = (_playerInfoModel as PlayerInfoModel).connectedPlayers;
+
+        Dictionary<string, PlayerPosInfo> locationInfos = new Dictionary<string, PlayerPosInfo>();
+
+        foreach (KeyValuePair<string, PlayerInfo> kvp in connectedPlayers)
+        {
+            locationInfos.Add(kvp.Key, kvp.Value.posInfo);
+        }
+
+        SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));
     }
 }

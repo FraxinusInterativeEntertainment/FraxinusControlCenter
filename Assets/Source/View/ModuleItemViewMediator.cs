@@ -21,7 +21,6 @@ public class ModuleItemViewMediator : Mediator, IMediator
     {
         return new List<string>()
         {
-
         };
     }
 

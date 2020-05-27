@@ -20,7 +20,6 @@ public class QuestPanelViewMediator : Mediator, IMediator
     {
         return new List<string>()
         {
-
         };
     }
 
@@ -31,7 +30,6 @@ public class QuestPanelViewMediator : Mediator, IMediator
 
         switch (name)
         {
-           
         }
     }
 

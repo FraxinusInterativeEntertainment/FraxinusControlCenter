@@ -104,19 +104,5 @@ public class PlayerInfoProxy : Proxy, IProxy
             yield return new WaitForSeconds(1/_freq);
         }
     }
-
-    public void PackAndSend(object _playerInfoModel)
-    {
-        Dictionary<string, PlayerInfo> connectedPlayers = (_playerInfoModel as PlayerInfoModel).connectedPlayers;
-
-        Dictionary<string, PlayerPosInfo> locationInfos = new Dictionary<string, PlayerPosInfo>();
-
-        foreach (KeyValuePair<string, PlayerInfo> kvp in connectedPlayers)
-        {
-            locationInfos.Add(kvp.Key, kvp.Value.posInfo);
-        }
-
-        SendNotification(Const.Notification.WS_SEND, new LocationMessage(locationInfos));
-    }
 }
 

@@ -42,11 +42,9 @@ public class LoginViewMediator : Mediator, IMediator
                 SendNotification(Const.Notification.DEBUG_LOG, vo);
                 break;
             case Const.Notification.LOGOUT_SUCCESS:
-                Debug.Log("Logout Success: " + vo);
                 OnLogoutSuccess();
                 break;
             case Const.Notification.LOGOUT_FAIL:
-                Debug.Log("Logout failed: " + vo);
                 SendNotification(Const.Notification.DEBUG_LOG, vo);
                 break;
         }
@@ -60,7 +58,6 @@ public class LoginViewMediator : Mediator, IMediator
     private void OnTryLogout()
     {
         SendNotification(Const.Notification.SEND_LOGOUT);
-        //m_loginView.ActivateUserInfoPanel();
     }
 
     private void OnLoginSuccess()

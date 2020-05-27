@@ -21,7 +21,6 @@ public class QuestControlViewMediator : Mediator, IMediator
     {
         return new List<string>()
         {
-
         };
     }
 
@@ -32,7 +31,6 @@ public class QuestControlViewMediator : Mediator, IMediator
 
         switch (name)
         {
-           
         }
     }
 

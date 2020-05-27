@@ -30,7 +30,7 @@ public class GameMapProxy : Proxy, IProxy
 
     private void InitGameMapData()
     {
-        //TODO: request from game server
+        //TODO: 从后台处获取（后台需要添加此表）
         RoomIdHsvRef().Add("4_55_92", "room1");
         RoomIdHsvRef().Add("10_57_97", "room2");
         RoomIdHsvRef().Add("10_12_97", "room3");
@@ -52,33 +52,4 @@ public class GameMapProxy : Proxy, IProxy
     {
         (m_data as GameMap).hsvRefMap = _map;
     }
-
-    /*
-    public void SendDeviceLocationInfo()
-    {
-        SendNotification("sfsd", m_gameMap);
-    }
-
-    public void UpdateDeviceLocationInfoDict()
-    {
-
-    }
-
-    public void UpdateDeviceIdToUserInfoDict(object _data)
-    {
-        Dictionary<string, UwbUserInfo> _didToUserInfo = _data as Dictionary<string, UwbUserInfo>;
-
-        foreach (KeyValuePair<string, UwbUserInfo> keyValuePair in _didToUserInfo)
-        {
-            if (!m_gameMap.deviceIdToUserInfo.ContainsKey(keyValuePair.Key))
-            {
-                m_gameMap.deviceIdToUserInfo.Add(keyValuePair.Key, keyValuePair.Value);
-            }
-            else
-            {
-                m_gameMap.deviceIdToUserInfo[keyValuePair.Key] = keyValuePair.Value;
-            }
-        }
-    }
-    */
 }
