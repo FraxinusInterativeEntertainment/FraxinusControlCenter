@@ -75,27 +75,9 @@ public class ServerCommunicationProxy : Proxy, IProxy
     private string ToJson(object _data)
     {
         string json = JsonConvert.SerializeObject(_data);
-        Debug.Log(json);
 
         return json;
     }
-
-    /*
-    private string testWsSend()
-    {
-        string result = "None";
-
-        Dictionary<string, DeviceLocationInfo> gameMap = new Dictionary<string, DeviceLocationInfo>();
-        gameMap.Add("did00001", new DeviceLocationInfo(1, 1, "room1"));
-        gameMap.Add("did00002", new DeviceLocationInfo(2, 2, "room2"));
-
-        WsMessage wsMsg = new WsMessage("location", gameMap);
-
-        result = WsMsgToJson(wsMsg);
-
-        return result;
-    }
-    */
 }
 
 public class WsMessage

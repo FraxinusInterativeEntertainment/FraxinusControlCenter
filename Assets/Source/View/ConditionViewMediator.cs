@@ -62,6 +62,6 @@ public class ConditionViewMediator : Mediator, IMediator
     private void OnTrySubmitNewValue(ConditionVO _vo)
     {
         Debug.Log("Try submit condition: " + _vo.condition_name + "/" + _vo.status);
-        //TODO: WsSend(condition, value)
+        //TODO: 接入Http Condition改变的接口（set_game_condition/）
     }
 }

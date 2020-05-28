@@ -49,7 +49,6 @@ public class McuViewMediator : Mediator, IMediator
         {
             m_mcuView.UpdateMcuItem(mcuItem.Value);
         }
-        Debug.Log("Mcu Updated");
     }
 
     private void OnMcuConnected(McuVO _vo)

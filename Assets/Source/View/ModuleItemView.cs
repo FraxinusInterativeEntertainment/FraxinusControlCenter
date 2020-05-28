@@ -24,17 +24,6 @@ public class ModuleItemView : UIViewBase
     private Text m_descText;
     public MouseDetectionTool mouseDetectionTool;
 
-    private void Start()
-    {
-        m_sendSignalButton.onClick.AddListener(() => { OnSendSignalButtonClicked(); });
-        m_valueSlider.onValueChanged.AddListener((float _value) => { SetValue((int)_value); });
-        SetValue((int)m_valueSlider.value);
-    }
-    private void OnDestroy()
-    {
-        AppFacade.instance.RemoveMediator(ModuleItemViewMediator.NAME);
-    }
-
     public ModuleItemView Init(McuModule _vo)
     {
         AppFacade.instance.RegisterMediator(new ModuleItemViewMediator(this, ModuleItemViewMediator.NAME + _vo.module_name));
@@ -48,6 +37,28 @@ public class ModuleItemView : UIViewBase
     {
         controlSignalVO = new ControlSignalVO(_vo.module_name, _vo.min);
         SetUiText(_vo.title, _vo.min, _vo.max, _vo.desc);
+    }
+
+    public void ShowModuleDescText()
+    {
+        m_descImage.gameObject.SetActive(true);
+    }
+
+    public void ConcealModuleDescText()
+    {
+        m_descImage.gameObject.SetActive(false);
+    }
+
+    private void Start()
+    {
+        m_sendSignalButton.onClick.AddListener(() => { OnSendSignalButtonClicked(); });
+        m_valueSlider.onValueChanged.AddListener((float _value) => { SetValue((int)_value); });
+        SetValue((int)m_valueSlider.value);
+    }
+
+    private void OnDestroy()
+    {
+        AppFacade.instance.RemoveMediator(ModuleItemViewMediator.NAME);
     }
 
     private void SetValue(int _value)
@@ -68,20 +79,9 @@ public class ModuleItemView : UIViewBase
         m_valueSlider.maxValue = _maxValue;
         m_descText.text = _desc;
     }
-    public void ShowModuleDescText()
-    {
-        m_descImage.gameObject.SetActive(true);
-    }
-    public void ConcealModuleDescText()
-    {
-        m_descImage.gameObject.SetActive(false) ;
-    }
-
 
     private void LoadModules()
     { 
     
     }
-
-
 }

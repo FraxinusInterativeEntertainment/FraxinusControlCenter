@@ -48,7 +48,7 @@ public class GameStatusView : UIViewBase
     }
     public void DestoryAllGameSessions()
     {
-        if (m_gameSessions.transform.childCount>=0)
+        if (m_gameSessions.transform.childCount >= 0)
         {
             for (int i = 0; i < m_gameSessions.transform.childCount; i++)
             {
@@ -107,23 +107,25 @@ public class GameStatusView : UIViewBase
         m_gameStartTimeIndicator.text = _time;
     }
 
-    private void HideAllStatusIndicator()
-    {
-        m_readyStatusIndicator.SetActive(false);
-        m_startStatusIndicator.SetActive(false);
-        m_closedStatusIndicator.SetActive(false);
-    }
     public void UpdateGameSession(GameSessionInfo _vo)
     {
         GameObject sessionItem = Instantiate(m_gameSessionItem);
         sessionItem.transform.SetParent(m_gameSessions.transform);
         GameSessionItem gameSessionItem = sessionItem.GetComponent<GameSessionItem>();
         gameSessionItem.SetSessionInfo(_vo);
-        if (_vo.status==GameStatus.c)
+        if (_vo.status == GameStatus.c)
         {
-            gameSessionItem.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f,0.5f);
+            gameSessionItem.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f, 0.5f);
         }
     }
+
+    private void HideAllStatusIndicator()
+    {
+        m_readyStatusIndicator.SetActive(false);
+        m_startStatusIndicator.SetActive(false);
+        m_closedStatusIndicator.SetActive(false);
+    }
+    
 }
 
 

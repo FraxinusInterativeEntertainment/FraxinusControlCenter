@@ -8,6 +8,8 @@ public class McuItemView : UIViewBase
 {
     public event Action TryLoadModules = delegate { };
 
+    public McuVO mcuVO { get { return m_mcuVO; } }
+
     [SerializeField]
     private Text m_mcuNameText;
     [SerializeField]
@@ -24,9 +26,7 @@ public class McuItemView : UIViewBase
     [SerializeField]
     private GameObject m_moduleItemPrefab;
 
-
     private McuVO m_mcuVO;
-    public McuVO mcuVO { get { return m_mcuVO; } }
 
     private void Start()
     {
@@ -103,13 +103,6 @@ public class McuItemView : UIViewBase
     private void OnOpenExpandPanel()
     {
         m_expandPanel.SetActive(true);
-        //TODO: request for control infos(get all module attached to this mcu)
-
-        //TODO: check if loaded, do not load more than one time!
-        if (m_moduleContainer.transform.childCount > 1)
-        {
-            return;
-        }
     }
 
     private void OnCloseExpandPanel()

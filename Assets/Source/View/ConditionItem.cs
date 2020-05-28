@@ -69,6 +69,8 @@ public class ConditionItem : MonoBehaviour
     public void SetTitle(string _title)
     {
         m_conditionVO.title = _title;
+
+        //TODO: 界面上加入title后记得将数据更新上去
         //m_conditionTitle.text = _title;
     }
     public void SetDescription(string _desc)

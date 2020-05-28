@@ -39,6 +39,7 @@ public class DebugView : UIViewBase
         TryAddPlayer();
     }
 
+    //TODO:优化此处代码，现在并不是实时更新的，控制log长度的算法也需要优化
     public void ShowDebugText(string debugMsg)
     {
         if (m_debugText.text.Length >= 10000)
