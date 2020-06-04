@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class ControlSignalVO
 {
-    public string moduleID;
-    public int value;
+    public string mcuName { get; set; }
+    public string moduleName { get; set; }
+    public int value { get; set; }
+    public int moduleType { get; set; }
 
-    public ControlSignalVO(string _moduleID, int _value)
+    public ControlSignalVO(string _mcuName, string _moduleName, int _value, int _moduleType )
     {
-        moduleID = _moduleID;
+        mcuName = _mcuName;
+        moduleName = _moduleName;
         value = _value;
+        moduleType = _moduleType;
     }
 }

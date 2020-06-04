@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PureMVC.Patterns;
 using PureMVC.Interfaces;
+using Newtonsoft.Json;
 
 public class ModuleItemViewMediator : Mediator, IMediator
 {
@@ -36,7 +37,27 @@ public class ModuleItemViewMediator : Mediator, IMediator
 
     private void TrySendControlSignal()
     {
-        SendNotification(Const.Notification.WS_SEND, new SensorMessage(m_moduleItemView.controlSignalVO.moduleID,
-                                                                       m_moduleItemView.controlSignalVO.value.ToString()));
+        // type = 0，发送向MCU
+        if (m_moduleItemView.controlSignalVO.moduleType == 0)
+        {
+            string targetMcuName = m_moduleItemView.controlSignalVO.mcuName;
+            string msg = SerilizeMsgToMcu(m_moduleItemView.controlSignalVO.moduleName,
+                                          m_moduleItemView.controlSignalVO.value);
+
+            SendNotification(Const.Notification.TRY_SEND_MCU_MSG, new McuMsgQueueItem(targetMcuName, msg));
+        }
+        // type = 1，发送向服务器
+        else if (m_moduleItemView.controlSignalVO.moduleType == 1)
+        {
+            SendNotification(Const.Notification.WS_SEND, new SensorMessage(m_moduleItemView.controlSignalVO.moduleName,
+                                                                           m_moduleItemView.controlSignalVO.value.ToString()));
+        }
+    }
+
+    private string SerilizeMsgToMcu(string _moduleName, int _value)
+    {
+        SensorMessage sensorMessage = new SensorMessage(_moduleName, _value.ToString());
+
+        return JsonConvert.SerializeObject(sensorMessage);
     }
 }

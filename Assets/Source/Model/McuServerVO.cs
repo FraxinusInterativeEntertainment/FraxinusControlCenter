@@ -30,14 +30,14 @@ public class McuClient
     }
 }
 
-public class McuMsg
+public class McuMsgQueueItem
 {
-    public string McuId { get; set; }
+    public string TargetMcuName { get; set; }
     public string msg { get; set; }
 
-    public McuMsg(string _id, string _msg)
+    public McuMsgQueueItem(string _targetMcuName, string _msg)
     {
-        McuId = _id;
+        TargetMcuName = _targetMcuName;
         msg = _msg;
     }
 }
