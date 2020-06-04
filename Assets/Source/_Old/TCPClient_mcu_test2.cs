@@ -118,7 +118,7 @@ public class TCPClient_mcu_test2 : MonoBehaviour
     {
         editString = GUI.TextField(new Rect(10, 10, 100, 20), editString);
         if (GUI.Button(new Rect(10, 30, 60, 20), "send"))
-            SocketSend("{\"MsgType\":\"Heart\",\"MsgContent\":{\"Mcuid\":\"MCU2\"}}");
+            SocketSend("{\"MsgType\":\"Sensor\",\"MsgContent\":{\"moduleName\":\"Sensor1\", \"value\":\"1\"}}");
     }
 
     // Update is called once per frame

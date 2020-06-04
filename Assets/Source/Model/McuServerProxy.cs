@@ -53,6 +53,7 @@ public class McuServerProxy : Proxy, IProxy
 
     private void MessageHandler(TcpClient _client, string _msg)
     {
+        Debug.Log(_msg);
         try
         {
             McuMessage mcuMsg = JsonConvert.DeserializeObject<McuMessage>(_msg);
@@ -85,7 +86,7 @@ public class McuServerProxy : Proxy, IProxy
                 kvp.Value.isAlive = false;
                 kvp.Value.disconnected = true;
                 SendNotification(Const.Notification.UPDATE_MCU_STATUS, new McuVO(kvp.Key, McuStatus.Disconnnected));
-                Debug.Log(kvp.Key + " disconnected.");
+                SendNotification(Const.Notification.DEBUG_LOG, kvp.Key + " disconnected.");
                 break;
             }
         }
@@ -107,17 +108,18 @@ public class McuServerProxy : Proxy, IProxy
     {
         McuHeartbeatMsg hbMsg = JsonConvert.DeserializeObject<McuHeartbeatMsg>(_msg);
         string mcuID = hbMsg.MsgContent.Mcuid;
-        //Debug.Log("new heartbeat: " + mcuID);
+
         if (!McuServerData().connectedMcus.ContainsKey(mcuID))
         {
             McuServerData().connectedMcus.Add(mcuID, new McuClient(mcuID, _client));
         }
+
         if (McuServerData().connectedMcus[mcuID].disconnected)
         {
             McuServerData().connectedMcus[mcuID].disconnected = false;
            
-            Debug.Log(mcuID + " Connected!");
-            Debug.Log("Connected MCU: " + McuServerData().connectedMcus.Count);
+            SendNotification(Const.Notification.DEBUG_LOG, mcuID + " connected!");
+            SendNotification(Const.Notification.DEBUG_LOG, "已连接单片机数量: " + McuServerData().connectedMcus.Count);
         }
 
         McuServerData().connectedMcus[mcuID].isAlive = true;
@@ -153,7 +155,7 @@ public class McuServerProxy : Proxy, IProxy
 
         m_unsendMsgQueues[_mcuID].Enqueue(_msg);
 
-        Debug.Log(_mcuID + "UnsendMsg Count: " + m_unsendMsgQueues[_mcuID].Count);
+        SendNotification(Const.Notification.DEBUG_LOG, "发送至单片机 " + _mcuID + " 失败。失败信息 queue 数量：" + m_unsendMsgQueues[_mcuID].Count);
     }
 
     private void TryClearUnsendMsgQueue(string _mcuID)
@@ -163,13 +165,12 @@ public class McuServerProxy : Proxy, IProxy
             int msgCount = m_unsendMsgQueues[_mcuID].Count;
             for (int i = 0; i < msgCount; i++)
             {
-                SendNotification(Const.Notification.TRY_SEND_MCU_MSG, new McuMsg(_mcuID, m_unsendMsgQueues[_mcuID].Dequeue()));
-                //SendMsg(_mcuID, m_unsendMsgQueues[_mcuID].Dequeue());
+                SendNotification(Const.Notification.TRY_SEND_MCU_MSG, new McuMsgQueueItem(_mcuID, m_unsendMsgQueues[_mcuID].Dequeue()));
             }
         }
     }
 
-    private void TrySendMsg(McuMsg _msg)
+    private void TrySendMsg(McuMsgQueueItem _msg)
     {
         SendNotification(Const.Notification.TRY_SEND_MCU_MSG, _msg);
     }
@@ -181,7 +182,6 @@ public class McuServerProxy : Proxy, IProxy
 
     private void CheckHeartbeatRecord()
     {
-        //Debug.Log("Check heart beat");
         foreach (KeyValuePair<string, McuClient> kvp in McuServerData().connectedMcus)
         {
             if (!kvp.Value.isAlive)

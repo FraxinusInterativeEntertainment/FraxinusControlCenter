@@ -6,7 +6,7 @@ public class McuModule
 {
     public string module_name { get; set; }
     public string title { get; set; }
-    public string module_type { get; set; }
+    public int module_type { get; set; }
     public int min { get; set; }
     public int max { get; set; }
     public string mcu_name { get; set; }

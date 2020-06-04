@@ -83,7 +83,7 @@ public class McuProxy : Proxy, IProxy, IResponder
         Dictionary<string, McuModule> moduleInfos = _response.mcu_module_infos;
 
         foreach (KeyValuePair<string, McuModule> kvp in moduleInfos)
-        { 
+        {
             if (!m_mcu.ContainsKey(kvp.Value.mcu_name))
             {
                 //TODO: Warning: could not find parent mcu of this module

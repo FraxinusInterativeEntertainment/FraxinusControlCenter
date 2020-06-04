@@ -25,7 +25,7 @@ public class McuCommand : SimpleCommand
                 mcu_proxy.UpdateMcu(obj as McuVO);
                 break;
             case Const.Notification.TRY_SEND_MCU_MSG:
-                McuMsgOutHandler((obj as McuMsg).McuId, (obj as McuMsg).msg);
+                McuMsgOutHandler((obj as McuMsgQueueItem).TargetMcuName, (obj as McuMsgQueueItem).msg);
                 break;
             case Const.Notification.TRY_CONFIRM_MCU_DISCONNECTED:
                 TryConfirmMcuDisconnected(obj as string);
@@ -37,6 +37,11 @@ public class McuCommand : SimpleCommand
         }
     }
 
+    /// <summary>
+    /// 发送至MCU的信息
+    /// </summary>
+    /// <param name="_mcuID">Mcu identifier.</param>
+    /// <param name="_msg">Message.</param>
     private void McuMsgOutHandler(string _mcuID, string _msg)
     { 
         if (mcu_proxy.GetMcuStatus(_mcuID) == McuStatus.Connected)
