@@ -9,10 +9,16 @@ public class GameMapProxy : Proxy, IProxy
 {
     public const string NAME = "GameMapProxy";
     public const string HSV_REF_MAP_PATH = "Textures/Other/HsvRefMap2";
+    public const string VISUAL_MAP_PATH = "Textures/Other/HsvRefMap2";
+    public const float REAL_WORLD_LENGTH = 100f;
+    public const float READ_WORLD_WIDTH = 100f;
+    public const float MAP_LENGTH = 1024f;
+    public const float MAP_WIDTH = 724f;
 
     public GameMapProxy() : base(NAME, new GameMap())
     {
         LoadHsvRefMap(new ResourcesService().Load<Texture2D>(HSV_REF_MAP_PATH));
+        LoadVisualMap(new ResourcesService().Load<Texture2D>(HSV_REF_MAP_PATH));
         InitGameMapData();
     }
 
@@ -48,8 +54,17 @@ public class GameMapProxy : Proxy, IProxy
         return (m_data as GameMap).hsvRefMap;
     }
 
+    public Texture2D GetVisualMap()
+    {
+        return (m_data as GameMap).visualMap;
+    }
+
     private void LoadHsvRefMap(Texture2D _map)
     {
         (m_data as GameMap).hsvRefMap = _map;
+    }
+    private void LoadVisualMap(Texture2D _map)
+    {
+        (m_data as GameMap).visualMap = _map;
     }
 }

@@ -35,6 +35,7 @@ public static partial class Const
         public const string SEND_PLAYER_LOCATION_INFOS = "SendPlayerLocationInfos";
         public const string SERVER_MSG_USER_INFO = "ServerMsgUserInfo";
         public const string SERVER_MSG_GROUP_INFO = "ServerMsgGroupInfo";
+        public const string PLAYER_POSITIONS_UPDATED = "PlayerPositionUpdated";
 
         #region System Core
         public const string LOAD_SCENE = "LoadScene";

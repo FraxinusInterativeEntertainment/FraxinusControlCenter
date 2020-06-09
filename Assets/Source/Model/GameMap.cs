@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameMap
 {
     public Texture2D hsvRefMap { get; set; }
+    public Texture2D visualMap { get; set; }
     public readonly Dictionary<string, string> roomIdHsvRef = new Dictionary<string, string>();
 }
 
