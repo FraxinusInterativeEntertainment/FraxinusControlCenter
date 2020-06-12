@@ -11,7 +11,7 @@ public class GameMapProxy : Proxy, IProxy
     public const string HSV_REF_MAP_PATH = "Textures/Other/HsvRefMap2";
     public const string VISUAL_MAP_PATH = "Textures/Other/HsvRefMap2";
     public const float REAL_WORLD_LENGTH = 100f;
-    public const float READ_WORLD_WIDTH = 100f;
+    public const float REAL_WORLD_WIDTH = 100f;
     public const float MAP_LENGTH = 1024f;
     public const float MAP_WIDTH = 724f;
 

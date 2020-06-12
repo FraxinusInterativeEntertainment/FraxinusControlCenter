@@ -15,7 +15,13 @@ public class MainFSMCommand : SimpleCommand
 
         switch (name)
         {
-                         
+            case Const.Notification.LOGIN_SUCCESS:
+                SendNotification(Const.Notification.CONNECT_TO_WS_SERVER, obj);
+                SendNotification(Const.Notification.REQUEST_FOR_GAME_STATUS);
+                SendNotification(Const.Notification.INIT_MCU);
+                SendNotification(Const.Notification.SHOW_MAP_PANEL_CONTENT, Const.UIFormNames.GAME_MAP_FORM);
+                SendNotification(Const.Notification.SHOW_MAIN_PANEL_CONTENT, Const.UIFormNames.GAME_STATUS_FORM);
+                break;             
         }
     }
 }

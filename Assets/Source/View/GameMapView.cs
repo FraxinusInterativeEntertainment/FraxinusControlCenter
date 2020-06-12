@@ -6,40 +6,30 @@ using System;
 
 public class GameMapView : UIViewBase
 {
-    public Image visualMap;
+    public Image visualMap { get; private set; }
+    public MapBeaconManager mapBeaconManager { get; private set; }
 
     [SerializeField]
-    private GameObject m_playerIndicatorPrefab;
+    private GameObject m_playerBeaconPrefab;
     [SerializeField]
-    private Transform m_playerIndicatorContainer;
-    private readonly Dictionary<string, PlayerMapIndicator> m_playerIndicators = new Dictionary<string, PlayerMapIndicator>();
+    private GameObject m_playerBeaconContainer;
+    private readonly Dictionary<string, PlayerMapBeacon> m_playerBeacons = new Dictionary<string, PlayerMapBeacon>();
 
     void OnEnable()
     {
         AppFacade.instance.RegisterMediator(new GameMapViewMediator(this));
         Show();
+
+        GameMapConfig mapConfig = new GameMapConfig(GameMapProxy.REAL_WORLD_WIDTH,
+                                                    GameMapProxy.REAL_WORLD_LENGTH,
+                                                    GameMapProxy.MAP_WIDTH,
+                                                    GameMapProxy.MAP_LENGTH);
+        mapBeaconManager = new MapBeaconManager(m_playerBeaconContainer, m_playerBeaconPrefab, mapConfig);
     }
 
     void OnDestroy()
     {
         AppFacade.instance.RemoveMediator(GameMapViewMediator.NAME);
-    }
-
-    public void UpdatePlayerMapPos(string _uid, Vector3 _pos)
-    { 
-        if (!m_playerIndicators.ContainsKey(_uid))
-        {
-            m_playerIndicators.Add(_uid, GeneratePlayerIndicator());
-        }
-
-        m_playerIndicators[_uid].UpdatePosition(_pos);
-    }
-
-    private PlayerMapIndicator GeneratePlayerIndicator()
-    {
-        PlayerMapIndicator indicator = Instantiate(m_playerIndicatorPrefab, m_playerIndicatorContainer).GetComponent<PlayerMapIndicator>();
-
-        return indicator;
     }
 }
 

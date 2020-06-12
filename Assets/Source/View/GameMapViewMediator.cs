@@ -23,7 +23,8 @@ public class GameMapViewMediator : Mediator, IMediator
     {
         return new List<string>()
         {
-            Const.Notification.PLAYER_POSITIONS_UPDATED
+            Const.Notification.PLAYER_POSITIONS_UPDATED,
+            Const.Notification.PLAYER_LIST_UPDATED
         };
     }
 
@@ -37,7 +38,9 @@ public class GameMapViewMediator : Mediator, IMediator
             case Const.Notification.PLAYER_POSITIONS_UPDATED:
                 UpdateMapVisual();
                 break;
-            
+            case Const.Notification.PLAYER_LIST_UPDATED:
+                RefreshPlayerBeacons();
+                break;
         }
     }
 
@@ -45,17 +48,12 @@ public class GameMapViewMediator : Mediator, IMediator
     { 
         foreach(KeyValuePair<string, PlayerInfo> kvp in m_playerInfoProxy.GetPlayerInfos().connectedPlayers)
         {
-            m_gameMapView.UpdatePlayerMapPos(kvp.Key, RearWorldToMapCoor(kvp.Value.posInfo));
+            m_gameMapView.mapBeaconManager.UpdatePlayerBeacon(kvp.Key, kvp.Value);
         }
     }
 
-    private Vector3 RearWorldToMapCoor(PlayerPosInfo _posInfo)
+    private void RefreshPlayerBeacons()
     {
-        Vector3 mapPos = new Vector3(-99, -99, 0);
-
-        mapPos.x = (int)(_posInfo.x / GameMapProxy.READ_WORLD_WIDTH * (GameMapProxy.MAP_WIDTH - 1));
-        mapPos.y = (int)(_posInfo.y / GameMapProxy.REAL_WORLD_LENGTH * (GameMapProxy.MAP_LENGTH - 1));
-
-        return mapPos;
+        m_gameMapView.mapBeaconManager.ClearPlayerBeacons();
     }
 }

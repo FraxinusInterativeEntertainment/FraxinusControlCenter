@@ -74,6 +74,8 @@ public class PlayerInfoProxy : Proxy, IProxy
             (m_data as PlayerInfoModel).connectedPlayers.Add(kvp.Key, new PlayerInfo(kvp.Value.uid, kvp.Key, kvp.Value.nickname, PlayerStatus.Unknown));
             (m_data as PlayerInfoModel).connectedPlayers[kvp.Key].status = PlayerStatus.Connected;
         }
+
+        SendNotification(Const.Notification.PLAYER_LIST_UPDATED);
     }
 
     public void OnPlayerJoined()

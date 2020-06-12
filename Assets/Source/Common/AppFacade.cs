@@ -36,6 +36,7 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(MainFSMCommand));
         RegisterCommand(Const.Notification.LOAD_SCENE, typeof(SceneCommand));
         RegisterCommand(Const.Notification.SHOW_MAIN_PANEL_CONTENT, typeof(UICommand));
+        RegisterCommand(Const.Notification.SHOW_MAP_PANEL_CONTENT, typeof(UICommand));
         RegisterCommand(Const.Notification.SHOW_POPUP, typeof(UICommand));
         RegisterCommand(Const.Notification.CHECK_POPUP_QUE, typeof(UICommand));
         RegisterCommand(Const.Notification.RECV_ALL_GAME_CONDITIONS, typeof(ConditionCommand));
@@ -45,8 +46,6 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.UPDATE_MCU_REQUEST, typeof(McuCommand));
         RegisterCommand(Const.Notification.UPDATE_MCU_STATUS, typeof(McuCommand));
         RegisterCommand(Const.Notification.TRY_SEND_MCU_MSG, typeof(McuCommand));
-        RegisterCommand(Const.Notification.TRY_CONFIRM_MCU_DISCONNECTED, typeof(McuCommand));
-        RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(McuCommand));
         RegisterCommand(Const.Notification.GAME_STARTED, typeof(UpdateGameServerCommand));
         RegisterCommand(Const.Notification.GAME_CLOSED, typeof(UpdateGameServerCommand));
         RegisterCommand(Const.Notification.UPDATE_DEVICE_ID_TO_USER_INFO, typeof(PlayerCommand));
@@ -56,7 +55,6 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.GENERATE_VIRTUAL_PLAYER, typeof(SimulationCommand));
         RegisterCommand(Const.Notification.CHANGE_GAME_STATUS, typeof(GameStatusCommand));
         RegisterCommand(Const.Notification.REQUEST_FOR_GAME_STATUS, typeof(GameStatusCommand));
-        RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(OnLoginSuccessCommand));
         RegisterCommand(Const.Notification.TRY_CHANGE_QUEST_NODE, typeof(QuestControlCommand));
         RegisterCommand(Const.Notification.DEBUG_LOG, typeof(ErrorHandlerCommand));
         RegisterCommand(Const.Notification.WARNING_POPUP, typeof(ErrorHandlerCommand));

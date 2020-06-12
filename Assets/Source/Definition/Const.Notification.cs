@@ -36,6 +36,7 @@ public static partial class Const
         public const string SERVER_MSG_USER_INFO = "ServerMsgUserInfo";
         public const string SERVER_MSG_GROUP_INFO = "ServerMsgGroupInfo";
         public const string PLAYER_POSITIONS_UPDATED = "PlayerPositionUpdated";
+        public const string PLAYER_LIST_UPDATED = "PlayerListUpdated";
 
         #region System Core
         public const string LOAD_SCENE = "LoadScene";
@@ -45,6 +46,7 @@ public static partial class Const
         public const string GAME_CLOSED = "GameClosed";
         public const string LOAD_UI_FORM = "LoadUIForm";
         public const string SHOW_MAIN_PANEL_CONTENT = "ShowMainPanelContent";
+        public const string SHOW_MAP_PANEL_CONTENT = "ShowMapPanelContent";
         public const string SHOW_POPUP = "ShowPopup";
         public const string TRY_UPDATE_GAME_STATUS = "TryUpdateGameStatus";
         public const string SERVER_MSG_ARRIVED = "ServerMsgArrived";
