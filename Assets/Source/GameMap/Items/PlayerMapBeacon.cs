@@ -8,18 +8,25 @@ public class PlayerMapBeacon : MapBeacon
     [SerializeField]
     private Text m_uidText;
     [SerializeField]
-    private Image m_beaconImage;
+    private Text m_nicknameText;
 
     public void Init(PlayerInfo _playerInfo)
     {
-        ShowInfo(true);
+        SetUidVisible(false);
+        SetNicknameVisible(false);
 
         m_uidText.text = _playerInfo.uid;
-        m_beaconImage.color = Color.yellow;
+        m_nicknameText.text = _playerInfo.nickName;
+        m_beaconImage.color = Color.grey;
     }
 
-    public void ShowInfo(bool _value)
+    public void SetUidVisible(bool _value)
     {
         m_uidText.gameObject.SetActive(_value);
+    }
+
+    public void SetNicknameVisible(bool _value)
+    {
+        m_nicknameText.gameObject.SetActive(_value);
     }
 }

@@ -2,28 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapBeaconManager : MonoBehaviour
+public class MapBeaconManager
 {
     private readonly Dictionary<string, PlayerMapBeacon> m_playerBeacons = new Dictionary<string, PlayerMapBeacon>();
+
+    private GameMapView m_uiView;
     private GameObject m_beaconContainer;
     private GameObject m_beaconPrefab;
     private GameMapConfig m_mapConfig;
+    private GroupColorConfig m_colorConfig;
 
-    public MapBeaconManager (GameObject _beaconContainer, GameObject _beaconPrefab, GameMapConfig _gameMapConfig)
+    public MapBeaconManager (GameMapView _uiVIew, GameMapConfig _gameMapConfig, GroupColorConfig _colorConfig)
     {
-        m_beaconContainer = _beaconContainer;
-        m_beaconPrefab = _beaconPrefab;
+        m_uiView = _uiVIew;
         m_mapConfig = _gameMapConfig;
+        m_colorConfig = _colorConfig;
     }
 
-    public void UpdatePlayerBeacon(string _uid, PlayerInfo _playerInfo)
+    public void UpdatePlayerBeacon(PlayerInfo _playerInfo)
     {
-        if (!m_playerBeacons.ContainsKey(_uid))
+        if (!m_playerBeacons.ContainsKey(_playerInfo.uid))
         {
-            m_playerBeacons.Add(_uid, GeneratePlayerBeacon(_playerInfo));
+            AddPlayerBeacon(_playerInfo);
         }
 
-        m_playerBeacons[_uid].UpdatePosition(RearWorldToMapCoor(_playerInfo.posInfo));
+        m_playerBeacons[_playerInfo.uid].UpdatePosition(RearWorldToMapCoor(_playerInfo.posInfo));
     }
 
     public void ClearPlayerBeacons()
@@ -36,14 +39,28 @@ public class MapBeaconManager : MonoBehaviour
         m_playerBeacons.Clear();
     }
 
-    private PlayerMapBeacon GeneratePlayerBeacon(PlayerInfo _playerInfo)
+    public void ShowPlayerUid(bool _value)
     {
-        //TODO: 用工厂处理处理这几百个indicator的复用
-        PlayerMapBeacon beacon = Instantiate(m_beaconPrefab, m_beaconContainer.transform).GetComponent<PlayerMapBeacon>();
+        foreach (KeyValuePair<string, PlayerMapBeacon> kvp in m_playerBeacons)
+        {
+            kvp.Value.SetUidVisible(_value);
+        }
+    }
 
+    public void ShowPlayerNickname(bool _value)
+    {
+        foreach (KeyValuePair<string, PlayerMapBeacon> kvp in m_playerBeacons)
+        {
+            kvp.Value.SetNicknameVisible(_value);
+        }
+    }
+
+    private void AddPlayerBeacon(PlayerInfo _playerInfo)
+    {
+        PlayerMapBeacon beacon = m_uiView.GeneratePlayerMapBeacon();
+        m_playerBeacons.Add(_playerInfo.uid, beacon);
         beacon.Init(_playerInfo);
-
-        return beacon;
+        UpdateBeaconColor(beacon, _playerInfo.gameGroup);
     }
 
     private Vector3 RearWorldToMapCoor(PlayerPosInfo _posInfo)
@@ -54,6 +71,11 @@ public class MapBeaconManager : MonoBehaviour
         mapPos.y = (int)(_posInfo.y / m_mapConfig.realWorldLength * (m_mapConfig.mapImageLength - 1));
 
         return mapPos;
+    }
+
+    private void UpdateBeaconColor(MapBeacon _beacon, GameGroup _group)
+    {
+        _beacon.SetBeaconColor(m_colorConfig.GetGroupColor(_group));
     }
 }
 

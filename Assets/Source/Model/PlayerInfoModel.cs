@@ -15,6 +15,7 @@ public class PlayerInfo
     public string nickName { get; private set; }
     public PlayerPosInfo posInfo { get; private set; }
     public PlayerStatus status { get; set; }
+    public GameGroup gameGroup { get; set; }
 
     public PlayerInfo(string _uid, string _did, string _nickName, PlayerStatus _status)
     {

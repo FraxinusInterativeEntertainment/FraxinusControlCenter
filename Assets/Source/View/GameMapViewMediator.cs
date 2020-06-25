@@ -17,6 +17,9 @@ public class GameMapViewMediator : Mediator, IMediator
     {
         m_playerInfoProxy = AppFacade.instance.RetrieveProxy(PlayerInfoProxy.NAME) as PlayerInfoProxy;
         m_gameMapProxy = AppFacade.instance.RetrieveProxy(GameMapProxy.NAME) as GameMapProxy;
+
+        m_gameMapView.PlayerUidToggleChanged += OnPlayerUidToggle;
+        m_gameMapView.PlayerNicknameToggleChanged += OnPlayerNicknameToggle;
     }
 
     public override System.Collections.Generic.IList<string> ListNotificationInterests()
@@ -48,12 +51,22 @@ public class GameMapViewMediator : Mediator, IMediator
     { 
         foreach(KeyValuePair<string, PlayerInfo> kvp in m_playerInfoProxy.GetPlayerInfos().connectedPlayers)
         {
-            m_gameMapView.mapBeaconManager.UpdatePlayerBeacon(kvp.Key, kvp.Value);
+            m_gameMapView.mapBeaconManager.UpdatePlayerBeacon(kvp.Value);
         }
     }
 
     private void RefreshPlayerBeacons()
     {
         m_gameMapView.mapBeaconManager.ClearPlayerBeacons();
+    }
+
+    private void OnPlayerUidToggle(bool _value)
+    {
+        m_gameMapView.mapBeaconManager.ShowPlayerUid(_value);
+    }
+
+    private void OnPlayerNicknameToggle(bool _value)
+    {
+        m_gameMapView.mapBeaconManager.ShowPlayerNickname(_value);
     }
 }
