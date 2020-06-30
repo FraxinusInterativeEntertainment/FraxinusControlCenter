@@ -18,6 +18,7 @@ public class SideBarViewMediator : Mediator, IMediator
         m_sideBarView.ConditionToggleChanged += OnConditionToggleChanged;
         m_sideBarView.McuToggleChanged += OnMcuToggleChanged;
         m_sideBarView.DebugToggleChanged += OnDebugToggleChanged;
+        m_sideBarView.PlayerToggleChanged += OnPlayerToggleChanged;
     }
 
     public override System.Collections.Generic.IList<string> ListNotificationInterests()
@@ -90,7 +91,18 @@ public class SideBarViewMediator : Mediator, IMediator
             _toggle.interactable = true;
         }
     }
-
+    private void OnPlayerToggleChanged(Toggle _toggle)
+    {
+        if (_toggle.isOn)
+        {
+            _toggle.interactable = false;
+            SendNotification(Const.Notification.SHOW_MAIN_PANEL_CONTENT, Const.UIFormNames.PLAYER_FORM);
+        }
+        else
+        {
+            _toggle.interactable = true;
+        }
+    }
     private void OnDebugToggleChanged(Toggle _toggle)
     {
         if (_toggle.isOn)

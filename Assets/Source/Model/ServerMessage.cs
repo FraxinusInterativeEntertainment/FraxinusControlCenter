@@ -21,6 +21,15 @@ public class ServerConditionMessage : ServerMessage
         MsgContent = _msgContent;
     }
 }
+public class ServerQuestMessage : ServerMessage
+{
+    public QuestVO MsgContent { get; set; }
+    public ServerQuestMessage(QuestVO _msgContent, string _msgType) : base(_msgType)
+    {
+        MsgContent = _msgContent;
+    }
+}
+
 
 public class ServerUserInfoMessage : ServerMessage
 {
@@ -35,5 +44,5 @@ public class ServerUserInfoMessage : ServerMessage
 public class UserInfo
 {
     public string uid { get; set; }
-    public string nickname { get; set; } 
+    public string nickname { get; set; }
 }
