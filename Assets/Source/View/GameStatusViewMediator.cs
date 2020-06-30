@@ -67,7 +67,6 @@ public class GameStatusViewMediator : Mediator, IMediator
         {
             return;
         }
-
         GameStatusVO gamestatus = new GameStatusVO();
         gamestatus.gameId = m_currentGameStatus.gameId;
         gamestatus.gameStatus = _status;
@@ -80,7 +79,6 @@ public class GameStatusViewMediator : Mediator, IMediator
         SendNotification(Const.Notification.REQUEST_FOR_GAME_STATUS);
     }
 
-
     private void UpdateCurrentGameStatus(string _gameID, GameStatus _gameStatus, string _gameTime)
     {
         if (_gameID != null && _gameID.Length >= 0)
@@ -89,7 +87,6 @@ public class GameStatusViewMediator : Mediator, IMediator
         }
         m_currentGameStatus.gameStatus = _gameStatus;
         m_currentGameStatus.gameTime = _gameTime;
-
         UpdateGameStatusIndicator(m_currentGameStatus.gameStatus);
         m_gameStatusView.SetGameIdText(m_currentGameStatus.gameId);
         m_gameStatusView.SetGameStartTimeText(m_currentGameStatus.gameTime);

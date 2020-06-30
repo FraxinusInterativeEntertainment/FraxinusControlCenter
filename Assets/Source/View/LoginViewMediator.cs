@@ -59,6 +59,7 @@ public class LoginViewMediator : Mediator, IMediator
 
     private void OnTryLogout()
     {
+        m_loginView.ShowStartBgPanel(true);
         SendNotification(Const.Notification.SEND_LOGOUT);
         //m_loginView.ActivateUserInfoPanel();
     }
@@ -68,6 +69,7 @@ public class LoginViewMediator : Mediator, IMediator
         m_loginView.ActivateUserInfoPanel();
         m_loginView.SetLoginResultText("Login Success!");
         m_loginView.UpdateUserNameText();
+        m_loginView.ShowStartBgPanel(false);
     }
 
     private void OnLoginFailed(string _errMsg)

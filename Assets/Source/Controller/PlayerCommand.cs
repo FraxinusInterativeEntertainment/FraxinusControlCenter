@@ -24,6 +24,9 @@ public class PlayerCommand : SimpleCommand
             case Const.Notification.SERVER_MSG_USER_INFO:
                 playerInfoProxy.OnMultiplePlayersJoined(obj as Dictionary<string, UserInfo>);
                 break;
+            case Const.Notification.TRY_CHANGE_PLAYE_GROUP:
+                playerInfoProxy.TryChangePlayerGroup(obj as PlayerInfoVO);
+                break;
         }
     }
 }

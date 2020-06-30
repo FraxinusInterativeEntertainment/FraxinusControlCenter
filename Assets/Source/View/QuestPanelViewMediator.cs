@@ -14,6 +14,8 @@ public class QuestPanelViewMediator : Mediator, IMediator
     public QuestPanelViewMediator(QuestPanelView _view) : base(NAME, _view)
     {
         m_questPanelView.SendQuestControlButtonClicked += TryChangeQuestNode;
+        m_questPanelView.LastNodeControlButtonClicked += TryChangeQuestNode;
+        m_questPanelView.NextNodeControlButtonClicked += TryChangeQuestNode;
     }
 
     public override System.Collections.Generic.IList<string> ListNotificationInterests()
