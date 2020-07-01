@@ -15,8 +15,14 @@ public class QuestControlCommand : SimpleCommand
 
         switch (name)
         {
+            case Const.Notification.REQUEST_GROUP_NAME:
+                questControlProxy.TryGetAllGroupName();
+                break;
             case Const.Notification.TRY_CHANGE_QUEST_NODE:
                 questControlProxy.TryChangeQuestNode(obj as QuestControlVO);
+                break;
+            case Const.Notification.RECV_GAME_QUEST_INFO:
+                questControlProxy.UpdateQuestInfos(obj as QuestVO);
                 break;
         }
     }

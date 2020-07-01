@@ -22,12 +22,14 @@ public class AutoTestingViewMediator : Mediator, IMediator
     public const string ROOM_ID = "room2";
     public const string MODULE_NAME = "PlayerGroupTest";
     public const string MODULE_VALUE = "0";
+    public const string TARGET_NODE = "GroupA_1_b";
 
     private TestState m_testState = TestState.Default;
     private string m_testPlayerUid;
     private string m_resultText;
     private string m_currentTestText;
 
+    private QuestControlVO questControlVO = new QuestControlVO("a", QuestControlAction.move_forward, "");
     protected AutoTestingView m_autoTestingView { get { return m_viewComponent as AutoTestingView; } }
 
     public AutoTestingViewMediator(AutoTestingView _view) : base(NAME, _view)
@@ -49,7 +51,8 @@ public class AutoTestingViewMediator : Mediator, IMediator
             Const.Notification.RECEIVED_GAME_STATUS,
             Const.Notification.V_PLAYER_LOGIN_SUCCESS,
             Const.Notification.SERVER_MSG_USER_INFO,
-            Const.Notification.SERVER_MSG_GROUP_INFO
+            Const.Notification.SERVER_MSG_GROUP_INFO,
+            Const.Notification.CHANGE_PLAYER_GROUP_SUCCESS
         };
     }
 
@@ -108,7 +111,10 @@ public class AutoTestingViewMediator : Mediator, IMediator
                     ProcessTestState();
                 }
                 break;
-
+            case Const.Notification.CHANGE_PLAYER_GROUP_SUCCESS:
+                Debug.Log("Change GroupNode Success");
+                ProcessTestState();
+                break;
             case Const.Notification.LOGOUT_SUCCESS:
                 break;
             case Const.Notification.LOGOUT_FAIL:
@@ -157,6 +163,23 @@ public class AutoTestingViewMediator : Mediator, IMediator
                 m_currentTestText = "玩家进组";
                 TestAddGroup();
                 break;
+            case TestState.NextNode:
+                SendNotification(Const.Notification.DEBUG_LOG, AUTO_TEST_TEXT + "Next Quest Node.");
+                m_currentTestText = "下一个剧情节点";
+                TestNextNode();
+                break;
+            case TestState.TargetNode:
+                SendNotification(Const.Notification.DEBUG_LOG, AUTO_TEST_TEXT + "Target Node.");
+                m_currentTestText = "跳到GroupA_1_b";
+                TestTargetNode();
+                break;
+            
+            case TestState.LastNode:
+                SendNotification(Const.Notification.DEBUG_LOG, AUTO_TEST_TEXT + "Last Quest Node.");
+                m_currentTestText = "上一个剧情节点";
+                TestLastNode();
+                break;
+            
             case TestState.End:
                 SendNotification(Const.Notification.DEBUG_LOG, AUTO_TEST_TEXT + "Test Finished.");
                 ShowAutoTestResult("所有测试通过!\n\n" + m_resultText);
@@ -262,6 +285,24 @@ public class AutoTestingViewMediator : Mediator, IMediator
         //TODO: 需要保证服务器已经收到了新的位置信息，再发送入组信号。由于位置信息没有回调，暂时没法判断服务器是否收到
         SendNotification(Const.Notification.WS_SEND, new SensorMessage(MODULE_NAME, MODULE_VALUE));
     }
+    private void TestNextNode()
+    {
+        questControlVO.action = QuestControlAction.move_forward;
+        questControlVO.targetNode = "";
+        SendNotification(Const.Notification.TRY_CHANGE_QUEST_NODE, questControlVO);
+    }
+    private void TestLastNode()
+    {
+        questControlVO.action = QuestControlAction.move_back;
+        questControlVO.targetNode = "";
+        SendNotification(Const.Notification.TRY_CHANGE_QUEST_NODE, questControlVO);
+    }
+    private void TestTargetNode()
+    {
+        questControlVO.action = QuestControlAction.move_target;
+        questControlVO.targetNode = TARGET_NODE;
+        SendNotification(Const.Notification.TRY_CHANGE_QUEST_NODE, questControlVO);
+    }
 }
 
 public enum TestState
@@ -273,5 +314,9 @@ public enum TestState
     AddVPlayer,
     ReLogin,
     AddPlayerToGroup,
+    NextNode,
+    TargetNode,
+    LastNode,
+    
     End
 }

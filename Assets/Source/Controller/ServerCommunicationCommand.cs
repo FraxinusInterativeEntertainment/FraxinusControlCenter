@@ -45,6 +45,10 @@ public class ServerCommunicationCommand : SimpleCommand
             case "group_info":
                 SendNotification(Const.Notification.SERVER_MSG_GROUP_INFO);
                 break;
+            case "quest_info":
+                ServerQuestMessage questMsg = JsonConvert.DeserializeObject<ServerQuestMessage>(_msg);
+                SendNotification(Const.Notification.RECV_GAME_QUEST_INFO, questMsg.MsgContent);
+                break;
         }
     }
 }

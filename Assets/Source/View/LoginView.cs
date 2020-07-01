@@ -14,6 +14,8 @@ public class LoginView : UIViewBase
     [SerializeField]
     private GameObject m_userInfoPanel;
     [SerializeField]
+    private GameObject m_bgPanel;
+    [SerializeField]
     private Button m_logoutButton;
     [SerializeField]
     private Text m_userNameText;
@@ -75,7 +77,10 @@ public class LoginView : UIViewBase
     {
         m_userNameText.text = m_lastLoginUsername;
     }
-
+    public void ShowStartBgPanel(bool _isShow)
+    {
+        m_bgPanel.SetActive(_isShow);
+    }
     private void ClearUI()
     {
         m_userNameField.text = "";
