@@ -55,12 +55,10 @@ public class GameStatusView : UIViewBase
                 Destroy(m_gameSessions.transform.GetChild(i).gameObject);
             }
         }
-       
     }
     void OnDestroy()
     {
         AppFacade.instance.RemoveMediator(GameStatusViewMediator.NAME);
-       
     }
 
     public override void Show()
@@ -96,17 +94,31 @@ public class GameStatusView : UIViewBase
         HideAllStatusIndicator();
         m_closedStatusIndicator.SetActive(true);
     }
-
+    
     public void SetGameIdText(string _gameID)
     {
         m_gameIdIndicator.text = _gameID;
     }
-
+    private string m_gameTime = "";
     public void SetGameStartTimeText(string _time)
     {
-        m_gameStartTimeIndicator.text = _time;
+        if (_time!=null)
+        {
+            m_gameStartTimeIndicator.text = _time;
+            m_gameTime = _time;
+        }
+    }
+    public void SetStartGameText()
+    {
+        m_gameStartTimeIndicator.text = m_gameTime;
     }
 
+    private void HideAllStatusIndicator()
+    {
+        m_readyStatusIndicator.SetActive(false);
+        m_startStatusIndicator.SetActive(false);
+        m_closedStatusIndicator.SetActive(false);
+    }
     public void UpdateGameSession(GameSessionInfo _vo)
     {
         GameObject sessionItem = Instantiate(m_gameSessionItem);
@@ -118,14 +130,7 @@ public class GameStatusView : UIViewBase
             gameSessionItem.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f, 0.5f);
         }
     }
-
-    private void HideAllStatusIndicator()
-    {
-        m_readyStatusIndicator.SetActive(false);
-        m_startStatusIndicator.SetActive(false);
-        m_closedStatusIndicator.SetActive(false);
-    }
-    
+  
 }
 
 

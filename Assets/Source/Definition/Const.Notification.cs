@@ -21,6 +21,8 @@ public static partial class Const
         public const string UPDATE_DEVICE_ID_TO_USER_INFO = "UpdateDeviceIdToUserInfo";
         public const string RECV_ALL_GAME_CONDITIONS = "RecvALLGameConditions";
         public const string RECV_GAME_CONDITION_CHANGE = "RecvGameConditionChange";
+        public const string REQUEST_GROUP_NAME = "RequestGroupName";
+        public const string RECV_GAME_QUEST_INFO = "RecvGameQuestInfo";
         public const string ALL_CONDITION_UPDATED = "AllConditionUpdated";
         public const string ALL_MCU_UPDATED = "AllMcuUpdated";
         public const string INIT_MCU = "InitMcu";
@@ -28,6 +30,9 @@ public static partial class Const
         public const string UPDATE_MCU_STATUS = "UpdateMcuStatus";
         public const string UPDATE_MCU_ITEM = "UpdateMcuItem";
         public const string TRY_SEND_MCU_MSG = "TrySendMcuMsg";
+        public const string TRY_CHANGE_PLAYE_GROUP = "TryChangePlayerGroupName";
+        public const string CHANGE_PLAYER_GROUP_SUCCESS = "ChangePlayerGroupSuccess";
+        public const string RECV_PLAYER_INFO = "RecvPlayerInfo";
         public const string TRY_CONFIRM_MCU_DISCONNECTED = "TryConfirmMcuDisconnnected";
         public const string RECV_PLAYER_POS_INFOS = "RecvPlayerPosInfos";
         public const string ADD_VIRTUAL_PLAYER_TO_GAME = "AddVirtualPlayerToGame";
@@ -37,6 +42,8 @@ public static partial class Const
         public const string SERVER_MSG_GROUP_INFO = "ServerMsgGroupInfo";
         public const string PLAYER_POSITIONS_UPDATED = "PlayerPositionUpdated";
         public const string PLAYER_LIST_UPDATED = "PlayerListUpdated";
+
+        public const string RECV_ALL_GROUP_NAME = "RecvAllGroupName";
 
         #region System Core
         public const string LOAD_SCENE = "LoadScene";

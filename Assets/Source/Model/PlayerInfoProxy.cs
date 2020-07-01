@@ -5,7 +5,7 @@ using PureMVC.Patterns;
 using PureMVC.Interfaces;
 using System.Threading;
 
-public class PlayerInfoProxy : Proxy, IProxy
+public class PlayerInfoProxy : Proxy, IProxy,IResponder
 {
     public const string NAME = "PlayerInfoProxy";
     //中控给游戏服务器发送玩家位置信息的频率（每秒发送次数），通常小于从定位服务器接受坐标的频率
@@ -60,11 +60,10 @@ public class PlayerInfoProxy : Proxy, IProxy
             {
                 (m_data as PlayerInfoModel).connectedPlayers.Add(kvp.Key, new PlayerInfo(kvp.Value.uid, kvp.Key, kvp.Value.nickname, PlayerStatus.Unknown));
             }
-
             (m_data as PlayerInfoModel).connectedPlayers[kvp.Key].status = PlayerStatus.Connected;
+            SendNotification(Const.Notification.RECV_PLAYER_INFO, (m_data as PlayerInfoModel).connectedPlayers);
         }
     }
-
     public void UpdatePlayerList(Dictionary<string, UserInfo> _playerList)
     {
         (m_data as PlayerInfoModel).connectedPlayers.Clear();
@@ -76,6 +75,7 @@ public class PlayerInfoProxy : Proxy, IProxy
         }
 
         SendNotification(Const.Notification.PLAYER_LIST_UPDATED);
+        SendNotification(Const.Notification.RECV_PLAYER_INFO, (m_data as PlayerInfoModel).connectedPlayers);
     }
 
     public void OnPlayerJoined()
@@ -105,6 +105,38 @@ public class PlayerInfoProxy : Proxy, IProxy
             }
             yield return new WaitForSeconds(1/_freq);
         }
+    }
+    public void TryChangePlayerGroup(PlayerInfoVO _playerInfo)
+    {
+        ChangePlayerGroupDelegate playerGroupDelegate = new ChangePlayerGroupDelegate(this, _playerInfo);
+        playerGroupDelegate.ChangePlayerGroupName();
+
+    }
+
+    public void OnResult(object _data)
+    {
+        
+    }
+
+    public void OnFault(object _data)
+    {
+
+    }
+}
+public class PlayerInfoVO
+{
+    public string playerUID { get; set; }
+    public string targetGroupName { get; set; }
+    public PlayerInfoVO()
+    {
+        playerUID = "";
+        targetGroupName = "";
+    }
+
+    public PlayerInfoVO(string _playerUID, string _targetGroupName)
+    {
+        this.playerUID = _playerUID;
+        this.targetGroupName = _targetGroupName;
     }
 }
 

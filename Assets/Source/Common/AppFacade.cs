@@ -41,7 +41,10 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.CHECK_POPUP_QUE, typeof(UICommand));
         RegisterCommand(Const.Notification.RECV_ALL_GAME_CONDITIONS, typeof(ConditionCommand));
         RegisterCommand(Const.Notification.RECV_GAME_CONDITION_CHANGE, typeof(ConditionCommand));
+        RegisterCommand(Const.Notification.RECV_GAME_QUEST_INFO, typeof(QuestControlCommand));
+        RegisterCommand(Const.Notification.REQUEST_GROUP_NAME, typeof(QuestControlCommand));
         RegisterCommand(Const.Notification.GAME_STATUS_CHANGED, typeof(ConditionCommand));
+        RegisterCommand(Const.Notification.TRY_CHANGE_PLAYE_GROUP, typeof(PlayerCommand));
         RegisterCommand(Const.Notification.INIT_MCU, typeof(McuCommand));
         RegisterCommand(Const.Notification.UPDATE_MCU_REQUEST, typeof(McuCommand));
         RegisterCommand(Const.Notification.UPDATE_MCU_STATUS, typeof(McuCommand));
