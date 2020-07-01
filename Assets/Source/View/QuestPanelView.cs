@@ -10,7 +10,7 @@ public class QuestPanelView : UIViewBase
     public event Action LastNodeControlButtonClicked;
     public event Action NextNodeControlButtonClicked;
 
-    public QuestControlVO questControlVO = new QuestControlVO("", QuestControlAction.move_target, "");
+    public QuestControlVO questControlVO = new QuestControlVO("a", QuestControlAction.move_target, "");
     [SerializeField]
     private Button m_lastNodeButton;
     [SerializeField]

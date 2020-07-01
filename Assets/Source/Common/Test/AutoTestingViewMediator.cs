@@ -22,14 +22,14 @@ public class AutoTestingViewMediator : Mediator, IMediator
     public const string ROOM_ID = "room2";
     public const string MODULE_NAME = "PlayerGroupTest";
     public const string MODULE_VALUE = "0";
-    public const string TARGE_TODE = "GroupA_1_b";
+    public const string TARGET_NODE = "GroupA_1_b";
 
     private TestState m_testState = TestState.Default;
     private string m_testPlayerUid;
     private string m_resultText;
     private string m_currentTestText;
 
-    private QuestControlVO questControlVO = new QuestControlVO("", QuestControlAction.move_forward, "");
+    private QuestControlVO questControlVO = new QuestControlVO("a", QuestControlAction.move_forward, "");
     protected AutoTestingView m_autoTestingView { get { return m_viewComponent as AutoTestingView; } }
 
     public AutoTestingViewMediator(AutoTestingView _view) : base(NAME, _view)
@@ -287,17 +287,20 @@ public class AutoTestingViewMediator : Mediator, IMediator
     }
     private void TestNextNode()
     {
+        questControlVO.action = QuestControlAction.move_forward;
+        questControlVO.targetNode = "";
         SendNotification(Const.Notification.TRY_CHANGE_QUEST_NODE, questControlVO);
     }
     private void TestLastNode()
     {
         questControlVO.action = QuestControlAction.move_back;
+        questControlVO.targetNode = "";
         SendNotification(Const.Notification.TRY_CHANGE_QUEST_NODE, questControlVO);
     }
     private void TestTargetNode()
     {
         questControlVO.action = QuestControlAction.move_target;
-        questControlVO.targetNode = TARGE_TODE;
+        questControlVO.targetNode = TARGET_NODE;
         SendNotification(Const.Notification.TRY_CHANGE_QUEST_NODE, questControlVO);
     }
 }
