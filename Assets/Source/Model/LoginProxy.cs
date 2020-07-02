@@ -19,10 +19,8 @@ public class LoginProxy : Proxy, IProxy, IResponder
 
     public void OnResult(object _data)
     {
-
         SendNotification(Const.Notification.DEBUG_LOG, "result");
         SendNotification(Const.Notification.LOGIN_SUCCESS, _data);
-        SendNotification(Const.Notification.CONNECT_TO_WS_SERVER, _data);
     }
 
     public void OnFault(object _data)

@@ -16,6 +16,7 @@ public static partial class Const
         public const string CONDITION_FORM = UI_FORM_PATH + "ConditionForm";
         public const string MCU_FORM = UI_FORM_PATH + "McuForm";
         public const string DEBUG_FORM = UI_FORM_PATH + "DebugForm";
+        public const string GAME_MAP_FORM = UI_FORM_PATH + "GameMapForm";
         public const string PLAYER_FORM = UI_FORM_PATH + "PlayerForm";
     }
 }

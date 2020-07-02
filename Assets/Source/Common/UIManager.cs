@@ -9,18 +9,21 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Transform m_mainPanelUIRoot;
     [SerializeField]
+    private Transform m_mapPanelUIRoot;
+    [SerializeField]
     private Transform m_UIPopupRoot;
 
     private ResourcesService m_resourcesService;
 
     private UIFormBase m_mainPanelForm;
-    private UIFormBase m_mapPanel;
+    private UIFormBase m_mapPanelForm;
 
     [SerializeField]
     private PopupView m_warningPopup;
     private readonly Queue<PopupInfoVO> m_popupQueue = new Queue<PopupInfoVO>();
 
     private readonly Dictionary<string, UIFormBase> m_loadedMainPanelForms = new Dictionary<string, UIFormBase>();
+    private readonly Dictionary<string, UIFormBase> m_loadedMapPanelForms = new Dictionary<string, UIFormBase>();
 
     public static UIManager instance { get { return m_instance; } }
     
@@ -32,8 +35,6 @@ public class UIManager : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
         m_resourcesService = new ResourcesService();
-
-        //ShowMainPanelContent(Const.UIFormNames.GAME_STATUS_FORM);
     }
     
     public void ShowMainPanelContent(string _formName)
@@ -54,6 +55,26 @@ public class UIManager : MonoBehaviour
         }
         m_mainPanelForm = m_loadedMainPanelForms[_formName];
         m_mainPanelForm.Show();
+    }
+
+    public void ShowMapPanelContent(string _formName)
+    {
+        if (!m_loadedMapPanelForms.ContainsKey(_formName))
+        {
+            GameObject uiFormGO = m_resourcesService.Load<GameObject>(_formName);
+            UIFormBase uiForm = GameObject.Instantiate(uiFormGO).GetComponent<UIFormBase>();
+            uiForm.transform.SetParent(m_mapPanelUIRoot);
+            uiForm.Anchor(0, 0, 0);
+
+            m_loadedMapPanelForms.Add(_formName, uiForm);
+        }
+
+        if (m_mapPanelForm != null)
+        {
+            m_mapPanelForm.Hide();
+        }
+        m_mapPanelForm = m_loadedMapPanelForms[_formName];
+        m_mapPanelForm.Show();
     }
 
     public void ShowPopup(PopupInfoVO _vo)

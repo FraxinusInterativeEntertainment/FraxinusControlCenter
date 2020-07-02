@@ -9,3 +9,10 @@ public enum GameStatus
     c,
     p
 }
+
+public enum GameGroup
+{
+    PlayerDefault,
+    StaffDefault,
+    Queens
+}

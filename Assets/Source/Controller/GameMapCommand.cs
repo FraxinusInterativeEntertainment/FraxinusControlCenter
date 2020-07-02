@@ -52,7 +52,8 @@ public class GameMapCommand : SimpleCommand
             playerInfo.posInfo.y = _playerPosInfos[i].y;
             playerInfo.posInfo.rid = _gameMapProxy.GetRoomIdByHsv(hsv);
         }
-        //TODO: Send PlayerInfo Updated notification
+
+        SendNotification(Const.Notification.PLAYER_POSITIONS_UPDATED);
     }
 
     private string GetHsvByPosition(Texture2D _hsvRefMap, Coor2D position)
