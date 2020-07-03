@@ -21,7 +21,11 @@ public class MainFSMCommand : SimpleCommand
                 SendNotification(Const.Notification.INIT_MCU);
                 SendNotification(Const.Notification.SHOW_MAP_PANEL_CONTENT, Const.UIFormNames.GAME_MAP_FORM);
                 SendNotification(Const.Notification.SHOW_MAIN_PANEL_CONTENT, Const.UIFormNames.GAME_STATUS_FORM);
-                break;             
+                SendNotification(Const.Notification.UNLOCK_UI, "");
+                break;
+            case Const.Notification.LOGOUT_SUCCESS:
+                SendNotification(Const.Notification.LOCK_UI, "未登录");
+                break;
         }
     }
 }

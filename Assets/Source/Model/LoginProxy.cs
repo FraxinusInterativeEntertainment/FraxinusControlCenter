@@ -21,6 +21,7 @@ public class LoginProxy : Proxy, IProxy, IResponder
     {
         SendNotification(Const.Notification.DEBUG_LOG, "result");
         SendNotification(Const.Notification.LOGIN_SUCCESS, _data);
+        SendNotification(Const.Notification.UNLOCK_UI);
     }
 
     public void OnFault(object _data)
