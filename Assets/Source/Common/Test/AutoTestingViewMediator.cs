@@ -24,7 +24,6 @@ public class AutoTestingViewMediator : Mediator, IMediator
     public const string MODULE_VALUE = "0";
     public const string TARGET_NODE = "GroupA_1_b";
 
-    private TestState m_testState = TestState.Default;
     private string m_testPlayerUid;
     private string m_resultText;
     private string m_currentTestText;
@@ -32,28 +31,39 @@ public class AutoTestingViewMediator : Mediator, IMediator
     private QuestControlVO questControlVO = new QuestControlVO("a", QuestControlAction.move_forward, "");
     protected AutoTestingView m_autoTestingView { get { return m_viewComponent as AutoTestingView; } }
 
+
+    private AutoTestService m_autoTestService;
+
     public AutoTestingViewMediator(AutoTestingView _view) : base(NAME, _view)
     {
-        _view.RunAutoTesting += StartAutoTesting;
+        m_autoTestService = new AutoTestService();
+        _view.RunAutoTesting += m_autoTestService.StartAutoTest;
+
+        m_autoTestService.AddOnTestStartListener(OnAutoTestStart);
+        m_autoTestService.AddOnTestDoneListener(OnAutoTestDone);
+
+        m_autoTestService.AddTest(new TestItem("登陆", TestLogin, Const.Notification.LOGIN_SUCCESS, Const.Notification.LOGIN_FAIL));
+        m_autoTestService.AddTest(new TestItem("获取场次信息", TestUpdateGameStatus, Const.Notification.RECEIVED_GAME_STATUS));
+        m_autoTestService.AddTest(new TestItem("开始游戏", TestStartGame, Const.Notification.GAME_STATUS_CHANGED, Const.Notification.GAME_STATUS_CHANGE_ERROR));
+        m_autoTestService.AddTest(new TestItem("加入VPlayer", TestAddVPlayer, Const.Notification.SERVER_MSG_USER_INFO));
+
+        m_autoTestService.AddTest(new TestItem("重新登录", TestReLogin, Const.Notification.LOGIN_SUCCESS, Const.Notification.LOGIN_FAIL));
+
+        m_autoTestService.AddTest(new TestItem("登出", TestLogout, Const.Notification.LOGOUT_SUCCESS, Const.Notification.LOGOUT_FAIL));
     }
 
     public override System.Collections.Generic.IList<string> ListNotificationInterests()
     {
+        return m_autoTestService.subscribedNotifications;
+
+        /*
+         * TODO：改完了就把这块删了
         return new List<string>()
         {
-            Const.Notification.LOGIN_SUCCESS,
-            Const.Notification.LOGIN_FAIL,
-            Const.Notification.LOGOUT_SUCCESS,
-            Const.Notification.LOGOUT_FAIL,
-
-            Const.Notification.GAME_STATUS_CHANGED,
-            Const.Notification.GAME_STATUS_CHANGE_ERROR,
-            Const.Notification.RECEIVED_GAME_STATUS,
-            Const.Notification.V_PLAYER_LOGIN_SUCCESS,
-            Const.Notification.SERVER_MSG_USER_INFO,
             Const.Notification.SERVER_MSG_GROUP_INFO,
             Const.Notification.CHANGE_PLAYER_GROUP_SUCCESS
         };
+        */
     }
 
     public override void HandleNotification(INotification notification)
@@ -61,6 +71,10 @@ public class AutoTestingViewMediator : Mediator, IMediator
         string name = notification.Name;
         object vo = notification.Body;
 
+        m_autoTestService.NotificationHandler(name);
+
+        /*
+         * TODO：改完了就把这块删了       
         switch (name)
         {
            
@@ -120,8 +134,11 @@ public class AutoTestingViewMediator : Mediator, IMediator
             case Const.Notification.LOGOUT_FAIL:
                 break;
         }
+        */
     }
 
+    /*
+     * TODO: 改完了就把这块删了   
     private void ProcessTestState()
     {
         if (m_testState > 0)
@@ -187,33 +204,18 @@ public class AutoTestingViewMediator : Mediator, IMediator
                 break;
         }
     }
+    */
 
-    private void ShowAutoTestResult(string _errMsg)
+    private void OnAutoTestStart()
     {
-        if (m_testState != TestState.Default)
-        {
-            SendNotification(Const.Notification.CUSTOMIZED_POPUP, new PopupInfoVO(WARNING_TITLE, _errMsg, WARNING_BUTTON_NAME, true));
-            ResetTestState();
-        }
+        SendNotification(Const.Notification.LOCK_UI, "未登录");
     }
 
-    private void ResetTestState()
+    private void OnAutoTestDone(string _result)
     {
-        m_testState = 0;
-        m_resultText = "";
-        OnDefaultState();
-    }
-
-    private void OnDefaultState()
-    {
+        SendNotification(Const.Notification.UNLOCK_UI, "");
         SendNotification(Const.Notification.SHOW_MAIN_PANEL_CONTENT, Const.UIFormNames.DEBUG_FORM);
-        SendNotification(Const.Notification.SEND_LOGOUT);
-    }
-
-    private void StartAutoTesting()
-    {
-        ResetTestState();
-        ProcessTestState();
+        SendNotification(Const.Notification.CUSTOMIZED_POPUP, new PopupInfoVO(WARNING_TITLE, _result, WARNING_BUTTON_NAME, true));
     }
 
     private void TestLogin()
@@ -258,8 +260,13 @@ public class AutoTestingViewMediator : Mediator, IMediator
 
     private void TestReLogin()
     {
-        SendNotification(Const.Notification.SEND_LOGOUT);
+        TestLogout();
         TestLogin();
+    }
+
+    private void TestLogout()
+    {
+        SendNotification(Const.Notification.SEND_LOGOUT);
     }
 
     private void TestAddGroup()
@@ -269,7 +276,10 @@ public class AutoTestingViewMediator : Mediator, IMediator
 
         if (playerInfoProxy.GetPlayerInfos().connectedPlayers == null || playerInfoProxy.GetPlayerInfos().connectedPlayers.Count <= 0)
         {
-            ShowAutoTestResult("TestAddGroup Error: 游戏中没有该玩家！(" + m_testState + ")");
+            //OnAutoTestDone("TestAddGroup Error: 游戏中没有玩家");
+
+            //遇到特殊错误，直接跳过
+            m_autoTestService.Skip(true);
             return;
         }
 
@@ -285,38 +295,25 @@ public class AutoTestingViewMediator : Mediator, IMediator
         //TODO: 需要保证服务器已经收到了新的位置信息，再发送入组信号。由于位置信息没有回调，暂时没法判断服务器是否收到
         SendNotification(Const.Notification.WS_SEND, new SensorMessage(MODULE_NAME, MODULE_VALUE));
     }
+
     private void TestNextNode()
     {
         questControlVO.action = QuestControlAction.move_forward;
         questControlVO.targetNode = "";
         SendNotification(Const.Notification.TRY_CHANGE_QUEST_NODE, questControlVO);
     }
+
     private void TestLastNode()
     {
         questControlVO.action = QuestControlAction.move_back;
         questControlVO.targetNode = "";
         SendNotification(Const.Notification.TRY_CHANGE_QUEST_NODE, questControlVO);
     }
+
     private void TestTargetNode()
     {
         questControlVO.action = QuestControlAction.move_target;
         questControlVO.targetNode = TARGET_NODE;
         SendNotification(Const.Notification.TRY_CHANGE_QUEST_NODE, questControlVO);
     }
-}
-
-public enum TestState
-{ 
-    Default,
-    Login,
-    UpdateGameStatus,
-    StartGame,
-    AddVPlayer,
-    ReLogin,
-    AddPlayerToGroup,
-    NextNode,
-    TargetNode,
-    LastNode,
-    
-    End
 }

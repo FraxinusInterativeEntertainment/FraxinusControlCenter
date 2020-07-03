@@ -38,4 +38,13 @@ public class SideBarView : UIViewBase
         m_debugToggle.onValueChanged.AddListener(delegate { DebugToggleChanged(m_debugToggle); });
         m_playerToggle.onValueChanged.AddListener(delegate { PlayerToggleChanged(m_playerToggle); });
     }
+
+    public void SetSidebarInteractable(bool value)
+    {
+        m_gameStatusToggle.interactable = value;
+        m_questToggle.interactable = value;
+        m_playerToggle.interactable = value;
+        m_conditionToggle.interactable = value;
+        m_mcuToggle.interactable = value;
+    }
 }

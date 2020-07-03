@@ -62,6 +62,8 @@ public static partial class Const
         public const string CUSTOMIZED_POPUP = "CustomizedPopup";
         public const string CHECK_POPUP_QUE = "CheckPopuQue";
         public const string TRY_CHANGE_QUEST_NODE = "TryCHangeQuestNode";
+        public const string LOCK_UI = "LockUI";
+        public const string UNLOCK_UI = "UnlockUI";
         #endregion
 
         #region Testing

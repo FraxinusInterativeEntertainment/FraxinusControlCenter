@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private PopupView m_warningPopup;
     private readonly Queue<PopupInfoVO> m_popupQueue = new Queue<PopupInfoVO>();
+
+    [SerializeField]
+    private GameObject m_uiLockPanel;
+    [SerializeField]
+    private Text m_uiLockText;
 
     private readonly Dictionary<string, UIFormBase> m_loadedMainPanelForms = new Dictionary<string, UIFormBase>();
     private readonly Dictionary<string, UIFormBase> m_loadedMapPanelForms = new Dictionary<string, UIFormBase>();
@@ -103,5 +109,11 @@ public class UIManager : MonoBehaviour
             m_warningPopup.Init(m_popupQueue.Dequeue());
             m_warningPopup.Show();
         }
+    }
+
+    public void LockUI(bool _value, string _text)
+    {
+        m_uiLockPanel.SetActive(_value);
+        m_uiLockText.text = _text;
     }
 }
