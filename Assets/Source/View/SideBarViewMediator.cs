@@ -25,7 +25,8 @@ public class SideBarViewMediator : Mediator, IMediator
     {
         return new List<string>()
         {
-
+            Const.Notification.LOCK_UI,
+            Const.Notification.UNLOCK_UI
         };
     }
 
@@ -36,7 +37,12 @@ public class SideBarViewMediator : Mediator, IMediator
 
         switch (name)
         {
-           
+            case Const.Notification.LOCK_UI:
+                m_sideBarView.SetSidebarInteractable(false);
+                break;
+            case Const.Notification.UNLOCK_UI:
+                m_sideBarView.SetSidebarInteractable(true);
+                break;
         }
     }
 
@@ -109,6 +115,9 @@ public class SideBarViewMediator : Mediator, IMediator
         {
             _toggle.interactable = false;
             SendNotification(Const.Notification.SHOW_MAIN_PANEL_CONTENT, Const.UIFormNames.DEBUG_FORM);
+           
+            //TODO：方便测试用，开发后移除
+            SendNotification(Const.Notification.UNLOCK_UI);
         }
         else
         {

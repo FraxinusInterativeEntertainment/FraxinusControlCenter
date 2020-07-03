@@ -26,6 +26,12 @@ public class UICommand : SimpleCommand
             case Const.Notification.CHECK_POPUP_QUE:
                 UIManager.instance.CheckPopupQueue();
                 break;
+            case Const.Notification.LOCK_UI:
+                UIManager.instance.LockUI(true, obj as string);
+                break;
+            case Const.Notification.UNLOCK_UI:
+                UIManager.instance.LockUI(false, "");
+                break;
         }
     }
 }

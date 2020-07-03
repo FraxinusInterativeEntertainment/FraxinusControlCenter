@@ -34,11 +34,14 @@ public class AppFacade : Facade, IFacade
         RegisterCommand(Const.Notification.RECV_PLAYER_POS_INFOS, typeof(GameMapCommand));
         RegisterCommand(Const.Notification.RECEIVED_GAME_STATUS, typeof(MainFSMCommand));
         RegisterCommand(Const.Notification.LOGIN_SUCCESS, typeof(MainFSMCommand));
+        RegisterCommand(Const.Notification.LOGOUT_SUCCESS, typeof(MainFSMCommand));
         RegisterCommand(Const.Notification.LOAD_SCENE, typeof(SceneCommand));
         RegisterCommand(Const.Notification.SHOW_MAIN_PANEL_CONTENT, typeof(UICommand));
         RegisterCommand(Const.Notification.SHOW_MAP_PANEL_CONTENT, typeof(UICommand));
         RegisterCommand(Const.Notification.SHOW_POPUP, typeof(UICommand));
         RegisterCommand(Const.Notification.CHECK_POPUP_QUE, typeof(UICommand));
+        RegisterCommand(Const.Notification.LOCK_UI, typeof(UICommand));
+        RegisterCommand(Const.Notification.UNLOCK_UI, typeof(UICommand));
         RegisterCommand(Const.Notification.RECV_ALL_GAME_CONDITIONS, typeof(ConditionCommand));
         RegisterCommand(Const.Notification.RECV_GAME_CONDITION_CHANGE, typeof(ConditionCommand));
         RegisterCommand(Const.Notification.RECV_GAME_QUEST_INFO, typeof(QuestControlCommand));
