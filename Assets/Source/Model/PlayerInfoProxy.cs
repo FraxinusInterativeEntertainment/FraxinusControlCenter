@@ -109,15 +109,13 @@ public class PlayerInfoProxy : Proxy, IProxy,IResponder
     public void TryChangePlayerGroup(PlayerInfoVO _playerInfo)
     {
         ChangePlayerGroupDelegate playerGroupDelegate = new ChangePlayerGroupDelegate(this, _playerInfo);
-        playerGroupDelegate.ChangePlayerGroupName();
+        playerGroupDelegate.AddPlayerToGroup();
 
     }
-
     public void OnResult(object _data)
     {
         
     }
-
     public void OnFault(object _data)
     {
 

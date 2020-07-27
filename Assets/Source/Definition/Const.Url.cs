@@ -22,6 +22,7 @@ public static partial class Const
         public const string CHANGE_GROUP_QUEST_NODE = HTTP_SERVER_ADDRESS + "/control_center/change_group_quest_node/";
 
         public const string GET_ALL_CONDITION_DETAIL = HTTP_SERVER_ADDRESS + "/control_center/get_all_condition_detail/";
+        public const string TRY_ADD_PLAYER_TO_GROUP = HTTP_SERVER_ADDRESS + "/control_center/add_user_to_group/";
         //test
         public const string ADD_USER_TO_GAME = HTTP_SERVER_ADDRESS + "/control_center/add_user_to_game_test/";
         public const string GET_TEST_USER = HTTP_SERVER_ADDRESS + "/game_map/get_test_user/";
@@ -29,6 +30,5 @@ public static partial class Const
 
 
         public const string GET_ALL_GROUP_NAME = HTTP_SERVER_ADDRESS + "";
-        public const string TRY_CHANGE_PLAYER_GROUPNAME = HTTP_SERVER_ADDRESS + "";
     }
 }
