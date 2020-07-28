@@ -112,6 +112,11 @@ public class PlayerInfoProxy : Proxy, IProxy,IResponder
         playerGroupDelegate.AddPlayerToGroup();
 
     }
+    public void TryRemovePlayerFromGroup(string _playerId)
+    {
+        RemovePlayerFromGroupDelegate removePlayerFromGroup = new RemovePlayerFromGroupDelegate(this, _playerId);
+        removePlayerFromGroup.RemovePlayerFromGroup();
+    }
     public void OnResult(object _data)
     {
         

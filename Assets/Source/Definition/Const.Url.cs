@@ -23,6 +23,7 @@ public static partial class Const
 
         public const string GET_ALL_CONDITION_DETAIL = HTTP_SERVER_ADDRESS + "/control_center/get_all_condition_detail/";
         public const string TRY_ADD_PLAYER_TO_GROUP = HTTP_SERVER_ADDRESS + "/control_center/add_user_to_group/";
+        public const string TRY_REMOVE_PLAYER_FROM_GROUP = HTTP_SERVER_ADDRESS + "/control_center/remove_player_from_group/";
         //test
         public const string ADD_USER_TO_GAME = HTTP_SERVER_ADDRESS + "/control_center/add_user_to_game_test/";
         public const string GET_TEST_USER = HTTP_SERVER_ADDRESS + "/game_map/get_test_user/";

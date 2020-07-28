@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class UserInfoItemView : MonoBehaviour
 {
-    public event Action OnChangeCurrentGroupName = delegate { };
+    public event Action<string> OnChangeCurrentGroupName = delegate { };
+    public event Action<PlayerInfo> OnRemovePlayer = delegate { };
     [SerializeField]
     private Text m_UIDText;
     [SerializeField]
@@ -33,11 +34,15 @@ public class UserInfoItemView : MonoBehaviour
     private Button m_cutGroupNameButton;
     [SerializeField]
     private Text m_targetGroupName;
-    public PlayerInfoVO playerInfoVO;
+    [SerializeField]
+    private Button m_removePlayerButton;
+    public PlayerInfo playerInfo;
+
     void Start()
     {
         m_expandToggle.onValueChanged.AddListener((bool _isOn) => { OnExpandToggled(_isOn); });
-        m_cutGroupNameButton.onClick.AddListener(() => { OnSetCurrentGroupName(); });
+        m_cutGroupNameButton.onClick.AddListener(() => { OnChangeCurrentGroupName(m_targetGroupName.text); });
+        m_removePlayerButton.onClick.AddListener(() => { OnRemovePlayer(playerInfo); });
     }
     private void OnDestroy()
     {
@@ -46,12 +51,14 @@ public class UserInfoItemView : MonoBehaviour
     public UserInfoItemView Init(PlayerInfo _vo)
     {
         AppFacade.instance.RegisterMediator(new UserInfoItemViewMediator(this, UserInfoItemViewMediator.NAME + _vo.uid));
+        playerInfo = _vo;
         UpdateUserInfoVO(_vo);
         UpdateHandDeviceStatus(_vo.status);
         return this;
     }
     private void UpdateUserInfoVO(PlayerInfo _vo)
     {
+        playerInfo = _vo;
         UpdateUIDText(_vo.uid);
         m_userNameText.text = _vo.uid;
         m_nickNameText.text = _vo.nickName;
@@ -80,11 +87,6 @@ public class UserInfoItemView : MonoBehaviour
     private void UpdateUIDText(string _uid)
     {
         m_UIDText.text = _uid;
-    }
-    private void OnSetCurrentGroupName()
-    {
-        playerInfoVO.targetGroupName = m_targetGroupName.text;
-        OnChangeCurrentGroupName();
     }
     public void UpdateGroupNameText(string _groupName)
     {

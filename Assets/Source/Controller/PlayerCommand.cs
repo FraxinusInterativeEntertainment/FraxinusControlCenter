@@ -27,6 +27,9 @@ public class PlayerCommand : SimpleCommand
             case Const.Notification.TRY_CHANGE_PLAYE_GROUP:
                 playerInfoProxy.TryChangePlayerGroup(obj as PlayerInfoVO);
                 break;
+            case Const.Notification.TRY_REMOVE_PLAYER_FROM_GROUP:
+                playerInfoProxy.TryRemovePlayerFromGroup(obj as string);
+                break;
         }
     }
 

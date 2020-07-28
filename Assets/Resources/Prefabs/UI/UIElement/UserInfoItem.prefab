@@ -1131,6 +1131,7 @@ MonoBehaviour:
   m_tagIDText: {fileID: 550349130578835042}
   m_cutGroupNameButton: {fileID: 9070765721614966065}
   m_targetGroupName: {fileID: 6862650190276179968}
+  m_removePlayerButton: {fileID: 4205609383255944069}
 --- !u!1 &3504398247568367822
 GameObject:
   m_ObjectHideFlags: 0

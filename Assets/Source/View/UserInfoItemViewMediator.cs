@@ -11,6 +11,7 @@ public class UserInfoItemViewMediator : Mediator, IMediator
     public UserInfoItemViewMediator(UserInfoItemView _view,string _name) : base(_name, _view)
     {
         _view.OnChangeCurrentGroupName += TrySendPlayerTargetGroupName;
+        _view.OnRemovePlayer += TryRemovePlayerFromGroup;
     }
 
     public override System.Collections.Generic.IList<string> ListNotificationInterests()
@@ -30,9 +31,13 @@ public class UserInfoItemViewMediator : Mediator, IMediator
         {
         }
     }
-    private void TrySendPlayerTargetGroupName()
+    private void TrySendPlayerTargetGroupName(string _targetGroupName)
     {
-        SendNotification(Const.Notification.TRY_CHANGE_PLAYE_GROUP, new PlayerInfoVO(m_userInfoItemView.playerInfoVO.playerUID, 
-                                                                                     m_userInfoItemView.playerInfoVO.targetGroupName));
+        SendNotification(Const.Notification.TRY_CHANGE_PLAYE_GROUP, new PlayerInfoVO(m_userInfoItemView.playerInfo.uid, 
+                                                                                    _targetGroupName));
+    }
+    private void TryRemovePlayerFromGroup(PlayerInfo _playerInfo)
+    {
+        SendNotification(Const.Notification.TRY_REMOVE_PLAYER_FROM_GROUP, _playerInfo.uid);
     }
 }
