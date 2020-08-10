@@ -38,15 +38,15 @@ public class QuestControlViewMediator : Mediator, IMediator
         switch (name)
         {
             case Const.Notification.RECV_ALL_GROUP_NAME:
-                UpdateAllGroupNames(vo as Dictionary<string, GroupInfoVO>);
+                InitQuestViewInfos(vo as Dictionary<string, GroupInfoVO>);
                 break;
             case Const.Notification.UPDATE_QUEST_INFOS:
-                UpdateGroupInfos((vo as QuestVO).group_name);
+                UpdateGameTimes((vo as QuestVO).group_name);
                 break;
         }
     }
     Dictionary<string, GroupInfoVO> m_groupNames = new Dictionary<string, GroupInfoVO>();
-    private void UpdateAllGroupNames(Dictionary<string, GroupInfoVO> _groupNames)
+    private void InitQuestViewInfos(Dictionary<string, GroupInfoVO> _groupNames)
     {
         m_groupNames = _groupNames;
         Color[] colors = new Color[] { Color.green, Color.red, Color.blue, Color.yellow, Color.gray, Color.white, Color.black, Color.cyan };
@@ -63,7 +63,7 @@ public class QuestControlViewMediator : Mediator, IMediator
         }
     }
 
-    private void UpdateGroupInfos(string _infos)
+    private void UpdateGameTimes(string _infos)
     {
         if (m_groupNames.ContainsKey(_infos))
         {
