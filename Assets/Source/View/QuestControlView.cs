@@ -56,14 +56,13 @@ public class QuestControlView : UIViewBase
         //TODO: Remove after testing
         m_questPanel.UpdateQuestPanel("a");
     }
-    QuestItem questItem;
     public void UpdateAllGroupInfos(GroupInfoVO _vo)
     {
         if (!m_questItems.ContainsKey(_vo.name))
         {
             GameObject groupNameItem = Instantiate(m_questItemPrefab);
             groupNameItem.transform.SetParent(m_questItemContainer.transform);
-            questItem = groupNameItem.GetComponent<QuestItem>();
+            QuestItem questItem = groupNameItem.GetComponent<QuestItem>();
             questItem.InitView(this);
             questItem.SetName(_vo.name);
             questItem.SetLength(_vo.length);
@@ -72,21 +71,20 @@ public class QuestControlView : UIViewBase
         }
         else
         {
-            questItem.SetName(_vo.name);
-            questItem.SetLength(_vo.length);
-            questItem.SetCapacity(_vo.capacity);
-            m_questItems[_vo.name] = questItem;
+            m_questItems[_vo.name].SetName(_vo.name);
+            m_questItems[_vo.name].SetLength(_vo.length);
+            m_questItems[_vo.name].SetCapacity(_vo.capacity);
         }
     }
     Dictionary<string, GameTimeItem> gameTimes = new Dictionary<string, GameTimeItem>();
-    GameTimeItem timeItem;
+    
     public void UpdateGameTime(GroupInfoVO _groupInfo,Color _color)
     {
         if (!gameTimes.ContainsKey(_groupInfo.name))
         {
             GameObject gameTimeItem = Instantiate(m_gameTimePrefab);
             gameTimeItem.transform.SetParent(m_gameTimeItemContainer.transform);
-            timeItem = gameTimeItem.GetComponent<GameTimeItem>();
+            GameTimeItem timeItem = gameTimeItem.GetComponent<GameTimeItem>();
             gameTimes.Add(_groupInfo.name, timeItem);
             timeItem.SetItemInfos(_groupInfo, _color);
         }
