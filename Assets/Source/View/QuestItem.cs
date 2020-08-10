@@ -12,7 +12,9 @@ public class QuestItem : MonoBehaviour
     [SerializeField]
     private Text m_groupNameText;
     [SerializeField]
-    private Text m_questNodeText;
+    private Text m_capacityText;
+    [SerializeField]
+    private Text m_lengthText;
 
     private QuestControlView m_uestControlView;
 
@@ -20,10 +22,11 @@ public class QuestItem : MonoBehaviour
     {
         m_questButton.onClick.AddListener(() => { OpenQuestInfo();  }) ;
     }
-    public QuestItem Init(QuestVO _vo)
+    public QuestItem Init(GroupInfoVO _vo)
     {
-        SetName(_vo.group_name);
-        SetNodeName(_vo.quest_node_name);
+        SetName(_vo.name);
+        SetCapacity(_vo.capacity);
+        SetLength(_vo.length);
         return this;
     }
     public void InitView(QuestControlView _view)
@@ -35,9 +38,13 @@ public class QuestItem : MonoBehaviour
     {
         m_groupNameText.text = _name;
     }
-    public void SetNodeName(string _nodeName)
+    public void SetCapacity(float _capacity)
     {
-        m_questNodeText.text = _nodeName;
+        m_capacityText.text = _capacity.ToString();
+    }
+    public void SetLength(float _length)
+    {
+        m_lengthText.text = _length.ToString();
     }
     private void OpenQuestInfo()
     {

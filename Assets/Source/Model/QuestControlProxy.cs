@@ -11,40 +11,34 @@ public class QuestControlProxy : Proxy, IProxy
 
     private Dictionary<string, QuestVO> m_questVO = new Dictionary<string, QuestVO>();
     public Dictionary<string, QuestVO> questInfos { get { return m_questVO; } }
+
+    private Dictionary<string, GroupInfoVO> m_groupInfos = new Dictionary<string, GroupInfoVO>();
+    public Dictionary<string, GroupInfoVO> groupInfos { get { return m_groupInfos; } }
     public QuestControlProxy() : base(NAME)
     {
 
     }
-    // GroupNameTest：
-    List<string> groupName = new List<string>();
-    private void GroupNameTest()
+    public void TryGetAllGroupInfo()
     {
-        groupName.Add("大故事");
-        groupName.Add("女皇线");
-        groupName.Add("木山今线");
-        groupName.Add("情缘线");
-        groupName.Add("瘟疫线");
-        groupName.Add("宗教线");
-        groupName.Add("抵抗组织");
-        groupName.Add("侦探线");
+        HttpService getAllGroupInfos = new HttpService(Const.Url.GET_ALL_GROUP_INFOS, HttpRequestType.Get);
+        getAllGroupInfos.SendRequest<AllGroupInfosResponse>(AllGroupInfosCallBack);
     }
-    public void TryGetAllGroupName()
+    private void AllGroupInfosCallBack(AllGroupInfosResponse _response)
     {
-        //TODO:Wait For Port
-        HttpService getAllGroupName = new HttpService(Const.Url.GET_ALL_GROUP_NAME, HttpRequestType.Get);
-        //getAllGroupName.SendRequest<HttpResponse>(AllGroupNameCallBack);
-        GroupNameTest();
-        SendNotification(Const.Notification.RECV_ALL_GROUP_NAME, groupName);
-    }
-    private void AllGroupNameCallBack(HttpResponse _response)
-    {
-        if (_response.err_code != 0)
+        if (_response.err_code == 0)
         {
-            SendNotification(Const.Notification.RECV_ALL_GROUP_NAME, _response.err_msg);
+            for (int i = 0; i < _response.group_infos.Length; i++)
+            {
+                if (!m_groupInfos.ContainsKey(_response.group_infos[i].name))
+                {
+                    m_groupInfos.Add(_response.group_infos[i].name, _response.group_infos[i]);
+                }
+            }
+            SendNotification(Const.Notification.RECV_ALL_GROUP_NAME, groupInfos);
         }
         else
         {
-            Debug.Log("Have Not GroupName");
+            SendNotification(Const.Notification.DEBUG_LOG, "Have No GroupInfos");
         }
     }
  
@@ -67,8 +61,6 @@ public class QuestControlProxy : Proxy, IProxy
         }
         else
         {
-            //TODO:Show TargetNode Info
-            Debug.Log("Change Success");
             SendNotification(Const.Notification.CHANGE_PLAYER_GROUP_SUCCESS);
         }
     }
@@ -78,28 +70,33 @@ public class QuestControlProxy : Proxy, IProxy
         {
             m_questVO[_vo.group_name] = _vo;
         }
+        else
+        {
+            m_questVO.Add(_vo.group_name, new QuestVO(_vo.group_name, _vo.quest_node_name, _vo.title, _vo.desc, _vo.loc, _vo.character, _vo.expected_time));
+        }
+        SendNotification(Const.Notification.UPDATE_QUEST_INFOS,m_questVO);
     }
 }
 public class QuestVO
 {
     public string group_name { get; set; }
+    public string quest_node_name { get; set; }
     public string title { get; set; }
+    public string  desc { get; set; }
     public string loc { get; set; }
 
-    public string  desc { get; set; }
     public string character { get; set; }
 
-    public string quest_node_name { get; set; }
-    
+    public float expected_time { get; set; }
 
-
-    public QuestVO(string _groupName,string _title,string _loc,string _desc,string _character, string _nodeName)
+    public QuestVO(string _groupName, string _nodeName,string _title,string _desc, string _loc, string _character,float _expectedTime)
     {
         group_name = _groupName;
-        title = _title;
-        loc = _loc;
-        desc = _desc;
-        character = _character;
         quest_node_name = _nodeName;
+        title = _title;
+        desc = _desc;
+        loc = _loc;
+        character = _character;
+        expected_time = _expectedTime;
     }
 }

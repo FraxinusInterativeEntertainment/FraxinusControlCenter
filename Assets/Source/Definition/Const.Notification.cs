@@ -31,6 +31,8 @@ public static partial class Const
         public const string UPDATE_MCU_ITEM = "UpdateMcuItem";
         public const string TRY_SEND_MCU_MSG = "TrySendMcuMsg";
         public const string TRY_CHANGE_PLAYE_GROUP = "TryChangePlayerGroupName";
+        public const string UPDATE_QUEST_INFOS = "UpdateQuestInfos";
+        public const string TRY_REMOVE_PLAYER_FROM_GROUP = "TryRemovePlayerFromGroup";
         public const string CHANGE_PLAYER_GROUP_SUCCESS = "ChangePlayerGroupSuccess";
         public const string RECV_PLAYER_INFO = "RecvPlayerInfo";
         public const string TRY_CONFIRM_MCU_DISCONNECTED = "TryConfirmMcuDisconnnected";

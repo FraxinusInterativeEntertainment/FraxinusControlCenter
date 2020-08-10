@@ -109,15 +109,18 @@ public class PlayerInfoProxy : Proxy, IProxy,IResponder
     public void TryChangePlayerGroup(PlayerInfoVO _playerInfo)
     {
         ChangePlayerGroupDelegate playerGroupDelegate = new ChangePlayerGroupDelegate(this, _playerInfo);
-        playerGroupDelegate.ChangePlayerGroupName();
+        playerGroupDelegate.AddPlayerToGroup();
 
     }
-
+    public void TryRemovePlayerFromGroup(string _playerId)
+    {
+        RemovePlayerFromGroupDelegate removePlayerFromGroup = new RemovePlayerFromGroupDelegate(this, _playerId);
+        removePlayerFromGroup.RemovePlayerFromGroup();
+    }
     public void OnResult(object _data)
     {
         
     }
-
     public void OnFault(object _data)
     {
 
@@ -139,4 +142,12 @@ public class PlayerInfoVO
         this.targetGroupName = _targetGroupName;
     }
 }
+public class AllGroupInfosResponse : HttpResponse
+{
+    public GroupInfoVO[] group_infos { get; set; }
 
+    public AllGroupInfosResponse(int _errCode, string _errMsg) : base(_errCode, _errMsg)
+    {
+
+    }
+}

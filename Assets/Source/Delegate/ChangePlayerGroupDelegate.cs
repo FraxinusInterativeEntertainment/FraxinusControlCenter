@@ -11,14 +11,14 @@ public class ChangePlayerGroupDelegate
     public ChangePlayerGroupDelegate(IResponder _responder,PlayerInfoVO _playerInfo)
     {
         WWWForm form = new WWWForm();
-        form.AddField("playerUID", _playerInfo.playerUID);
         form.AddField("targetGroupName", _playerInfo.targetGroupName);
+        form.AddField("playerUID", _playerInfo.playerUID);
 
         m_responder = _responder;
         m_playerInfoVO = _playerInfo;
-        m_httpService = new HttpService(Const.Url.TRY_CHANGE_PLAYER_GROUPNAME, HttpRequestType.Post, form);
+        m_httpService = new HttpService(Const.Url.TRY_ADD_PLAYER_TO_GROUP, HttpRequestType.Post, form);
     }
-    public void ChangePlayerGroupName()
+    public void AddPlayerToGroup()
     {
         m_httpService.SendRequest<HttpResponse>(ChangePlayerGroupCallBack);
     }

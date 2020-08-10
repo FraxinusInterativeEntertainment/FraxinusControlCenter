@@ -24,6 +24,10 @@ public class QuestControlView : UIViewBase
     private GameObject m_questItemContainer;
     [SerializeField]
     private GameObject m_questItemPrefab;
+    [SerializeField]
+    private GameObject m_gameTimeItemContainer;
+    [SerializeField]
+    private GameObject m_gameTimePrefab;
 
     [SerializeField]
     private Text m_groupNameText;
@@ -41,6 +45,7 @@ public class QuestControlView : UIViewBase
     void OnDestroy()
     {
         AppFacade.instance.RemoveMediator(QuestControlViewMediator.NAME);
+        gameTimes.Clear();
     }
 
     public override void Show()
@@ -51,29 +56,44 @@ public class QuestControlView : UIViewBase
         //TODO: Remove after testing
         m_questPanel.UpdateQuestPanel("a");
     }
-    public void UpdateAllGroupNames(string _name)
+    public void UpdateAllGroupInfos(GroupInfoVO _vo)
     {
-        GameObject groupNameItem = Instantiate(m_questItemPrefab);
-        groupNameItem.transform.SetParent(m_questItemContainer.transform);
-        QuestItem questItem = groupNameItem.GetComponent<QuestItem>();
-        questItem.InitView(this);
-        questItem.SetName(_name);
-        m_questItems.Add(_name, questItem);
-    }
-    public void UpdateQuestItem(QuestVO _vo)
-    {
-        if (m_questItems.ContainsKey(_vo.group_name))
-        {
-            m_questItems[_vo.group_name].SetName(_vo.group_name);
-            m_questItems[_vo.quest_node_name].SetNodeName(_vo.quest_node_name);
-        }
-        else
+        if (!m_questItems.ContainsKey(_vo.name))
         {
             GameObject groupNameItem = Instantiate(m_questItemPrefab);
             groupNameItem.transform.SetParent(m_questItemContainer.transform);
             QuestItem questItem = groupNameItem.GetComponent<QuestItem>();
-            questItem.SetName(_vo.group_name);
-            m_questItems.Add(_vo.group_name, questItem);
+            questItem.InitView(this);
+            questItem.SetName(_vo.name);
+            questItem.SetLength(_vo.length);
+            questItem.SetCapacity(_vo.capacity);
+            m_questItems.Add(_vo.name, questItem);
+        }
+        else
+        {
+            m_questItems[_vo.name].SetName(_vo.name);
+            m_questItems[_vo.name].SetLength(_vo.length);
+            m_questItems[_vo.name].SetCapacity(_vo.capacity);
+        }
+    }
+    Dictionary<string, GameTimeItem> gameTimes = new Dictionary<string, GameTimeItem>();
+    
+    public void UpdateGameTime(GroupInfoVO _groupInfo,Color _color)
+    {
+        if (!gameTimes.ContainsKey(_groupInfo.name))
+        {
+            GameObject gameTimeItem = Instantiate(m_gameTimePrefab);
+            gameTimeItem.transform.SetParent(m_gameTimeItemContainer.transform);
+            GameTimeItem timeItem = gameTimeItem.GetComponent<GameTimeItem>();
+            gameTimes.Add(_groupInfo.name, timeItem);
+            timeItem.SetItemInfos(_groupInfo, _color);
+        }
+    }
+    public void UpdateGameTimeInfos(string _groupName,float _time)
+    {
+        if (gameTimes.ContainsKey(_groupName))
+        {
+            gameTimes[_groupName].CalculateTimeLine(_time);
         }
     }
     public void ShowTimelinePanel()
