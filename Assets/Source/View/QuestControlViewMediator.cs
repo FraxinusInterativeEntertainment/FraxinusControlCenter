@@ -37,33 +37,37 @@ public class QuestControlViewMediator : Mediator, IMediator
 
         switch (name)
         {
-
             case Const.Notification.RECV_ALL_GROUP_NAME:
-                UpdateAllGroupNames(vo as List<string>);
+                UpdateAllGroupNames(vo as Dictionary<string, GroupInfoVO>);
                 break;
-            case Const.Notification.RECV_GAME_QUEST_INFO:
-                UpdateAllQuestInfos();
+            case Const.Notification.UPDATE_QUEST_INFOS:
+                UpdateGroupInfos((vo as QuestVO).group_name);
                 break;
         }
     }
-    List<string> groupNames = new List<string>();
-    private void UpdateAllGroupNames(List<string> _groupNames)
+    Dictionary<string, GroupInfoVO> m_groupNames = new Dictionary<string, GroupInfoVO>();
+    private void UpdateAllGroupNames(Dictionary<string, GroupInfoVO> _groupNames)
     {
-        for (int i = 0; i < _groupNames.Count; i++)
+        m_groupNames = _groupNames;
+        Color[] colors = new Color[] { Color.green, Color.red, Color.blue, Color.yellow, Color.gray, Color.white, Color.black, Color.cyan };
+        int colorNum = 0;
+        foreach (string item in _groupNames.Keys)
         {
-            if (!groupNames.Contains(_groupNames[i]))
+            m_questControlView.UpdateAllGroupInfos(_groupNames[item]);
+            m_questControlView.UpdateGameTime(_groupNames[item], colors[colorNum]);
+            if (m_questControlProxy.questInfos.ContainsKey(item))
             {
-                groupNames.Add(_groupNames[i]);
-                m_questControlView.UpdateAllGroupNames(_groupNames[i]);
+                m_questControlView.UpdateGameTimeInfos(item, m_questControlProxy.questInfos[item].expected_time);
             }
+            colorNum++;
         }
     }
-    private void UpdateAllQuestInfos()
+
+    private void UpdateGroupInfos(string _infos)
     {
-        foreach (KeyValuePair<string,QuestVO> quest in m_questControlProxy.questInfos)
+        if (m_groupNames.ContainsKey(_infos))
         {
-            m_questControlView.UpdateQuestItem(new
-                QuestVO(quest.Key, quest.Value.title, quest.Value.loc, quest.Value.desc, quest.Value.character, quest.Value.quest_node_name));
+            m_questControlView.UpdateGameTimeInfos(_infos, m_questControlProxy.questInfos[_infos].expected_time);
         }
     }
     private void TryRequestGroupName()

@@ -142,4 +142,12 @@ public class PlayerInfoVO
         this.targetGroupName = _targetGroupName;
     }
 }
+public class AllGroupInfosResponse : HttpResponse
+{
+    public GroupInfoVO[] group_infos { get; set; }
 
+    public AllGroupInfosResponse(int _errCode, string _errMsg) : base(_errCode, _errMsg)
+    {
+
+    }
+}

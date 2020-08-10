@@ -15,6 +15,7 @@ public static partial class Const
         public const string CONTROL_CENTER_LOGOUT = HTTP_SERVER_ADDRESS + "/game_auth/device_logout/";
         public const string REQUEST_WS_TOKEN = HTTP_SERVER_ADDRESS + "/game_auth/get_ws_token/";
 
+        public const string GET_ALL_GROUP_INFOS = HTTP_SERVER_ADDRESS + "/control_center/get_all_group_infos/";
         public const string CHANGE_GAME_STATUS = HTTP_SERVER_ADDRESS + "/control_center/change_game_status/";
         public const string GET_AVAILABLE_GAME_SESSIONS = HTTP_SERVER_ADDRESS + "/game_map/get_available_game_sessions/";
         public const string GET_ALL_MCU_INFO = HTTP_SERVER_ADDRESS + "/control_center/get_all_mcu_info/";
@@ -30,6 +31,5 @@ public static partial class Const
         public const string BAND_ID_LOGIN = HTTP_SERVER_ADDRESS + "/game_auth/device_wristband_login/";
 
 
-        public const string GET_ALL_GROUP_NAME = HTTP_SERVER_ADDRESS + "";
     }
 }
